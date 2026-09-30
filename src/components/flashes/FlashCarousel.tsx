@@ -12,14 +12,18 @@ export type FeaturedFlash = {
   artistName: string;
   image: string;
   price: number;
+  available: boolean;
 };
 
 type FlashCarouselProps = {
   flashes: FeaturedFlash[];
 };
 
-export function FlashCarousel({ flashes }: FlashCarouselProps) {
-  const carouselRef = useRef<HTMLDivElement>(null);
+export function FlashCarousel({
+  flashes,
+}: FlashCarouselProps) {
+  const carouselRef =
+    useRef<HTMLDivElement>(null);
 
   function scrollLeft() {
     carouselRef.current?.scrollBy({
@@ -37,14 +41,32 @@ export function FlashCarousel({ flashes }: FlashCarouselProps) {
 
   return (
     <div className="relative">
-      {/* CONTROLES */}
+      {/* =========================================
+          CONTROLES
+      ========================================== */}
 
       <div className="mb-5 flex items-center justify-between">
         <button
           type="button"
           onClick={scrollLeft}
           aria-label="Ver flashes anteriores"
-          className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/5 font-sans text-lg text-white transition hover:bg-white/10"
+          className="
+            flex
+            h-10
+            w-10
+            cursor-pointer
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-white/10
+            bg-white/5
+            font-sans
+            text-lg
+            text-white
+            transition
+            hover:bg-white/10
+          "
         >
           &lt;
         </button>
@@ -53,17 +75,43 @@ export function FlashCarousel({ flashes }: FlashCarouselProps) {
           type="button"
           onClick={scrollRight}
           aria-label="Ver próximos flashes"
-          className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/5 font-sans text-lg text-white transition hover:bg-white/10"
+          className="
+            flex
+            h-10
+            w-10
+            cursor-pointer
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-white/10
+            bg-white/5
+            font-sans
+            text-lg
+            text-white
+            transition
+            hover:bg-white/10
+          "
         >
           &gt;
         </button>
       </div>
 
-      {/* CARROSSEL */}
+      {/* =========================================
+          CARROSSEL
+      ========================================== */}
 
       <div
         ref={carouselRef}
-        className="flex [scrollbar-width:none] gap-5 overflow-x-auto scroll-smooth pb-4 [&::-webkit-scrollbar]:hidden"
+        className="
+          flex
+          gap-5
+          overflow-x-auto
+          scroll-smooth
+          pb-4
+          [scrollbar-width:none]
+          [&::-webkit-scrollbar]:hidden
+        "
       >
         {flashes.map((flash) => (
           <FlashCard
@@ -73,6 +121,7 @@ export function FlashCarousel({ flashes }: FlashCarouselProps) {
             image={flash.image}
             price={flash.price}
             href={`/flashes/${flash.slug}`}
+            available={flash.available}
           />
         ))}
       </div>

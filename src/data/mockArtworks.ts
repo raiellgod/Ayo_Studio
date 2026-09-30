@@ -2,13 +2,12 @@ export type Artwork = {
   id: number;
   slug: string;
   name: string;
-
   artistId: number;
   artistName: string;
-
   image: string;
   type: string;
   price: number | null;
+  available: boolean;
 };
 
 export const mockArtworks: Artwork[] = [
@@ -23,6 +22,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-01.jpg",
     type: "QUADRO",
     price: 450,
+    available: true,
   },
   {
     id: 2,
@@ -35,6 +35,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-02.jpg",
     type: "ILUSTRAÇÃO",
     price: 320,
+    available: true,
   },
   {
     id: 3,
@@ -47,6 +48,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-03.jpg",
     type: "DESENHO",
     price: 280,
+    available: true,
   },
   {
     id: 4,
@@ -59,6 +61,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-04.jpg",
     type: "QUADRO",
     price: 520,
+    available: true,
   },
   {
     id: 5,
@@ -71,6 +74,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-05.jpg",
     type: "ILUSTRAÇÃO",
     price: null,
+    available: true,
   },
   {
     id: 6,
@@ -83,6 +87,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-06.jpg",
     type: "QUADRO",
     price: 390,
+    available: true,
   },
   {
     id: 7,
@@ -95,6 +100,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-07.jpg",
     type: "DESENHO",
     price: 250,
+    available: true,
   },
   {
     id: 8,
@@ -107,6 +113,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-08.jpg",
     type: "ILUSTRAÇÃO",
     price: 310,
+    available: true,
   },
   {
     id: 9,
@@ -119,6 +126,7 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-09.jpg",
     type: "QUADRO",
     price: 600,
+    available: true,
   },
   {
     id: 10,
@@ -131,5 +139,6 @@ export const mockArtworks: Artwork[] = [
     image: "/artworks/artwork-10.jpg",
     type: "DESENHO",
     price: null,
+    available: false,
   },
 ];

@@ -11,13 +11,19 @@ type ArtworkDetailProps = {
   artwork: Artwork;
 };
 
-export function ArtworkDetail({ artwork }: ArtworkDetailProps) {
-  const artist = mockArtists.find((item) => item.id === artwork.artistId);
+export function ArtworkDetail({
+  artwork,
+}: ArtworkDetailProps) {
+  const artist = mockArtists.find(
+    (item) => item.id === artwork.artistId,
+  );
 
   return (
     <main className="min-h-screen overflow-hidden bg-[linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),linear-gradient(135deg,#000000_0%,#041008_45%,#00160b_100%)] px-6 py-10 text-white lg:px-12">
       <div className="mx-auto w-full max-w-7xl">
-        {/* VOLTAR */}
+        {/* =========================================
+            VOLTAR
+        ========================================== */}
 
         <Link
           href="/#artes"
@@ -26,10 +32,14 @@ export function ArtworkDetail({ artwork }: ArtworkDetailProps) {
           ← VOLTAR PARA AS ARTES
         </Link>
 
-        {/* CONTEÚDO */}
+        {/* =========================================
+            CONTEÚDO
+        ========================================== */}
 
         <div className="mt-12 grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-          {/* IMAGEM */}
+          {/* =========================================
+              IMAGEM
+          ========================================== */}
 
           <motion.div
             initial={{
@@ -53,16 +63,35 @@ export function ArtworkDetail({ artwork }: ArtworkDetailProps) {
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-contain p-8"
+                className={`
+                  object-contain
+                  p-8
+                  transition
+                  ${
+                    artwork.available
+                      ? "opacity-100"
+                      : "opacity-40 grayscale-[30%]"
+                  }
+                `}
               />
             ) : (
               <div className="flex h-full min-h-[620px] items-center justify-center font-sans text-white/20">
                 imagem da obra
               </div>
             )}
+
+            {!artwork.available && (
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20">
+                <span className="rounded-full border border-[#ff4156]/50 bg-black/80 px-6 py-3 font-sans text-sm font-bold uppercase tracking-[0.12em] text-[#ff4156]">
+                  RESERVADO
+                </span>
+              </div>
+            )}
           </motion.div>
 
-          {/* INFORMAÇÕES */}
+          {/* =========================================
+              INFORMAÇÕES
+          ========================================== */}
 
           <motion.div
             initial={{
@@ -83,11 +112,29 @@ export function ArtworkDetail({ artwork }: ArtworkDetailProps) {
               ARTE AUTORAL
             </p>
 
-            <h1 className="font-title mt-4 text-6xl leading-none text-white">{artwork.name}</h1>
+            <h1 className="font-title mt-4 text-6xl leading-none text-white">
+              {artwork.name}
+            </h1>
 
-            <p className="mt-4 font-sans text-sm text-white/50">por {artwork.artistName}</p>
+            <p className="mt-4 font-sans text-sm text-white/50">
+              por {artwork.artistName}
+            </p>
 
-            {/* TIPO */}
+            {/* =========================================
+                STATUS
+            ========================================== */}
+
+            {!artwork.available && (
+              <div className="mt-6">
+                <span className="inline-flex rounded-full border border-[#ff4156]/40 bg-[#ff4156]/10 px-4 py-2 font-sans text-xs font-bold uppercase tracking-[0.1em] text-[#ff4156]">
+                  RESERVADO
+                </span>
+              </div>
+            )}
+
+            {/* =========================================
+                TIPO
+            ========================================== */}
 
             <div className="mt-6">
               <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.08em] text-[#77c043] uppercase">
@@ -95,40 +142,80 @@ export function ArtworkDetail({ artwork }: ArtworkDetailProps) {
               </span>
             </div>
 
-            {/* DESCRIÇÃO PROVISÓRIA */}
+            {/* =========================================
+                DESCRIÇÃO
+            ========================================== */}
 
             <p className="mt-8 max-w-lg font-sans text-base leading-relaxed text-white/65">
-              Trabalho autoral criado por {artwork.artistName}. Esta página poderá receber
-              posteriormente descrição, técnica, dimensões e outras informações da obra.
+              Trabalho autoral criado por{" "}
+              {artwork.artistName}. Esta
+              página poderá receber
+              posteriormente descrição,
+              técnica, dimensões e outras
+              informações da obra.
             </p>
 
-            {/* PREÇO */}
+            {/* =========================================
+                PREÇO
+            ========================================== */}
 
             {artwork.price !== null && (
               <div className="mt-8">
-                <p className="font-sans text-xs tracking-[0.1em] text-white/40 uppercase">VALOR</p>
+                <p className="font-sans text-xs tracking-[0.1em] text-white/40 uppercase">
+                  VALOR
+                </p>
 
-                <p className="mt-1 font-sans text-3xl font-semibold text-[#77c043]">
-                  {artwork.price.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
+                <p
+                  className={`
+                    mt-1
+                    font-sans
+                    text-3xl
+                    font-semibold
+                    ${
+                      artwork.available
+                        ? "text-[#77c043]"
+                        : "text-white/35"
+                    }
+                  `}
+                >
+                  {artwork.price.toLocaleString(
+                    "pt-BR",
+                    {
+                      style: "currency",
+                      currency: "BRL",
+                    },
+                  )}
                 </p>
               </div>
             )}
 
-            {/* AÇÕES */}
+            {/* =========================================
+                AÇÕES
+            ========================================== */}
 
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                href={`/reservar/arte/${artwork.slug}`}
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ff4156] px-8 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:bg-[#ff5b6d]"
-              >
-                SOLICITAR RESERVA
-              </Link>
+              {artwork.available ? (
+                <Link
+                  href={`/reservar/arte/${artwork.slug}`}
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ff4156] px-8 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:bg-[#ff5b6d]"
+                >
+                  SOLICITAR RESERVA
+                </Link>
+              ) : (
+                <span
+                  aria-disabled="true"
+                  className="inline-flex min-h-12 cursor-not-allowed items-center justify-center rounded-full border border-[#ff4156]/25 bg-[#ff4156]/10 px-8 font-sans text-sm font-bold text-[#ff4156]/70"
+                >
+                  RESERVADO
+                </span>
+              )}
 
               <Link
-                href={artist ? `/artistas/${artist.slug}` : "/#artistas"}
+                href={
+                  artist
+                    ? `/artistas/${artist.slug}`
+                    : "/#artistas"
+                }
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-8 font-sans text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
               >
                 VER ARTISTA
@@ -136,7 +223,9 @@ export function ArtworkDetail({ artwork }: ArtworkDetailProps) {
             </div>
 
             <p className="mt-5 max-w-lg font-sans text-xs leading-relaxed text-white/35">
-              O envio de interesse não representa confirmação automática de reserva ou venda.
+              {artwork.available
+                ? "O envio de interesse não representa confirmação automática de reserva ou venda."
+                : "Esta obra já foi reservada e não aceita novas solicitações."}
             </p>
           </motion.div>
         </div>

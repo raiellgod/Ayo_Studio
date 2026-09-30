@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
+import { useState } from "react";
+
 import type { Artist } from "@/data/mockArtists";
 import { mockFlashes } from "@/data/mockFlashes";
 
@@ -14,9 +16,27 @@ type ArtistModalProps = {
 };
 
 export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
-  const artistFlashes = artist
-    ? mockFlashes.filter((flash) => flash.artistId === artist.id && flash.available).slice(0, 3)
-    : [];
+  const [previewFlashes, setPreviewFlashes] = useState<typeof mockFlashes>([]);
+
+  function selectPreviewFlashes() {
+    if (!artist) {
+      return;
+    }
+
+    const availableFlashes = mockFlashes.filter(
+      (flash) => flash.artistId === artist.id && flash.available,
+    );
+
+    const shuffled = [...availableFlashes];
+
+    for (let index = shuffled.length - 1; index > 0; index--) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+
+      [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+    }
+
+    setPreviewFlashes(shuffled.slice(0, 3));
+  }
 
   return (
     <AnimatePresence>
@@ -34,6 +54,9 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
           transition={{
             duration: 0.2,
           }}
+          onAnimationStart={
+            selectPreviewFlashes
+          }
           onClick={onClose}
           className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/80 px-6 py-10 backdrop-blur-sm"
         >
@@ -74,40 +97,33 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
             </button>
 
             {/* =========================================
-                IMAGEM
+                IMAGEM DO ARTISTA
             ========================================== */}
 
             <div className="relative min-h-[420px] overflow-hidden rounded-2xl bg-[linear-gradient(145deg,#160607_0%,#071611_100%)]">
-              {artist.fullImage ? (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    y: 24,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: 0.1,
-                    duration: 0.4,
-                  }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src={artist.fullImage}
-                    alt={artist.name}
-                    fill
-                    unoptimized
-                    sizes="(max-width: 768px) 100vw, 40vw"
-                    className="object-contain object-bottom p-4"
-                  />
-                </motion.div>
-              ) : (
-                <div className="flex h-full min-h-[420px] items-center justify-center font-sans text-sm text-white/25">
-                  imagem do artista
-                </div>
-              )}
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  y: 24,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: 0.1,
+                  duration: 0.4,
+                }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={artist.fullImage}
+                  alt={artist.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-contain object-bottom p-4"
+                />
+              </motion.div>
             </div>
 
             {/* =========================================
@@ -115,37 +131,33 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
             ========================================== */}
 
             <div className="flex flex-col justify-center">
-              {artist.specialties && (
-                <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#ff4156] uppercase">
-                  {artist.specialties}
-                </p>
-              )}
+              <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#ff4156] uppercase">
+                {artist.specialties}
+              </p>
 
               <h2 className="font-title mt-2 text-5xl text-white">{artist.name}</h2>
 
-              {artist.description && (
-                <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-white/60">
-                  {artist.description}
-                </p>
-              )}
+              <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-white/60">
+                {artist.description}
+              </p>
 
               {/* =========================================
-                  FLASHES
+                  FLASHES DISPONÍVEIS
               ========================================== */}
 
-              {artistFlashes.length > 0 && (
-                <div className="mt-8">
-                  <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#77c043] uppercase">
-                    FLASHES DISPONÍVEIS
-                  </p>
+              <div className="mt-8">
+                <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#77c043] uppercase">
+                  FLASHES DISPONÍVEIS
+                </p>
 
+                {previewFlashes.length > 0 ? (
                   <div className="mt-4 grid grid-cols-3 gap-4">
-                    {artistFlashes.map((flash) => (
+                    {previewFlashes.map((flash) => (
                       <Link
                         key={flash.id}
                         href={`/flashes/${flash.slug}`}
                         onClick={onClose}
-                        className="group overflow-hidden rounded-2xl border border-white/10 bg-[#111111] transition-transform duration-200 hover:-translate-y-1"
+                        className="group overflow-hidden rounded-2xl border border-white/10 bg-[#111111] transition hover:-translate-y-1 hover:border-white/20"
                       >
                         <div className="relative aspect-square">
                           {flash.image ? (
@@ -155,7 +167,7 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
                               fill
                               unoptimized
                               sizes="160px"
-                              className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.03]"
+                              className="object-contain p-3 transition-transform duration-300 group-hover:scale-105"
                             />
                           ) : (
                             <div className="flex h-full items-center justify-center font-sans text-xs text-white/25">
@@ -166,8 +178,12 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
                       </Link>
                     ))}
                   </div>
-                </div>
-              )}
+                ) : (
+                  <p className="mt-4 font-sans text-sm text-white/40">
+                    Nenhum flash disponível no momento.
+                  </p>
+                )}
+              </div>
 
               {/* =========================================
                   VEJA MAIS

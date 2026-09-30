@@ -10,10 +10,14 @@ type ReservationArtworkPageProps = {
   }>;
 };
 
-export default async function ReservationArtworkPage({ params }: ReservationArtworkPageProps) {
+export default async function ReservationArtworkPage({
+  params,
+}: ReservationArtworkPageProps) {
   const { slug } = await params;
 
-  const artwork = mockArtworks.find((item) => item.slug === slug);
+  const artwork = mockArtworks.find(
+    (item) => item.slug === slug,
+  );
 
   if (!artwork) {
     notFound();
@@ -30,14 +34,46 @@ export default async function ReservationArtworkPage({ params }: ReservationArtw
         </Link>
 
         <div className="mt-10">
-          <ReservationForm
-            itemType="arte"
-            itemName={artwork.name}
-            itemSlug={artwork.slug}
-            artistName={artwork.artistName}
-            price={artwork.price}
-            itemImage={artwork.image}
-          />
+          {artwork.available ? (
+            <ReservationForm
+              itemType="arte"
+              itemName={artwork.name}
+              itemSlug={artwork.slug}
+              artistName={artwork.artistName}
+              price={artwork.price}
+              itemImage={artwork.image}
+            />
+          ) : (
+            <div className="rounded-3xl border border-[#ff4156]/20 bg-[#090909] p-8 md:p-10">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.12em] text-[#ff4156]">
+                ARTE INDISPONÍVEL
+              </p>
+
+              <h1 className="font-title mt-4 text-4xl text-white">
+                ESTA ARTE JÁ ESTÁ RESERVADA
+              </h1>
+
+              <p className="mt-5 max-w-xl font-sans text-base leading-relaxed text-white/55">
+                A obra{" "}
+                <strong className="text-white">
+                  {artwork.name}
+                </strong>{" "}
+                não está mais disponível para novas solicitações.
+              </p>
+
+              <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-white/40">
+                Ela continua disponível para visualização como parte
+                do portfólio do artista.
+              </p>
+
+              <Link
+                href={`/artes/${artwork.slug}`}
+                className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full border border-white/10 bg-white/5 px-7 font-sans text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/10"
+              >
+                VER DETALHES
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </main>

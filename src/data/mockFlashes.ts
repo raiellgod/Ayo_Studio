@@ -12,7 +12,7 @@ export const mockFlashes: SelectableFlash[] = [
     description:
       "Flash autoral criado pelo artista. O desenho pode receber pequenos ajustes de tamanho e aplicação conforme avaliação do profissional.",
     categories: ["Geek", "Preto e Branco"],
-    available: true,
+    available: false,
   },
   {
     id: 2,

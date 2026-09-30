@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   AnimatePresence,
@@ -16,11 +17,16 @@ type ArtistFlashesSectionProps = {
 export function ArtistFlashesSection({
   flashes,
 }: ArtistFlashesSectionProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] =
+    useState(true);
 
   if (flashes.length === 0) {
     return null;
   }
+
+  const availableCount = flashes.filter(
+    (flash) => flash.available,
+  ).length;
 
   return (
     <section className="mt-24">
@@ -30,7 +36,11 @@ export function ArtistFlashesSection({
 
       <button
         type="button"
-        onClick={() => setIsOpen((current) => !current)}
+        onClick={() =>
+          setIsOpen(
+            (current) => !current,
+          )
+        }
         className="
           group
           flex
@@ -56,7 +66,7 @@ export function ArtistFlashesSection({
               text-[#ff4156]
             "
           >
-            FLASHES DISPONÍVEIS
+            FLASHES DO ARTISTA
           </p>
 
           <h2
@@ -87,7 +97,7 @@ export function ArtistFlashesSection({
               text-white/40
             "
           >
-            {flashes.length}
+            {availableCount} disponíveis
           </span>
 
           <span
@@ -148,8 +158,10 @@ export function ArtistFlashesSection({
                   text-white/55
                 "
               >
-                Clique em uma arte para ver os detalhes e
-                solicitar a reserva.
+                Veja os flashes deste
+                artista. Artes reservadas
+                continuam visíveis como
+                parte do portfólio.
               </p>
 
               {/* =========================================
@@ -182,7 +194,9 @@ export function ArtistFlashesSection({
                       hover:-translate-y-1
                     "
                   >
-                    {/* IMAGEM */}
+                    {/* =========================================
+                        IMAGEM
+                    ========================================== */}
 
                     <div
                       className="
@@ -193,18 +207,28 @@ export function ArtistFlashesSection({
                       "
                     >
                       {flash.image ? (
-                        <img
+                        <Image
                           src={flash.image}
                           alt={flash.name}
-                          className="
-                            h-full
-                            w-full
+                          fill
+                          unoptimized
+                          sizes="
+                            (max-width: 640px) 100vw,
+                            (max-width: 1024px) 50vw,
+                            25vw
+                          "
+                          className={`
                             object-contain
                             p-3
-                            transition-transform
+                            transition-all
                             duration-300
                             group-hover/card:scale-[1.03]
-                          "
+                            ${
+                              flash.available
+                                ? "opacity-100"
+                                : "opacity-40 grayscale-[30%]"
+                            }
+                          `}
                         />
                       ) : (
                         <div
@@ -221,9 +245,44 @@ export function ArtistFlashesSection({
                           flash
                         </div>
                       )}
+
+                      {!flash.available && (
+                        <div
+                          className="
+                            pointer-events-none
+                            absolute
+                            inset-0
+                            flex
+                            items-center
+                            justify-center
+                            bg-black/20
+                          "
+                        >
+                          <span
+                            className="
+                              rounded-full
+                              border
+                              border-[#ff4156]/50
+                              bg-black/80
+                              px-5
+                              py-2
+                              font-sans
+                              text-xs
+                              font-bold
+                              uppercase
+                              tracking-[0.12em]
+                              text-[#ff4156]
+                            "
+                          >
+                            RESERVADO
+                          </span>
+                        </div>
+                      )}
                     </div>
 
-                    {/* INFORMAÇÕES */}
+                    {/* =========================================
+                        INFORMAÇÕES
+                    ========================================== */}
 
                     <div
                       className="
@@ -244,37 +303,74 @@ export function ArtistFlashesSection({
                         {flash.name}
                       </h3>
 
-                      <p
-                        className="
-                          mt-2
-                          font-sans
-                          text-[10px]
-                          font-semibold
-                          uppercase
-                          tracking-[0.08em]
-                          text-[#77c043]
-                        "
-                      >
-                        VER DETALHES • RESERVAR
-                      </p>
+                      {flash.available ? (
+                        <>
+                          <p
+                            className="
+                              mt-2
+                              font-sans
+                              text-[10px]
+                              font-semibold
+                              uppercase
+                              tracking-[0.08em]
+                              text-[#77c043]
+                            "
+                          >
+                            VER DETALHES •
+                            RESERVAR
+                          </p>
 
-                      <p
-                        className="
-                          mt-2
-                          font-sans
-                          text-sm
-                          font-semibold
-                          text-[#77c043]
-                        "
-                      >
-                        {flash.price.toLocaleString(
-                          "pt-BR",
-                          {
-                            style: "currency",
-                            currency: "BRL",
-                          },
-                        )}
-                      </p>
+                          <p
+                            className="
+                              mt-2
+                              font-sans
+                              text-sm
+                              font-semibold
+                              text-[#77c043]
+                            "
+                          >
+                            {flash.price.toLocaleString(
+                              "pt-BR",
+                              {
+                                style:
+                                  "currency",
+                                currency:
+                                  "BRL",
+                              },
+                            )}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p
+                            className="
+                              mt-2
+                              font-sans
+                              text-[10px]
+                              font-semibold
+                              uppercase
+                              tracking-[0.08em]
+                              text-[#ff4156]
+                            "
+                          >
+                            VER DETALHES
+                          </p>
+
+                          <p
+                            className="
+                              mt-2
+                              font-sans
+                              text-xs
+                              font-semibold
+                              uppercase
+                              tracking-[0.08em]
+                              text-[#ff4156]
+                            "
+                          >
+                            RESERVADO
+                          </p>
+                        </>
+                      )}
                     </div>
                   </Link>
                 ))}
