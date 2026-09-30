@@ -12,6 +12,8 @@ Frontend do site AYŌ Studio: uma experiência autoral para apresentar profissio
 - Architects Daughter
 - Sora
 - pnpm
+- Formspree para submissões atuais
+- WhatsApp por link externo para continuidade de atendimento
 
 ## Rodando localmente
 
@@ -20,7 +22,24 @@ pnpm install
 pnpm dev
 ```
 
-O Next exibirá a URL local no terminal. Durante o desenvolvimento o projeto foi observado em `http://localhost:3001` quando a porta `3000` estava ocupada.
+O Next exibirá a URL local no terminal. Normalmente o projeto usa `http://localhost:3000`, podendo variar se a porta estiver ocupada.
+
+Para lint:
+
+```bash
+pnpm lint
+```
+
+## Variáveis de ambiente
+
+O fluxo atual de reserva usa:
+
+```env
+NEXT_PUBLIC_FORMSPREE_ENDPOINT="..."
+NEXT_PUBLIC_WHATSAPP_NUMBER="..."
+```
+
+Manter esses valores em `.env.local`, fora do Git.
 
 ## Estado atual
 
@@ -29,7 +48,7 @@ A Home já possui:
 - abertura animada;
 - Hero `ARTE QUE MARCA.`;
 - profissionais com hover 3D;
-- modal de profissional;
+- modal de profissional com até 3 flashes aleatórios disponíveis do artista;
 - flashes em destaque com seleção aleatória balanceada;
 - quadros/desenhos em carrossel editorial;
 - loja com 3 produtos aleatórios disponíveis;
@@ -41,11 +60,45 @@ Rotas já implementadas:
 
 ```text
 /
+/artistas/[slug]
 /flashes/[slug]
 /artes/[slug]
 /loja
 /loja/[slug]
+/reservar/flash/[slug]
+/reservar/arte/[slug]
 ```
+
+## Reserva/interesse
+
+O frontend já possui formulário funcional para flashes e artes.
+
+Fluxo atual:
+
+```text
+item disponível
+↓
+detalhe
+↓
+solicitar reserva
+↓
+formulário
+↓
+Formspree / e-mail Studio
+↓
+sucesso
+↓
+continuação opcional no WhatsApp
+```
+
+A solicitação **não confirma automaticamente** a reserva.
+
+Itens com `available: false`:
+
+- exibem `RESERVADO`;
+- continuam visíveis como portfólio quando aplicável;
+- não oferecem CTA funcional de reserva;
+- não renderizam formulário nas rotas `/reservar/...`.
 
 ## Estrutura principal
 
@@ -57,6 +110,7 @@ src/
 │   ├── flashes/
 │   ├── artworks/
 │   ├── products/
+│   ├── reservations/
 │   └── home/
 ├── data/
 └── lib/
@@ -66,7 +120,7 @@ src/
 
 Enquanto backend e banco não existem, o projeto usa mocks em `src/data`.
 
-Eles serão substituídos posteriormente por API + PostgreSQL/Prisma.
+`available` é uma solução temporária para disponibilidade. Os mocks serão substituídos posteriormente por API + PostgreSQL/Prisma.
 
 ## Escopo da V1
 
@@ -89,6 +143,12 @@ Não inclui:
 - contas públicas;
 - avaliações;
 - marketplace.
+
+## Admin
+
+O admin real ainda não foi implementado.
+
+Decisão atual: não construir uma versão funcional apenas em memória. A área administrativa será retomada quando backend/banco oferecerem persistência real.
 
 ## Documentação
 
@@ -127,10 +187,11 @@ documentação
 
 ## Próximos passos
 
-1. revisar responsividade;
-2. fechar páginas públicas ainda pendentes;
-3. implementar formulário de reserva/interesse;
+1. revisar responsividade e acessibilidade;
+2. fechar páginas públicas ainda pendentes (`/artistas`, `/flashes`, `/artes`);
+3. consolidar conteúdo real/mocks;
 4. iniciar backend;
-5. iniciar banco;
-6. mídia/admin;
-7. deploy.
+5. iniciar banco e persistência de reservas/disponibilidade;
+6. criar admin real;
+7. mídia/proteção;
+8. deploy.

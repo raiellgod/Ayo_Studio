@@ -158,6 +158,6 @@ export const mockFlashes: SelectableFlash[] = [
     price: 350,
     description: "Flash autoral disponível para reserva.",
     categories: ["Autoral"],
-    available: false,
+    available: true,
   },
 ];
