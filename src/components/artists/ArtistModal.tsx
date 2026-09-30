@@ -1,37 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import {
-  AnimatePresence,
-  motion,
-} from "framer-motion";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 
-export type FlashPreview = {
-  id: number;
-  name: string;
-  image: string;
-};
-
-export type ModalArtist = {
-  id: number;
-  name: string;
-  fullImage: string;
-  specialties: string;
-  description: string;
-  flashes: FlashPreview[];
-};
+import type { Artist } from "@/data/mockArtists";
+import { mockFlashes } from "@/data/mockFlashes";
 
 type ArtistModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  artist: ModalArtist | null;
+  artist: Artist | null;
 };
 
-export function ArtistModal({
-  isOpen,
-  onClose,
-  artist,
-}: ArtistModalProps) {
+export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
+  const artistFlashes = artist
+    ? mockFlashes.filter((flash) => flash.artistId === artist.id && flash.available).slice(0, 3)
+    : [];
+
   return (
     <AnimatePresence>
       {isOpen && artist && (
@@ -49,19 +35,7 @@ export function ArtistModal({
             duration: 0.2,
           }}
           onClick={onClose}
-          className="
-            fixed
-            inset-0
-            z-50
-            flex
-            items-center
-            justify-center
-            overflow-y-auto
-            bg-black/80
-            px-6
-            py-10
-            backdrop-blur-sm
-          "
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/80 px-6 py-10 backdrop-blur-sm"
         >
           <motion.div
             initial={{
@@ -83,241 +57,129 @@ export function ArtistModal({
               duration: 0.3,
               ease: "easeOut",
             }}
-            onClick={(event) =>
-              event.stopPropagation()
-            }
-            className="
-              relative
-              grid
-              w-full
-              max-w-5xl
-              gap-8
-              overflow-hidden
-              rounded-3xl
-              border
-              border-white/10
-              bg-[#090909]
-              p-6
-              md:grid-cols-[0.9fr_1.4fr]
-              md:p-8
-            "
+            onClick={(event) => event.stopPropagation()}
+            className="relative grid w-full max-w-5xl gap-8 overflow-hidden rounded-3xl border border-white/10 bg-[#090909] p-6 md:grid-cols-[0.9fr_1.4fr] md:p-8"
           >
-            {/* FECHAR */}
+            {/* =========================================
+                FECHAR
+            ========================================== */}
 
             <button
               type="button"
               onClick={onClose}
               aria-label="Fechar modal"
-              className="
-                absolute
-                top-4
-                right-4
-                z-10
-                flex
-                h-10
-                w-10
-                cursor-pointer
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-white/10
-                bg-black/50
-                font-sans
-                text-xl
-                text-white
-                transition
-                hover:bg-white/10
-              "
+              className="absolute top-4 right-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-black/50 font-sans text-xl text-white transition hover:bg-white/10"
             >
               ×
             </button>
 
-            {/* IMAGEM */}
+            {/* =========================================
+                IMAGEM
+            ========================================== */}
 
-            <div
-              className="
-                relative
-                min-h-[420px]
-                overflow-hidden
-                rounded-2xl
-                bg-[linear-gradient(145deg,#160607_0%,#071611_100%)]
-              "
-            >
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 24,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                transition={{
-                  delay: 0.1,
-                  duration: 0.4,
-                }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={artist.fullImage}
-                  alt={artist.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                  className="
-                    object-contain
-                    object-bottom
-                    p-4
-                  "
-                />
-              </motion.div>
+            <div className="relative min-h-[420px] overflow-hidden rounded-2xl bg-[linear-gradient(145deg,#160607_0%,#071611_100%)]">
+              {artist.fullImage ? (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 24,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay: 0.1,
+                    duration: 0.4,
+                  }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={artist.fullImage}
+                    alt={artist.name}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    className="object-contain object-bottom p-4"
+                  />
+                </motion.div>
+              ) : (
+                <div className="flex h-full min-h-[420px] items-center justify-center font-sans text-sm text-white/25">
+                  imagem do artista
+                </div>
+              )}
             </div>
 
-            {/* CONTEÚDO */}
+            {/* =========================================
+                CONTEÚDO
+            ========================================== */}
 
-            <div
-              className="
-                flex
-                flex-col
-                justify-center
-              "
-            >
-              <p
-                className="
-                  font-sans
-                  text-xs
-                  font-semibold
-                  uppercase
-                  tracking-[0.12em]
-                  text-[#ff4156]
-                "
-              >
-                {artist.specialties}
-              </p>
-
-              <h2
-                className="
-                  font-title
-                  mt-2
-                  text-5xl
-                  text-white
-                "
-              >
-                {artist.name}
-              </h2>
-
-              <p
-                className="
-                  mt-5
-                  max-w-2xl
-                  font-sans
-                  text-base
-                  leading-relaxed
-                  text-white/60
-                "
-              >
-                {artist.description}
-              </p>
-
-              {/* FLASHES */}
-
-              <div className="mt-8">
-                <p
-                  className="
-                    font-sans
-                    text-xs
-                    font-semibold
-                    uppercase
-                    tracking-[0.12em]
-                    text-[#77c043]
-                  "
-                >
-                  FLASHES DISPONÍVEIS
+            <div className="flex flex-col justify-center">
+              {artist.specialties && (
+                <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#ff4156] uppercase">
+                  {artist.specialties}
                 </p>
+              )}
 
-                <div
-                  className="
-                    mt-4
-                    grid
-                    grid-cols-3
-                    gap-4
-                  "
-                >
-                  {artist.flashes.map(
-                    (flash) => (
-                      <div
+              <h2 className="font-title mt-2 text-5xl text-white">{artist.name}</h2>
+
+              {artist.description && (
+                <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-white/60">
+                  {artist.description}
+                </p>
+              )}
+
+              {/* =========================================
+                  FLASHES
+              ========================================== */}
+
+              {artistFlashes.length > 0 && (
+                <div className="mt-8">
+                  <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#77c043] uppercase">
+                    FLASHES DISPONÍVEIS
+                  </p>
+
+                  <div className="mt-4 grid grid-cols-3 gap-4">
+                    {artistFlashes.map((flash) => (
+                      <Link
                         key={flash.id}
-                        className="
-                          overflow-hidden
-                          rounded-2xl
-                          border
-                          border-white/10
-                          bg-[#111111]
-                        "
+                        href={`/flashes/${flash.slug}`}
+                        onClick={onClose}
+                        className="group overflow-hidden rounded-2xl border border-white/10 bg-[#111111] transition-transform duration-200 hover:-translate-y-1"
                       >
                         <div className="relative aspect-square">
                           {flash.image ? (
                             <Image
-                              src={
-                                flash.image
-                              }
-                              alt={
-                                flash.name
-                              }
+                              src={flash.image}
+                              alt={flash.name}
                               fill
+                              unoptimized
                               sizes="160px"
-                              className="
-                                object-contain
-                                p-3
-                              "
+                              className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.03]"
                             />
                           ) : (
-                            <div
-                              className="
-                                flex
-                                h-full
-                                items-center
-                                justify-center
-                                font-sans
-                                text-xs
-                                text-white/25
-                              "
-                            >
+                            <div className="flex h-full items-center justify-center font-sans text-xs text-white/25">
                               flash
                             </div>
                           )}
                         </div>
-                      </div>
-                    ),
-                  )}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* VEJA MAIS */}
+              {/* =========================================
+                  VEJA MAIS
+              ========================================== */}
 
-              <a
-                href={`/artistas/${artist.id}`}
-                className="
-                  mt-8
-                  inline-flex
-                  min-h-12
-                  w-fit
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-[#ff4156]
-                  px-7
-                  font-sans
-                  text-sm
-                  font-bold
-                  text-black
-                  transition
-                  hover:-translate-y-0.5
-                  hover:bg-[#ff5b6d]
-                "
+              <Link
+                href={`/artistas/${artist.slug}`}
+                onClick={onClose}
+                className="mt-8 inline-flex min-h-12 w-fit items-center justify-center rounded-full bg-[#ff4156] px-7 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:bg-[#ff5b6d]"
               >
                 VEJA MAIS
-              </a>
+              </Link>
             </div>
           </motion.div>
         </motion.div>

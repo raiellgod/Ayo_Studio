@@ -3,9 +3,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 
-import { ArtistModal, type ModalArtist } from "@/components/artists/ArtistModal";
-
+import { ArtistModal } from "@/components/artists/ArtistModal";
 import { ArtistCard } from "@/components/artists/ArtistCard";
+
+import { mockArtists } from "@/data/mockArtists";
 
 import { FeaturedFlashesSection } from "@/components/flashes/FeaturedFlashesSection";
 
@@ -16,74 +17,6 @@ import { FeaturedProductsSection } from "@/components/products/FeaturedProductsS
 import { AboutSection } from "@/components/home/AboutSection";
 import { ContactSection } from "@/components/home/ContactSection";
 import { Footer } from "@/components/home/Footer";
-
-type Artist = ModalArtist & {
-  image: string;
-};
-
-const artists: Artist[] = [
-  {
-    id: 1,
-    name: "ARTISTA 01",
-
-    image: "/artists/artist-01/card.png",
-
-    fullImage: "/artists/artist-01/full.png",
-
-    specialties: "BLACKWORK • FINE LINE • AUTORAL",
-
-    description:
-      "Artista focado em trabalhos autorais, desenho e tatuagem. Este espaço recebe um texto curto sobre trajetória, referências, estilo e relação do artista com o estúdio.",
-
-    flashes: [
-      {
-        id: 1,
-        name: "Flash 01",
-        image: "",
-      },
-      {
-        id: 2,
-        name: "Flash 02",
-        image: "",
-      },
-      {
-        id: 3,
-        name: "Flash 03",
-        image: "",
-      },
-    ],
-  },
-
-  {
-    id: 2,
-    name: "ARTISTA 02",
-    image: "",
-    fullImage: "",
-    specialties: "",
-    description: "",
-    flashes: [],
-  },
-
-  {
-    id: 3,
-    name: "ARTISTA 03",
-    image: "",
-    fullImage: "",
-    specialties: "",
-    description: "",
-    flashes: [],
-  },
-
-  {
-    id: 4,
-    name: "ARTISTA 04",
-    image: "",
-    fullImage: "",
-    specialties: "",
-    description: "",
-    flashes: [],
-  },
-];
 
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
@@ -108,7 +41,7 @@ export default function Home() {
 
   const titleY = useTransform(scrollYProgress, [0, 0.75], [0, -40]);
 
-  const selectedArtist = artists.find((artist) => artist.id === selectedArtistId) ?? null;
+  const selectedArtist = mockArtists.find((artist) => artist.id === selectedArtistId) ?? null;
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -446,7 +379,7 @@ export default function Home() {
           {/* GRID */}
 
           <div className="mt-12 grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {artists.map((artist, index) => (
+            {mockArtists.map((artist, index) => (
               <motion.div
                 key={artist.id}
                 initial={{
@@ -463,9 +396,7 @@ export default function Home() {
                 }}
                 transition={{
                   duration: 0.6,
-
                   delay: 0.15 + index * 0.12,
-
                   ease: "easeOut",
                 }}
               >
@@ -476,7 +407,11 @@ export default function Home() {
                     onClick={() => setSelectedArtistId(artist.id)}
                   />
                 ) : (
-                  <div className="w-full max-w-[280px] overflow-hidden rounded-3xl border border-white/10 bg-[#090909]">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedArtistId(artist.id)}
+                    className="group w-full max-w-[280px] cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-[#090909] text-left"
+                  >
                     <div className="flex aspect-4/5 items-center justify-center bg-[linear-gradient(145deg,#191919_0%,#090909_100%)] font-sans text-sm text-white/25">
                       imagem
                     </div>
@@ -488,7 +423,7 @@ export default function Home() {
                         CLIQUE PARA CONHECER
                       </p>
                     </div>
-                  </div>
+                  </button>
                 )}
               </motion.div>
             ))}

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export function AboutSection() {
   return (
@@ -98,41 +99,58 @@ export function AboutSection() {
         {/* IMAGEM */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            x: 40,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          viewport={{
-            once: false,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.1,
-            ease: "easeOut",
-          }}
-          className="
-            flex
-            min-h-[420px]
-            items-center
-            justify-center
-            overflow-hidden
-            rounded-3xl
-            border
-            border-white/10
-            bg-[linear-gradient(145deg,#171717_0%,#090909_100%)]
-            font-sans
-            text-sm
-            tracking-[0.08em]
-            text-white/30
-          "
-        >
-          PLACEHOLDER — FOTO DO LOCAL
-        </motion.div>
+  initial={{
+    opacity: 0,
+    x: 40,
+  }}
+  whileInView={{
+    opacity: 1,
+    x: 0,
+  }}
+  viewport={{
+    once: false,
+    amount: 0.3,
+  }}
+  transition={{
+    duration: 0.7,
+    delay: 0.1,
+    ease: "easeOut",
+  }}
+  className="
+    relative
+    min-h-[420px]
+    overflow-hidden
+    rounded-3xl
+    border
+    border-white/10
+    bg-[linear-gradient(145deg,#171717_0%,#090909_100%)]
+  "
+>
+  <Image
+    src="/sections/about/studio-main.jpg"
+    alt="Interior do AYŌ Studio"
+    fill
+    sizes="(max-width: 1024px) 100vw, 45vw"
+    className="
+      object-cover
+      transition-transform
+      duration-500
+      hover:scale-[1.03]
+    "
+  />
+
+  <div
+    className="
+      pointer-events-none
+      absolute
+      inset-0
+      bg-gradient-to-t
+      from-black/30
+      via-transparent
+      to-transparent
+    "
+  />
+</motion.div>
       </div>
 
       {/* LINHA */}

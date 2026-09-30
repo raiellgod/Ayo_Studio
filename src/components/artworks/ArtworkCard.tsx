@@ -37,6 +37,7 @@ export function ArtworkCard({ artwork, featured = false }: ArtworkCardProps) {
               src={artwork.image}
               alt={artwork.name}
               fill
+              unoptimized
               sizes={
                 featured ? "(max-width: 1024px) 100vw, 35vw" : "(max-width: 1024px) 50vw, 20vw"
               }

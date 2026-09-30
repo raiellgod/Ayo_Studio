@@ -60,7 +60,7 @@ export function ContactSection() {
           className="flex lg:justify-end"
         >
           <a
-            href="https://wa.me/5511974694887?text=Olá%2C%20vim%20pelo%20site%20do%20AYŌ%20Studio."
+            href="https://wa.me/5511992003472?text=Olá%2C%20vim%20pelo%20site%20do%20AYŌ%20Studio."
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex min-h-14 items-center gap-4 rounded-full border border-white/10 bg-white/5 px-5 font-sans text-sm font-semibold text-white no-underline transition-transform duration-200 visited:text-white hover:scale-105 hover:text-white active:text-white"
@@ -69,7 +69,7 @@ export function ContactSection() {
               ☎
             </span>
 
-            <span>(11) 97469-4887</span>
+            <span>(11) 99200-3472</span>
           </a>
         </motion.div>
       </div>
