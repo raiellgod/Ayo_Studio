@@ -235,6 +235,10 @@ export default function Home() {
                 LOJA
               </a>
 
+              <a href="/pedido" className="hover:text-ayo-cream transition-colors duration-200">
+                PEDIDOS
+              </a>
+
               <a href="#sobre" className="hover:text-ayo-cream transition-colors duration-200">
                 SOBRE
               </a>
@@ -285,6 +289,7 @@ export default function Home() {
                   ["FLASHES", "#flashes"],
                   ["ARTES", "#artes"],
                   ["LOJA", "#loja"],
+                  ["PEDIDOS", "/pedido"],
                   ["SOBRE", "#sobre"],
                   ["CONTATO", "#contato"],
                 ].map(([label, href]) => (
@@ -303,7 +308,7 @@ export default function Home() {
 
           {/* HERO */}
 
-          <div className="flex flex-1 items-center py-16 sm:pb-24 sm:pt-8">
+          <div className="flex flex-1 items-center py-16 sm:pt-8 sm:pb-24">
             <div className="max-w-2xl">
               <motion.p
                 initial={{
@@ -399,6 +404,30 @@ export default function Home() {
                 className="bg-ayo-red text-ayo-cream hover:bg-ayo-red/85 mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-full px-6 font-sans text-sm font-bold transition duration-200 hover:-translate-y-0.5 sm:mt-8 sm:w-auto sm:px-7"
               >
                 CONHEÇA OS ARTISTAS
+              </motion.a>
+
+              <motion.a
+                href="/pedido"
+                initial={{
+                  opacity: 0,
+                  y: 24,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: false,
+                  amount: 0.5,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.45,
+                  ease: "easeOut",
+                }}
+                className="text-ayo-cream/80 hover:border-ayo-red/60 hover:text-ayo-cream mt-3 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 px-6 font-sans text-sm font-bold transition duration-200 hover:-translate-y-0.5 sm:mt-8 sm:ml-3 sm:w-auto sm:px-7"
+              >
+                FAZER UM PEDIDO
               </motion.a>
 
               <motion.div

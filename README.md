@@ -1,6 +1,8 @@
 # AYŌ Studio
 
-Frontend do site AYŌ Studio: uma experiência autoral para apresentar profissionais, flashes, artes e produtos, com fluxo de interesse/reserva sem checkout na V1.
+Site autoral do AYŌ Studio de Artes para apresentação de profissionais, portfólio, catálogo, reserva/interesse e pedidos personalizados.
+
+A V1 não possui checkout nem pagamento online.
 
 ## Stack
 
@@ -9,11 +11,24 @@ Frontend do site AYŌ Studio: uma experiência autoral para apresentar profissio
 - TypeScript
 - Tailwind CSS 4
 - Framer Motion
-- Architects Daughter
-- Sora
+- Cormorant Garamond
+- Special Elite
+- Bitter
 - pnpm
-- Formspree para submissões atuais
-- WhatsApp por link externo para continuidade de atendimento
+- Formspree
+- WhatsApp via link externo
+
+## Identidade
+
+- Vermelho Ayô `#820000`
+- Preto Traço `#000000`
+- Creme Arte `#FAF4EF`
+
+Assets oficiais ficam em:
+
+```text
+public/brand/
+```
 
 ## Rodando localmente
 
@@ -22,176 +37,163 @@ pnpm install
 pnpm dev
 ```
 
-O Next exibirá a URL local no terminal. Normalmente o projeto usa `http://localhost:3000`, podendo variar se a porta estiver ocupada.
-
-Para lint:
+Validação:
 
 ```bash
-pnpm lint
+pnpm run lint
+pnpm run build
 ```
 
 ## Variáveis de ambiente
-
-O fluxo atual de reserva usa:
 
 ```env
 NEXT_PUBLIC_FORMSPREE_ENDPOINT="..."
 NEXT_PUBLIC_WHATSAPP_NUMBER="..."
 ```
 
-Manter esses valores em `.env.local`, fora do Git.
+Use `.env.local` e não versione os valores.
 
-## Estado atual
-
-A Home já possui:
-
-- abertura animada;
-- Hero `ARTE QUE MARCA.`;
-- profissionais com hover 3D;
-- modal de profissional com até 3 flashes aleatórios disponíveis do artista;
-- flashes em destaque com seleção aleatória balanceada;
-- quadros/desenhos em carrossel editorial;
-- loja com 3 produtos aleatórios disponíveis;
-- Sobre;
-- Contato;
-- Footer.
-
-Rotas já implementadas:
+## Rotas principais
 
 ```text
 /
 /artistas/[slug]
+/artistas/[slug]/pedido
+/artistas/[slug]/ideia
 /flashes/[slug]
 /artes/[slug]
 /loja
 /loja/[slug]
 /reservar/flash/[slug]
 /reservar/arte/[slug]
+/reservar/produto/[slug]
+/pedido
+/pedido/tatuagem
+/pedido/arte
+/pedido/arte/[slug]
+/pedido/dublagem
+/pedido/dublagem/[slug]
+```
+
+## Profissionais
+
+O frontend diferencia:
+
+```ts
+role
+```
+
+de:
+
+```ts
+services
+```
+
+Serviços atuais:
+
+```ts
+"tattoo" | "art" | "voice"
+```
+
+Um profissional pode oferecer múltiplos serviços.
+
+O perfil/modal mantém um único CTA:
+
+```text
+FAZER UM PEDIDO
 ```
 
 ## Reserva/interesse
 
-O frontend já possui formulário funcional para flashes e artes.
+Itens existentes:
 
-Fluxo atual:
+- flash;
+- arte;
+- produto.
+
+Fluxo:
 
 ```text
-item disponível
+item
 ↓
 detalhe
 ↓
-solicitar reserva
+reserva/interesse
 ↓
-formulário
-↓
-Formspree / e-mail Studio
+Formspree
 ↓
 sucesso
 ↓
-continuação opcional no WhatsApp
+WhatsApp opcional
 ```
 
-A solicitação **não confirma automaticamente** a reserva.
+A solicitação não confirma automaticamente a reserva.
 
-Itens com `available: false`:
+## Pedidos personalizados
 
-- exibem `RESERVADO`;
-- continuam visíveis como portfólio quando aplicável;
-- não oferecem CTA funcional de reserva;
-- não renderizam formulário nas rotas `/reservar/...`.
+Tipos atuais:
 
-## Estrutura principal
+- tatuagem;
+- arte;
+- dublagem/voz.
+
+Entrada global:
 
 ```text
-src/
-├── app/
-├── components/
-│   ├── artists/
-│   ├── flashes/
-│   ├── artworks/
-│   ├── products/
-│   ├── reservations/
-│   └── home/
-├── data/
-└── lib/
+/pedido
 ```
 
-## Dados atuais
+Também é possível iniciar pelo profissional:
 
-Enquanto backend e banco não existem, o projeto usa mocks em `src/data`.
+```text
+/artistas/[slug]/pedido
+```
 
-`available` é uma solução temporária para disponibilidade. Os mocks serão substituídos posteriormente por API + PostgreSQL/Prisma.
+A página exibe somente os serviços disponíveis daquele profissional.
 
-## Escopo da V1
+## Dados
 
-Inclui:
+O frontend ainda usa mocks em:
 
-- apresentação do Studio;
-- profissionais;
-- flashes;
-- artes;
-- produtos;
-- interesse/reserva;
-- administração interna futura.
+```text
+src/data/
+```
 
-Não inclui:
+`available` e `services` ainda são fontes temporárias até a persistência real.
 
-- checkout;
-- pagamento online;
-- carrinho;
-- agenda;
-- contas públicas;
-- avaliações;
-- marketplace.
+## Backend planejado
+
+- Node.js
+- Fastify
+- TypeScript
+- PostgreSQL
+- Prisma
+
+Próximo objetivo: iniciar backend/banco e substituir mocks progressivamente sem quebrar o frontend.
 
 ## Admin
 
-O admin real ainda não foi implementado.
+Ainda não implementado.
 
-Decisão atual: não construir uma versão funcional apenas em memória. A área administrativa será retomada quando backend/banco oferecerem persistência real.
+Será privado, protegido e criado somente sobre persistência real.
+
+## Deploy
+
+O frontend já teve deploy funcional na Vercel.
+
+As alterações mais recentes devem passar por lint/build e novo deploy antes de serem consideradas versão publicada atual.
 
 ## Documentação
 
-A documentação detalhada está em `docs/`:
+Detalhes em `docs/`:
 
-- visão do projeto;
-- design system;
-- arquitetura;
-- boot;
-- banco planejado;
-- estado de desenvolvimento;
-- feature capsules;
-- referências de Figma;
-- regras de negócio;
-- roadmap.
-
-## Desenvolvimento
-
-Fluxo adotado:
-
-```text
-Figma
-+
-regras
-↓
-componentes
-↓
-section/página
-↓
-responsividade
-↓
-motion
-↓
-documentação
-```
-
-## Próximos passos
-
-1. revisar responsividade e acessibilidade;
-2. fechar páginas públicas ainda pendentes (`/artistas`, `/flashes`, `/artes`);
-3. consolidar conteúdo real/mocks;
-4. iniciar backend;
-5. iniciar banco e persistência de reservas/disponibilidade;
-6. criar admin real;
-7. mídia/proteção;
-8. deploy.
+- Project Overview
+- Design System
+- Architecture
+- Boot
+- Database Setup
+- Dev State
+- Feature Capsules
+- Figma References
+- Business Rules
+- Roadmap

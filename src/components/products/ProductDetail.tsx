@@ -276,35 +276,55 @@ export function ProductDetail({
                 sm:gap-4
               "
             >
-              <button
-                type="button"
-                disabled={!product.available}
-                className="
-                  inline-flex
-                  min-h-12
-                  w-full
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-ayo-red
-                  px-8
-                  font-sans
-                  text-sm
-                  font-bold
-                  text-ayo-cream
-                  sm:w-auto
-                  transition
-                  enabled:cursor-pointer
-                  enabled:hover:-translate-y-0.5
-                  enabled:hover:bg-ayo-red/85
-                  disabled:cursor-not-allowed
-                  disabled:opacity-40
-                "
-              >
-                {product.available
-                  ? "TENHO INTERESSE"
-                  : "INDISPONÍVEL"}
-              </button>
+              {product.available ? (
+                <Link
+                  href={`/reservar/produto/${product.slug}`}
+                  className="
+                    inline-flex
+                    min-h-12
+                    w-full
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-ayo-red
+                    px-8
+                    font-sans
+                    text-sm
+                    font-bold
+                    text-ayo-cream
+                    transition
+                    hover:-translate-y-0.5
+                    hover:bg-ayo-red/85
+                    sm:w-auto
+                  "
+                >
+                  TENHO INTERESSE
+                </Link>
+              ) : (
+                <span
+                  aria-disabled="true"
+                  className="
+                    inline-flex
+                    min-h-12
+                    w-full
+                    cursor-not-allowed
+                    items-center
+                    justify-center
+                    rounded-full
+                    border
+                    border-ayo-red/25
+                    bg-ayo-red/10
+                    px-8
+                    font-sans
+                    text-sm
+                    font-bold
+                    text-ayo-red/70
+                    sm:w-auto
+                  "
+                >
+                  INDISPONÍVEL
+                </span>
+              )}
 
               <Link
                 href="/loja"

@@ -1,9 +1,12 @@
+export type ArtistService = "tattoo" | "art" | "voice";
+
 export type Artist = {
   id: number;
   slug: string;
 
   name: string;
   role: string;
+  services: ArtistService[];
 
   image: string;
   fullImage: string;
@@ -20,6 +23,7 @@ export const mockArtists: Artist[] = [
 
     name: "Kevin",
     role: "TATUADOR",
+    services: ["tattoo", "art"],
 
     image: "/artists/artist-01/card.png",
     fullImage: "/artists/artist-01/full.png",
@@ -37,6 +41,7 @@ export const mockArtists: Artist[] = [
 
     name: "ARTISTA 02",
     role: "ARTISTA",
+    services: ["art"],
 
     image: "",
     fullImage: "",
@@ -52,6 +57,7 @@ export const mockArtists: Artist[] = [
 
     name: "ARTISTA 03",
     role: "ARTISTA",
+    services: ["art"],
 
     image: "",
     fullImage: "",
@@ -67,6 +73,7 @@ export const mockArtists: Artist[] = [
 
     name: "ARTISTA 04",
     role: "DUBLADOR",
+    services: ["voice"],
 
     image: "",
     fullImage: "",

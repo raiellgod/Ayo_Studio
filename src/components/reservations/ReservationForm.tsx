@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 type ReservationFormProps = {
-  itemType: "flash" | "arte";
+  itemType: "flash" | "arte" | "produto";
   itemName: string;
   itemSlug: string;
   artistName: string;
@@ -116,7 +116,12 @@ export function ReservationForm({
 
     const origin = window.location.origin;
 
-    const itemPath = itemType === "flash" ? `/flashes/${itemSlug}` : `/artes/${itemSlug}`;
+    const itemPath =
+      itemType === "flash"
+        ? `/flashes/${itemSlug}`
+        : itemType === "arte"
+          ? `/artes/${itemSlug}`
+          : `/loja/${itemSlug}`;
 
     const itemUrl = `${origin}${itemPath}`;
 
@@ -152,7 +157,14 @@ export function ReservationForm({
        DADOS DO ITEM
     ========================================== */
 
-    formData.set("tipo", itemType === "flash" ? "Flash" : "Arte");
+    formData.set(
+      "tipo",
+      itemType === "flash"
+        ? "Flash"
+        : itemType === "arte"
+          ? "Arte"
+          : "Produto",
+    );
 
     formData.set("item", itemName);
 
@@ -219,7 +231,7 @@ Olá! Enviei uma solicitação pelo site do AYŌ Studio.
 ITEM
 ${itemName}
 
-Tipo: ${itemType === "flash" ? "Flash" : "Arte"}
+Tipo: ${itemType === "flash" ? "Flash" : itemType === "arte" ? "Arte" : "Produto"}
 Artista: ${artistName}
 Valor: ${formattedPrice}
 
@@ -328,7 +340,11 @@ ${submissionId}
 
       <div className="border-b border-white/10 pb-6">
         <p className="font-accent text-xs tracking-[0.12em] text-ayo-red uppercase">
-          {itemType === "flash" ? "SOLICITAÇÃO DE FLASH" : "SOLICITAÇÃO DE ARTE"}
+          {itemType === "flash"
+            ? "SOLICITAÇÃO DE FLASH"
+            : itemType === "arte"
+              ? "SOLICITAÇÃO DE ARTE"
+              : "SOLICITAÇÃO DE PRODUTO"}
         </p>
 
         <h1 className="font-title mt-3 text-3xl leading-[0.95] text-white sm:text-4xl">{itemName}</h1>
@@ -428,7 +444,9 @@ ${submissionId}
           placeholder={
             itemType === "flash"
               ? "Conte sobre tamanho, local da tatuagem ou alguma dúvida."
-              : "Conte sobre seu interesse na obra ou alguma dúvida."
+              : itemType === "arte"
+                ? "Conte sobre seu interesse na obra ou alguma dúvida."
+                : "Conte sobre seu interesse no produto ou alguma dúvida."
           }
           className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-ayo-red"
         />

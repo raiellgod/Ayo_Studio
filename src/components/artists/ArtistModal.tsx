@@ -54,9 +54,7 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
           transition={{
             duration: 0.2,
           }}
-          onAnimationStart={
-            selectPreviewFlashes
-          }
+          onAnimationStart={selectPreviewFlashes}
           onClick={onClose}
           className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 px-4 py-6 backdrop-blur-sm sm:items-center sm:px-6 sm:py-10"
         >
@@ -131,11 +129,13 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
             ========================================== */}
 
             <div className="flex flex-col justify-center">
-              <p className="font-sans text-xs font-semibold tracking-[0.12em] text-ayo-red uppercase">
+              <p className="text-ayo-red font-sans text-xs font-semibold tracking-[0.12em] uppercase">
                 {artist.specialties}
               </p>
 
-              <h2 className="font-title mt-2 text-4xl leading-[0.95] text-white sm:text-5xl">{artist.name}</h2>
+              <h2 className="font-title mt-2 text-4xl leading-[0.95] text-white sm:text-5xl">
+                {artist.name}
+              </h2>
 
               <p className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-white/60 sm:mt-5 sm:text-base">
                 {artist.description}
@@ -146,7 +146,7 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
               ========================================== */}
 
               <div className="mt-8">
-                <p className="font-sans text-xs font-semibold tracking-[0.12em] text-ayo-red uppercase">
+                <p className="text-ayo-red font-sans text-xs font-semibold tracking-[0.12em] uppercase">
                   FLASHES DISPONÍVEIS
                 </p>
 
@@ -189,13 +189,23 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
                   VEJA MAIS
               ========================================== */}
 
-              <Link
-                href={`/artistas/${artist.slug}`}
-                onClick={onClose}
-                className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-ayo-red px-7 font-sans text-sm font-bold text-ayo-cream transition hover:-translate-y-0.5 hover:bg-ayo-red/85 sm:w-fit"
-              >
-                VEJA MAIS
-              </Link>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Link
+                  href={`/artistas/${artist.slug}/pedido`}
+                  onClick={onClose}
+                  className="bg-ayo-red text-ayo-cream hover:bg-ayo-red/85 mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full px-7 font-sans text-sm font-bold transition hover:-translate-y-0.5 sm:w-fit"
+                >
+                  FAZER UM PEDIDO
+                </Link>
+
+                <Link
+                  href={`/artistas/${artist.slug}`}
+                  onClick={onClose}
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 px-7 font-sans text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white sm:w-fit"
+                >
+                  VER PERFIL
+                </Link>
+              </div>
             </div>
           </motion.div>
         </motion.div>
