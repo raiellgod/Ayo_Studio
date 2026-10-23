@@ -12,9 +12,11 @@ export default function StorePage() {
       className="
         min-h-screen
         overflow-hidden
-        bg-[linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),linear-gradient(135deg,#000000_0%,#160607_45%,#070000_75%,#00100c_100%)]
-        px-6
-        py-10
+        bg-[linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#160607_45%,#070000_75%,#220000_100%)]
+        px-5
+        py-8
+        sm:px-6
+        sm:py-10
         text-white
         lg:px-12
       "
@@ -60,8 +62,9 @@ export default function StorePage() {
             ease: "easeOut",
           }}
           className="
-            mt-16
+            mt-10
             max-w-4xl
+            sm:mt-10 sm:mt-16
           "
         >
           <p
@@ -71,7 +74,7 @@ export default function StorePage() {
               font-semibold
               uppercase
               tracking-[0.12em]
-              text-[#ff4156]
+              text-ayo-red
             "
           >
             ARTE PARA LEVAR COM VOCÊ
@@ -79,10 +82,12 @@ export default function StorePage() {
 
           <h1
             className="
-              mt-5
+              mt-4
               font-title
-              text-6xl
-              leading-none
+              text-5xl
+              leading-[0.95]
+              sm:mt-5
+              sm:text-6xl
               text-white
             "
           >
@@ -91,10 +96,12 @@ export default function StorePage() {
 
           <p
             className="
-              mt-6
+              mt-5
               max-w-3xl
               font-sans
-              text-base
+              text-sm
+              sm:mt-6
+              sm:text-base
               leading-relaxed
               text-white/60
             "
@@ -122,10 +129,12 @@ export default function StorePage() {
             ease: "easeOut",
           }}
           className="
-            mt-14
+            mt-10
             grid
             grid-cols-1
-            gap-7
+            gap-6
+            sm:mt-14
+            sm:gap-7
             sm:grid-cols-2
             lg:grid-cols-3
           "
@@ -155,11 +164,11 @@ export default function StorePage() {
             ease: "easeOut",
           }}
           className="
-            mt-16
+            mt-10 sm:mt-16
             h-0.5
             w-20
             origin-left
-            bg-[#ff4156]
+            bg-ayo-red
           "
         />
       </div>

@@ -10,13 +10,11 @@ export function FeaturedArtworksSection() {
   return (
     <section
       id="artes"
-      className="
-        relative
-        min-h-screen
-        overflow-hidden
-        bg-[#001006]
-        px-8
-        py-24
+      className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(130,0,0,0.18),transparent_38%),#020202]
+        px-5
+        py-16
+        sm:px-8
+        sm:py-24
         lg:px-12
       "
     >
@@ -27,7 +25,7 @@ export function FeaturedArtworksSection() {
           pointer-events-none
           absolute
           inset-0
-          bg-[radial-gradient(circle_at_50%_35%,rgba(0,70,30,0.12),transparent_52%)]
+          bg-[radial-gradient(circle_at_50%_35%,rgba(130,0,0,0.10),transparent_52%)]
         "
       />
 
@@ -77,12 +75,12 @@ export function FeaturedArtworksSection() {
               ease: "easeOut",
             }}
             className="
-              font-sans
-              text-sm
-              font-semibold
+              font-accent
+              text-xs
               uppercase
               tracking-[0.12em]
-              text-[#ff4156]
+              text-ayo-red
+              sm:text-sm
             "
           >
             ARTE PARA ALÉM DA PELE
@@ -108,9 +106,11 @@ export function FeaturedArtworksSection() {
             }}
             className="
               font-title
-              mt-5
-              text-6xl
-              leading-none
+              mt-4
+              text-5xl
+              leading-[0.95]
+              sm:mt-5
+              sm:text-6xl
               text-white
             "
           >
@@ -136,10 +136,12 @@ export function FeaturedArtworksSection() {
               ease: "easeOut",
             }}
             className="
-              mt-6
+              mt-5
               max-w-3xl
               font-sans
-              text-base
+              text-sm
+              sm:mt-6
+              sm:text-base
               leading-relaxed
               text-white/60
             "
@@ -170,7 +172,7 @@ export function FeaturedArtworksSection() {
             delay: 0.4,
             ease: "easeOut",
           }}
-          className="mt-10"
+          className="mt-8 sm:mt-10"
         >
           <ArtworkCarousel
             artworks={mockArtworks}
@@ -196,11 +198,12 @@ export function FeaturedArtworksSection() {
             ease: "easeOut",
           }}
           className="
-            mt-16
+            mt-10
             h-0.5
             w-20
             origin-left
-            bg-[#ff4156]
+            bg-ayo-red
+            sm:mt-16
           "
         />
       </motion.div>

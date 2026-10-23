@@ -19,7 +19,7 @@ export function ArtworkDetail({
   );
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),linear-gradient(135deg,#000000_0%,#041008_45%,#00160b_100%)] px-6 py-10 text-white lg:px-12">
+    <main className="min-h-screen overflow-hidden bg-[linear-gradient(rgba(0,0,0,0.20),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#090000_45%,#220000_100%)] px-6 py-10 text-white lg:px-12">
       <div className="mx-auto w-full max-w-7xl">
         {/* =========================================
             VOLTAR
@@ -36,7 +36,7 @@ export function ArtworkDetail({
             CONTEÚDO
         ========================================== */}
 
-        <div className="mt-12 grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="mt-8 grid items-center gap-8 sm:mt-12 sm:gap-12 lg:grid-cols-[1.2fr_0.8fr]">
           {/* =========================================
               IMAGEM
           ========================================== */}
@@ -54,7 +54,7 @@ export function ArtworkDetail({
               duration: 0.7,
               ease: "easeOut",
             }}
-            className="relative min-h-[620px] overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#080808_100%)]"
+            className="relative min-h-[360px] sm:min-h-[520px] lg:min-h-[620px] overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#080808_100%)]"
           >
             {artwork.image ? (
               <Image
@@ -75,14 +75,14 @@ export function ArtworkDetail({
                 `}
               />
             ) : (
-              <div className="flex h-full min-h-[620px] items-center justify-center font-sans text-white/20">
+              <div className="flex h-full min-h-[360px] sm:min-h-[520px] lg:min-h-[620px] items-center justify-center font-sans text-white/20">
                 imagem da obra
               </div>
             )}
 
             {!artwork.available && (
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20">
-                <span className="rounded-full border border-[#ff4156]/50 bg-black/80 px-6 py-3 font-sans text-sm font-bold uppercase tracking-[0.12em] text-[#ff4156]">
+                <span className="rounded-full border border-ayo-red/50 bg-black/80 px-6 py-3 font-sans text-sm font-bold uppercase tracking-[0.12em] text-ayo-red">
                   RESERVADO
                 </span>
               </div>
@@ -108,11 +108,11 @@ export function ArtworkDetail({
               ease: "easeOut",
             }}
           >
-            <p className="font-sans text-sm font-semibold tracking-[0.12em] text-[#ff4156] uppercase">
+            <p className="font-sans text-sm font-semibold tracking-[0.12em] text-ayo-red uppercase">
               ARTE AUTORAL
             </p>
 
-            <h1 className="font-title mt-4 text-6xl leading-none text-white">
+            <h1 className="font-title mt-4 text-5xl leading-[0.95] text-white sm:text-6xl">
               {artwork.name}
             </h1>
 
@@ -126,7 +126,7 @@ export function ArtworkDetail({
 
             {!artwork.available && (
               <div className="mt-6">
-                <span className="inline-flex rounded-full border border-[#ff4156]/40 bg-[#ff4156]/10 px-4 py-2 font-sans text-xs font-bold uppercase tracking-[0.1em] text-[#ff4156]">
+                <span className="inline-flex rounded-full border border-ayo-red/40 bg-ayo-red/10 px-4 py-2 font-sans text-xs font-bold uppercase tracking-[0.1em] text-ayo-red">
                   RESERVADO
                 </span>
               </div>
@@ -137,7 +137,7 @@ export function ArtworkDetail({
             ========================================== */}
 
             <div className="mt-6">
-              <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.08em] text-[#77c043] uppercase">
+              <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.08em] text-ayo-red uppercase">
                 {artwork.type}
               </span>
             </div>
@@ -173,7 +173,7 @@ export function ArtworkDetail({
                     font-semibold
                     ${
                       artwork.available
-                        ? "text-[#77c043]"
+                        ? "text-ayo-cream"
                         : "text-white/35"
                     }
                   `}
@@ -193,18 +193,18 @@ export function ArtworkDetail({
                 AÇÕES
             ========================================== */}
 
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4">
               {artwork.available ? (
                 <Link
                   href={`/reservar/arte/${artwork.slug}`}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ff4156] px-8 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:bg-[#ff5b6d]"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-ayo-red px-8 font-sans text-sm font-bold text-ayo-cream transition hover:-translate-y-0.5 hover:bg-ayo-red/85 sm:w-auto"
                 >
                   SOLICITAR RESERVA
                 </Link>
               ) : (
                 <span
                   aria-disabled="true"
-                  className="inline-flex min-h-12 cursor-not-allowed items-center justify-center rounded-full border border-[#ff4156]/25 bg-[#ff4156]/10 px-8 font-sans text-sm font-bold text-[#ff4156]/70"
+                  className="inline-flex min-h-12 cursor-not-allowed items-center justify-center rounded-full border border-ayo-red/25 bg-ayo-red/10 px-8 font-sans text-sm font-bold text-ayo-red/70"
                 >
                   RESERVADO
                 </span>
@@ -216,7 +216,7 @@ export function ArtworkDetail({
                     ? `/artistas/${artist.slug}`
                     : "/#artistas"
                 }
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-8 font-sans text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 px-8 font-sans text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white sm:w-auto"
               >
                 VER ARTISTA
               </Link>

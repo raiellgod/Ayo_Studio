@@ -12,9 +12,11 @@ export function ArtistProfile({
   return (
     <section
       className="
-        mt-16
+        mt-10
         grid
-        gap-12
+        gap-8
+        sm:mt-16
+        sm:gap-12
         lg:grid-cols-[320px_1fr]
       "
     >
@@ -25,7 +27,8 @@ export function ArtistProfile({
       <div
         className="
           flex
-          min-h-[360px]
+          min-h-[300px]
+          sm:min-h-[360px]
           items-center
           justify-center
           overflow-hidden
@@ -36,7 +39,7 @@ export function ArtistProfile({
         "
       >
         {artist.profileImage ? (
-          <div className="relative h-[460px] w-full">
+          <div className="relative h-[360px] w-full sm:h-[460px]">
             <Image
               src={artist.profileImage}
               alt={artist.name}
@@ -76,12 +79,11 @@ export function ArtistProfile({
       >
         <p
           className="
-            font-sans
+            font-accent
             text-xs
-            font-semibold
             uppercase
             tracking-[0.12em]
-            text-[#ff4156]
+            text-ayo-red
           "
         >
           {artist.role} • AUTORAL
@@ -91,8 +93,9 @@ export function ArtistProfile({
           className="
             font-title
             mt-4
-            text-6xl
-            leading-none
+            text-5xl
+            leading-[0.95]
+            sm:text-6xl
             text-white
           "
         >
@@ -102,10 +105,12 @@ export function ArtistProfile({
         {artist.description && (
           <p
             className="
-              mt-6
+              mt-5
               max-w-3xl
               font-sans
-              text-base
+              text-sm
+              sm:mt-6
+              sm:text-base
               leading-relaxed
               text-white/60
             "
@@ -123,7 +128,7 @@ export function ArtistProfile({
               font-semibold
               uppercase
               tracking-[0.08em]
-              text-[#77c043]
+              text-ayo-red
             "
           >
             {artist.specialties}

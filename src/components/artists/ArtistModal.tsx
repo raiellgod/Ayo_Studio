@@ -58,7 +58,7 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
             selectPreviewFlashes
           }
           onClick={onClose}
-          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/80 px-6 py-10 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 px-4 py-6 backdrop-blur-sm sm:items-center sm:px-6 sm:py-10"
         >
           <motion.div
             initial={{
@@ -81,7 +81,7 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
               ease: "easeOut",
             }}
             onClick={(event) => event.stopPropagation()}
-            className="relative grid w-full max-w-5xl gap-8 overflow-hidden rounded-3xl border border-white/10 bg-[#090909] p-6 md:grid-cols-[0.9fr_1.4fr] md:p-8"
+            className="relative grid w-full max-w-5xl gap-6 overflow-hidden rounded-3xl border border-white/10 bg-[#090909] p-4 sm:p-6 md:grid-cols-[0.9fr_1.4fr] md:gap-8 md:p-8"
           >
             {/* =========================================
                 FECHAR
@@ -100,7 +100,7 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
                 IMAGEM DO ARTISTA
             ========================================== */}
 
-            <div className="relative min-h-[420px] overflow-hidden rounded-2xl bg-[linear-gradient(145deg,#160607_0%,#071611_100%)]">
+            <div className="relative min-h-[300px] overflow-hidden rounded-2xl bg-[linear-gradient(145deg,#160607_0%,#090909_100%)] sm:min-h-[420px]">
               <motion.div
                 initial={{
                   opacity: 0,
@@ -131,13 +131,13 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
             ========================================== */}
 
             <div className="flex flex-col justify-center">
-              <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#ff4156] uppercase">
+              <p className="font-sans text-xs font-semibold tracking-[0.12em] text-ayo-red uppercase">
                 {artist.specialties}
               </p>
 
-              <h2 className="font-title mt-2 text-5xl text-white">{artist.name}</h2>
+              <h2 className="font-title mt-2 text-4xl leading-[0.95] text-white sm:text-5xl">{artist.name}</h2>
 
-              <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-white/60">
+              <p className="mt-4 max-w-2xl font-sans text-sm leading-relaxed text-white/60 sm:mt-5 sm:text-base">
                 {artist.description}
               </p>
 
@@ -146,12 +146,12 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
               ========================================== */}
 
               <div className="mt-8">
-                <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#77c043] uppercase">
+                <p className="font-sans text-xs font-semibold tracking-[0.12em] text-ayo-red uppercase">
                   FLASHES DISPONÍVEIS
                 </p>
 
                 {previewFlashes.length > 0 ? (
-                  <div className="mt-4 grid grid-cols-3 gap-4">
+                  <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
                     {previewFlashes.map((flash) => (
                       <Link
                         key={flash.id}
@@ -192,7 +192,7 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
               <Link
                 href={`/artistas/${artist.slug}`}
                 onClick={onClose}
-                className="mt-8 inline-flex min-h-12 w-fit items-center justify-center rounded-full bg-[#ff4156] px-7 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:bg-[#ff5b6d]"
+                className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-ayo-red px-7 font-sans text-sm font-bold text-ayo-cream transition hover:-translate-y-0.5 hover:bg-ayo-red/85 sm:w-fit"
               >
                 VEJA MAIS
               </Link>

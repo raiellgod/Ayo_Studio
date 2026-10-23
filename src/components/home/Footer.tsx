@@ -1,7 +1,7 @@
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-[#020202] px-8 py-8 lg:px-12">
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-3 font-sans text-xs text-white/30 sm:flex-row">
+    <footer className="border-t border-white/5 bg-[#020202] px-5 py-7 sm:px-8 sm:py-8 lg:px-12">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-3 text-center font-sans text-xs text-white/30 sm:flex-row">
         <p>
           created for{" "}
           <a
@@ -10,7 +10,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="inline-block text-white/70 no-underline transition-transform duration-200 visited:text-white/70 hover:scale-105 hover:text-white/70 active:text-white/70"
           >
-            <span className="border-b border-[#ff4156] pb-1 text-white/70">Raiel Godinho</span>
+            <span className="border-b border-ayo-red pb-1 text-white/70">Raiel Godinho</span>
           </a>
         </p>
       </div>

@@ -120,8 +120,9 @@ export function ArtworkCarousel({
       {groups.length > 1 && (
         <div
           className="
-            mb-5
+            mb-4
             flex
+            sm:mb-5
             items-center
             justify-between
           "
@@ -132,8 +133,10 @@ export function ArtworkCarousel({
             aria-label="Ver obras anteriores"
             className="
               flex
-              h-10
-              w-10
+              h-9
+              w-9
+              sm:h-10
+              sm:w-10
               cursor-pointer
               items-center
               justify-center
@@ -157,8 +160,10 @@ export function ArtworkCarousel({
             aria-label="Ver próximas obras"
             className="
               flex
-              h-10
-              w-10
+              h-9
+              w-9
+              sm:h-10
+              sm:w-10
               cursor-pointer
               items-center
               justify-center

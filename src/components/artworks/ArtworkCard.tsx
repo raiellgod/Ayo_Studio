@@ -11,10 +11,7 @@ type ArtworkCardProps = {
   featured?: boolean;
 };
 
-export function ArtworkCard({
-  artwork,
-  featured = false,
-}: ArtworkCardProps) {
+export function ArtworkCard({ artwork, featured = false }: ArtworkCardProps) {
   const isAvailable = artwork.available;
 
   return (
@@ -30,33 +27,16 @@ export function ArtworkCard({
     >
       <Link
         href={`/artes/${artwork.slug}`}
-        className="
-          group
-          flex
-          h-full
-          flex-col
-          overflow-hidden
-          rounded-3xl
-          border
-          border-white/10
-          bg-[#090909]
-        "
+        className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#090909]"
       >
         {/* =========================================
             IMAGEM
         ========================================== */}
 
         <div
-          className={`
-            relative
-            overflow-hidden
-            bg-[linear-gradient(145deg,#171717_0%,#090909_100%)]
-            ${
-              featured
-                ? "min-h-[420px] flex-1"
-                : "min-h-[190px]"
-            }
-          `}
+          className={`relative overflow-hidden bg-[linear-gradient(145deg,#171717_0%,#090909_100%)] ${
+            featured ? "min-h-[300px] flex-1 sm:min-h-[420px]" : "min-h-[180px] sm:min-h-[190px]"
+          } `}
         >
           {artwork.image ? (
             <Image
@@ -65,21 +45,11 @@ export function ArtworkCard({
               fill
               unoptimized
               sizes={
-                featured
-                  ? "(max-width: 1024px) 100vw, 35vw"
-                  : "(max-width: 1024px) 50vw, 20vw"
+                featured ? "(max-width: 1024px) 100vw, 35vw" : "(max-width: 1024px) 50vw, 20vw"
               }
-              className={`
-                object-cover
-                transition-all
-                duration-300
-                group-hover:scale-[1.03]
-                ${
-                  isAvailable
-                    ? "opacity-100"
-                    : "opacity-40 grayscale-[30%]"
-                }
-              `}
+              className={`object-cover transition-all duration-300 group-hover:scale-[1.03] ${
+                isAvailable ? "opacity-100" : "opacity-40 grayscale-[30%]"
+              } `}
             />
           ) : (
             <div className="flex h-full items-center justify-center font-sans text-sm text-white/20">
@@ -89,7 +59,7 @@ export function ArtworkCard({
 
           {!isAvailable && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20">
-              <span className="rounded-full border border-[#ff4156]/50 bg-black/80 px-5 py-2 font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#ff4156]">
+              <span className="rounded-full border border-ayo-red/50 bg-black/80 px-5 py-2 font-sans text-xs font-bold tracking-[0.12em] text-ayo-red uppercase">
                 RESERVADO
               </span>
             </div>
@@ -101,36 +71,15 @@ export function ArtworkCard({
         ========================================== */}
 
         <div
-          className={`
-            border-t
-            border-white/5
-            bg-black/60
-            ${
-              featured
-                ? "px-6 py-5"
-                : "px-4 py-4"
-            }
-          `}
+          className={`border-t border-white/5 bg-black/60 ${featured ? "px-5 py-4 sm:px-6 sm:py-5" : "px-4 py-4"} `}
         >
-          <h3
-            className={`
-              font-title
-              text-white
-              ${
-                featured
-                  ? "text-2xl"
-                  : "text-lg"
-              }
-            `}
-          >
+          <h3 className={`font-title text-white ${featured ? "text-xl sm:text-2xl" : "text-lg"} `}>
             {artwork.name}
           </h3>
 
-          <p className="mt-1 font-sans text-xs text-white/55">
-            {artwork.artistName}
-          </p>
+          <p className="mt-1 font-sans text-xs text-white/55">{artwork.artistName}</p>
 
-          <p className="mt-2 font-sans text-[11px] font-semibold uppercase tracking-[0.08em] text-[#77c043]">
+          <p className="font-accent text-ayo-red mt-2 text-[11px] tracking-[0.08em] uppercase">
             {artwork.type}
           </p>
 
@@ -139,19 +88,16 @@ export function ArtworkCard({
           ========================================== */}
 
           {isAvailable ? (
-            <p className="mt-1 min-h-[20px] font-sans text-sm font-semibold text-[#77c043]">
+            <p className="text-ayo-cream mt-1 min-h-[20px] font-sans text-sm font-semibold">
               {artwork.price !== null
-                ? artwork.price.toLocaleString(
-                    "pt-BR",
-                    {
-                      style: "currency",
-                      currency: "BRL",
-                    },
-                  )
+                ? artwork.price.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })
                 : "\u00A0"}
             </p>
           ) : (
-            <p className="mt-1 min-h-[20px] font-sans text-xs font-semibold uppercase tracking-[0.08em] text-[#ff4156]">
+            <p className="mt-1 min-h-[20px] font-sans text-xs font-semibold tracking-[0.08em] text-ayo-red uppercase">
               RESERVADO
             </p>
           )}

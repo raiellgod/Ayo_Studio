@@ -11,8 +11,10 @@ export function AboutSection() {
         relative
         overflow-hidden
         bg-[#0c0808]
-        px-8
-        py-24
+        px-5
+        py-16
+        sm:px-8
+        sm:py-24
         lg:px-12
       "
     >
@@ -35,7 +37,8 @@ export function AboutSection() {
           w-full
           max-w-7xl
           items-center
-          gap-12
+          gap-8
+          sm:gap-12
           lg:grid-cols-[1fr_0.9fr]
         "
       >
@@ -62,8 +65,9 @@ export function AboutSection() {
           <h2
             className="
               font-title
-              text-6xl
-              leading-none
+              text-5xl
+              leading-[0.95]
+              sm:text-6xl
               text-white
             "
           >
@@ -72,11 +76,14 @@ export function AboutSection() {
 
           <div
             className="
-              mt-8
+              mt-6
               max-w-2xl
-              space-y-6
+              space-y-5
               font-sans
-              text-base
+              text-sm
+              sm:mt-8
+              sm:space-y-6
+              sm:text-base
               leading-relaxed
               text-white/60
             "
@@ -118,7 +125,7 @@ export function AboutSection() {
   }}
   className="
     relative
-    min-h-[420px]
+    min-h-[300px] sm:min-h-[420px]
     overflow-hidden
     rounded-3xl
     border
@@ -173,14 +180,14 @@ export function AboutSection() {
         }}
         className="
           mx-auto
-          mt-16
+          mt-10 sm:mt-16
           h-0.5
           w-full
           max-w-7xl
           origin-left
         "
       >
-        <div className="h-full w-20 bg-[#ff4156]" />
+        <div className="h-full w-20 bg-ayo-red" />
       </motion.div>
     </section>
   );

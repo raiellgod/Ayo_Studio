@@ -27,14 +27,14 @@ export function FlashCarousel({
 
   function scrollLeft() {
     carouselRef.current?.scrollBy({
-      left: -500,
+      left: -240,
       behavior: "smooth",
     });
   }
 
   function scrollRight() {
     carouselRef.current?.scrollBy({
-      left: 500,
+      left: 240,
       behavior: "smooth",
     });
   }
@@ -45,15 +45,17 @@ export function FlashCarousel({
           CONTROLES
       ========================================== */}
 
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between sm:mb-5">
         <button
           type="button"
           onClick={scrollLeft}
           aria-label="Ver flashes anteriores"
           className="
             flex
-            h-10
-            w-10
+            h-9
+            w-9
+            sm:h-10
+            sm:w-10
             cursor-pointer
             items-center
             justify-center
@@ -77,8 +79,10 @@ export function FlashCarousel({
           aria-label="Ver próximos flashes"
           className="
             flex
-            h-10
-            w-10
+            h-9
+            w-9
+            sm:h-10
+            sm:w-10
             cursor-pointer
             items-center
             justify-center
@@ -105,24 +109,30 @@ export function FlashCarousel({
         ref={carouselRef}
         className="
           flex
-          gap-5
+          snap-x
+          snap-mandatory
+          gap-4
           overflow-x-auto
           scroll-smooth
           pb-4
+          pr-5
+          sm:gap-5
+          sm:pr-0
           [scrollbar-width:none]
           [&::-webkit-scrollbar]:hidden
         "
       >
         {flashes.map((flash) => (
-          <FlashCard
-            key={flash.id}
-            name={flash.name}
+          <div key={flash.id} className="snap-start">
+            <FlashCard
+              name={flash.name}
             artistName={flash.artistName}
             image={flash.image}
             price={flash.price}
             href={`/flashes/${flash.slug}`}
-            available={flash.available}
-          />
+              available={flash.available}
+            />
+          </div>
         ))}
       </div>
     </div>

@@ -1,21 +1,32 @@
 import type { Metadata } from "next";
-import { Architects_Daughter, Sora } from "next/font/google";
+import {
+  Bitter,
+  Cormorant_Garamond,
+  Special_Elite,
+} from "next/font/google";
 
 import "./globals.css";
 
-const architectsDaughter = Architects_Daughter({
-  variable: "--font-architects-daughter",
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-cormorant-garamond",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const bitter = Bitter({
+  variable: "--font-bitter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const specialElite = Special_Elite({
+  variable: "--font-special-elite",
   subsets: ["latin"],
   weight: "400",
 });
 
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "AYŌ Studio",
+  title: "Ayô Studio de Artes",
   description: "Tattoo, arte e design autoral.",
 };
 
@@ -27,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${architectsDaughter.variable} ${sora.variable}`}
+      className={`${cormorantGaramond.variable} ${bitter.variable} ${specialElite.variable}`}
     >
       <body>{children}</body>
     </html>

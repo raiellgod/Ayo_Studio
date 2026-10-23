@@ -261,12 +261,12 @@ ${submissionId}
 
   if (submitted) {
     return (
-      <div className="rounded-3xl border border-white/10 bg-[#090909] p-8">
-        <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#77c043] uppercase">
+      <div className="rounded-3xl border border-white/10 bg-[#090909] p-5 sm:p-8">
+        <p className="font-accent text-xs tracking-[0.12em] text-ayo-red uppercase">
           SOLICITAÇÃO ENVIADA
         </p>
 
-        <h2 className="font-title mt-4 text-4xl text-white">RECEBEMOS SEU INTERESSE</h2>
+        <h2 className="font-title mt-4 text-3xl leading-[0.95] text-white sm:text-4xl">RECEBEMOS SEU INTERESSE</h2>
 
         <p className="mt-5 max-w-xl font-sans text-base leading-relaxed text-white/60">
           Sua solicitação para <strong className="text-white">{itemName}</strong> foi enviada ao
@@ -287,7 +287,7 @@ ${submissionId}
             href={whatsappUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-7 inline-flex min-h-12 items-center justify-center rounded-full bg-[#77c043] px-8 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:scale-[1.02]"
+            className="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-ayo-red px-8 font-sans text-sm font-bold text-ayo-cream transition hover:-translate-y-0.5 hover:scale-[1.02] sm:w-auto"
           >
             CONTINUAR NO WHATSAPP
           </a>
@@ -307,7 +307,7 @@ ${submissionId}
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative rounded-3xl border border-white/10 bg-[#090909] p-6 md:p-8"
+      className="relative rounded-3xl border border-white/10 bg-[#090909] p-5 sm:p-6 md:p-8"
     >
       {/* =========================================
           HONEYPOT
@@ -327,16 +327,16 @@ ${submissionId}
       ========================================== */}
 
       <div className="border-b border-white/10 pb-6">
-        <p className="font-sans text-xs font-semibold tracking-[0.12em] text-[#ff4156] uppercase">
+        <p className="font-accent text-xs tracking-[0.12em] text-ayo-red uppercase">
           {itemType === "flash" ? "SOLICITAÇÃO DE FLASH" : "SOLICITAÇÃO DE ARTE"}
         </p>
 
-        <h1 className="font-title mt-3 text-4xl text-white">{itemName}</h1>
+        <h1 className="font-title mt-3 text-3xl leading-[0.95] text-white sm:text-4xl">{itemName}</h1>
 
         <p className="mt-2 font-sans text-sm text-white/50">por {artistName}</p>
 
         {price !== null && (
-          <p className="mt-3 font-sans text-lg font-semibold text-[#77c043]">
+          <p className="mt-3 font-sans text-lg font-semibold text-ayo-cream">
             {price.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
@@ -349,7 +349,7 @@ ${submissionId}
           CAMPOS
       ========================================== */}
 
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
+      <div className="mt-6 grid gap-4 sm:gap-5 md:grid-cols-2">
         <div>
           <label htmlFor="name" className="font-sans text-sm text-white/70">
             Nome
@@ -361,7 +361,7 @@ ${submissionId}
             type="text"
             required
             autoComplete="name"
-            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-[#77c043]"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-ayo-red"
           />
         </div>
 
@@ -377,7 +377,7 @@ ${submissionId}
             required
             autoComplete="tel"
             placeholder="(11) 99999-9999"
-            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-[#77c043]"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-ayo-red"
           />
         </div>
 
@@ -392,7 +392,7 @@ ${submissionId}
             type="email"
             required
             autoComplete="email"
-            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-[#77c043]"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-ayo-red"
           />
         </div>
 
@@ -407,7 +407,7 @@ ${submissionId}
             type="text"
             placeholder="@usuario"
             autoComplete="off"
-            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-[#77c043]"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-ayo-red"
           />
         </div>
       </div>
@@ -430,7 +430,7 @@ ${submissionId}
               ? "Conte sobre tamanho, local da tatuagem ou alguma dúvida."
               : "Conte sobre seu interesse na obra ou alguma dúvida."
           }
-          className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-[#77c043]"
+          className="mt-2 w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-white transition outline-none focus:border-ayo-red"
         />
       </div>
 
@@ -441,13 +441,13 @@ ${submissionId}
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-7 inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full bg-[#ff4156] px-8 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:bg-[#ff5b6d] disabled:cursor-not-allowed disabled:opacity-50"
+        className="mt-7 inline-flex min-h-12 w-full cursor-pointer items-center justify-center rounded-full bg-ayo-red px-8 font-sans text-sm font-bold text-ayo-cream transition hover:-translate-y-0.5 hover:bg-ayo-red/85 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
       >
         {isSubmitting ? "ENVIANDO..." : "ENVIAR SOLICITAÇÃO"}
       </button>
 
       {error && (
-        <p role="alert" aria-live="polite" className="mt-4 font-sans text-sm text-[#ff4156]">
+        <p role="alert" aria-live="polite" className="mt-4 font-sans text-sm text-ayo-red">
           {error}
         </p>
       )}

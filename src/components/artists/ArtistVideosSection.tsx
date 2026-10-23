@@ -22,7 +22,7 @@ export function ArtistVideosSection({
   }
 
   return (
-    <section className="mt-16">
+    <section className="mt-12 sm:mt-16">
       {/* CABEÇALHO */}
 
       <button
@@ -35,8 +35,9 @@ export function ArtistVideosSection({
           cursor-pointer
           items-end
           justify-between
-          gap-8
+          gap-4
           border-b
+          sm:gap-8
           border-white/10
           pb-5
           text-left
@@ -45,12 +46,11 @@ export function ArtistVideosSection({
         <div>
           <p
             className="
-              font-sans
+              font-accent
               text-xs
-              font-semibold
               uppercase
               tracking-[0.12em]
-              text-[#ff4156]
+              text-ayo-red
             "
           >
             VOZ • INTERPRETAÇÃO • DUBLAGEM
@@ -60,8 +60,9 @@ export function ArtistVideosSection({
             className="
               font-title
               mt-3
-              text-5xl
-              leading-none
+              text-4xl
+              leading-[0.95]
+              sm:text-5xl
               text-white
             "
           >
@@ -90,8 +91,10 @@ export function ArtistVideosSection({
           <span
             className="
               flex
-              h-10
-              w-10
+              h-9
+              w-9
+              sm:h-10
+              sm:w-10
               items-center
               justify-center
               rounded-full
@@ -149,9 +152,11 @@ export function ArtistVideosSection({
 
               <div
                 className="
-                  mt-8
+                  mt-6
                   grid
-                  gap-5
+                  gap-4
+                  sm:mt-8
+                  sm:gap-5
                   md:grid-cols-2
                   xl:grid-cols-3
                 "
@@ -203,15 +208,18 @@ export function ArtistVideosSection({
                         border-t
                         border-white/5
                         bg-black/60
-                        px-5
-                        py-5
+                        px-4
+                        py-4
+                        sm:px-5
+                        sm:py-5
                       "
                     >
                       <h3
                         className="
                           font-title
-                          text-2xl
+                          text-xl
                           text-white
+                          sm:text-2xl
                         "
                       >
                         {video.name}

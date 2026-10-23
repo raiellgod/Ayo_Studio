@@ -18,9 +18,11 @@ export function ProductDetail({
       className="
         min-h-screen
         overflow-hidden
-        bg-[linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),linear-gradient(135deg,#000000_0%,#160607_45%,#070000_75%,#00100c_100%)]
-        px-6
-        py-10
+        bg-[linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#160607_45%,#070000_75%,#220000_100%)]
+        px-5
+        py-8
+        sm:px-6
+        sm:py-10
         text-white
         lg:px-12
       "
@@ -54,10 +56,12 @@ export function ProductDetail({
 
         <div
           className="
-            mt-12
+            mt-8
             grid
             items-center
-            gap-12
+            gap-8
+            sm:mt-12
+            sm:gap-12
             lg:grid-cols-[1fr_1fr]
           "
         >
@@ -128,8 +132,8 @@ export function ProductDetail({
                   className="
                     rounded-full
                     border
-                    border-[#ff4156]/40
-                    bg-[#ff4156]/10
+                    border-ayo-red/40
+                    bg-ayo-red/10
                     px-4
                     py-2
                     font-sans
@@ -137,7 +141,7 @@ export function ProductDetail({
                     font-semibold
                     uppercase
                     tracking-[0.1em]
-                    text-[#ff4156]
+                    text-ayo-red
                   "
                 >
                   INDISPONÍVEL
@@ -170,7 +174,7 @@ export function ProductDetail({
                 font-semibold
                 uppercase
                 tracking-[0.12em]
-                text-[#ff4156]
+                text-ayo-red
               "
             >
               PRODUTO AUTORAL
@@ -180,8 +184,9 @@ export function ProductDetail({
               className="
                 mt-4
                 font-title
-                text-6xl
-                leading-none
+                text-5xl
+                leading-[0.95]
+                sm:text-6xl
                 text-white
               "
             >
@@ -206,10 +211,12 @@ export function ProductDetail({
 
             <p
               className="
-                mt-8
+                mt-6
                 max-w-xl
                 font-sans
-                text-base
+                text-sm
+                sm:mt-8
+                sm:text-base
                 leading-relaxed
                 text-white/65
               "
@@ -241,7 +248,7 @@ export function ProductDetail({
                     font-sans
                     text-3xl
                     font-semibold
-                    text-[#77c043]
+                    text-ayo-cream
                   "
                 >
                   {product.price.toLocaleString(
@@ -259,10 +266,14 @@ export function ProductDetail({
 
             <div
               className="
-                mt-10
+                mt-8
                 flex
-                flex-wrap
-                gap-4
+                flex-col
+                gap-3
+                sm:mt-10
+                sm:flex-row
+                sm:flex-wrap
+                sm:gap-4
               "
             >
               <button
@@ -271,19 +282,21 @@ export function ProductDetail({
                 className="
                   inline-flex
                   min-h-12
+                  w-full
                   items-center
                   justify-center
                   rounded-full
-                  bg-[#ff4156]
+                  bg-ayo-red
                   px-8
                   font-sans
                   text-sm
                   font-bold
-                  text-black
+                  text-ayo-cream
+                  sm:w-auto
                   transition
                   enabled:cursor-pointer
                   enabled:hover:-translate-y-0.5
-                  enabled:hover:bg-[#ff5b6d]
+                  enabled:hover:bg-ayo-red/85
                   disabled:cursor-not-allowed
                   disabled:opacity-40
                 "
@@ -298,6 +311,7 @@ export function ProductDetail({
                 className="
                   inline-flex
                   min-h-12
+                  w-full
                   items-center
                   justify-center
                   rounded-full
@@ -309,6 +323,7 @@ export function ProductDetail({
                   font-semibold
                   text-white/70
                   transition
+                  sm:w-auto
                   hover:border-white/30
                   hover:text-white
                 "

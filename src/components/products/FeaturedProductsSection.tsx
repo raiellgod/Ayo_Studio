@@ -49,8 +49,10 @@ useEffect(() => {
         min-h-screen
         overflow-hidden
         bg-[#120505]
-        px-8
-        py-24
+        px-5
+        py-16
+        sm:px-8
+        sm:py-24
         lg:px-12
       "
     >
@@ -111,12 +113,12 @@ useEffect(() => {
               ease: "easeOut",
             }}
             className="
-              font-sans
-              text-sm
-              font-semibold
+              font-accent
+              text-xs
               uppercase
               tracking-[0.12em]
-              text-[#ff4156]
+              text-ayo-red
+              sm:text-sm
             "
           >
             ARTE PARA LEVAR COM VOCÊ
@@ -141,10 +143,12 @@ useEffect(() => {
               ease: "easeOut",
             }}
             className="
-              mt-5
+              mt-4
               font-title
-              text-6xl
-              leading-none
+              text-5xl
+              leading-[0.95]
+              sm:mt-5
+              sm:text-6xl
               text-white
             "
           >
@@ -170,10 +174,12 @@ useEffect(() => {
               ease: "easeOut",
             }}
             className="
-              mt-6
+              mt-5
               max-w-3xl
               font-sans
-              text-base
+              text-sm
+              sm:mt-6
+              sm:text-base
               leading-relaxed
               text-white/60
             "
@@ -205,10 +211,12 @@ useEffect(() => {
             ease: "easeOut",
           }}
           className="
-            mt-12
+            mt-10
             grid
             grid-cols-1
-            gap-8
+            gap-6
+            sm:mt-12
+            sm:gap-8
             sm:grid-cols-2
             lg:grid-cols-3
           "
@@ -242,9 +250,10 @@ useEffect(() => {
             ease: "easeOut",
           }}
           className="
-            mt-12
+            mt-10
             flex
             justify-center
+            sm:mt-12
           "
         >
           <Link
@@ -252,19 +261,21 @@ useEffect(() => {
             className="
               inline-flex
               min-h-12
+              w-full
               items-center
               justify-center
               rounded-full
-              bg-[#ff4156]
+              bg-ayo-red
               px-8
+              sm:w-auto
               font-sans
               text-sm
               font-bold
-              text-black
+              text-ayo-cream
               transition
               duration-200
               hover:-translate-y-0.5
-              hover:bg-[#ff5b6d]
+              hover:bg-ayo-red/85
             "
           >
             VER A LOJA
@@ -290,11 +301,12 @@ useEffect(() => {
             ease: "easeOut",
           }}
           className="
-            mt-16
+            mt-10
             h-0.5
+            sm:mt-16
             w-20
             origin-left
-            bg-[#ff4156]
+            bg-ayo-red
           "
         />
       </motion.div>

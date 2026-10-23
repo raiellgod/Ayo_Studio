@@ -1,19 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #f4f4f4;
+  /* AYÔ — PALETA OFICIAL */
+  --ayo-red: #820000;
+  --ayo-black: #000000;
+  --ayo-cream: #faf4ef;
 
-  --font-title: var(--font-architects-daughter);
-  --font-body: var(--font-sora);
+  --background: var(--ayo-black);
+  --foreground: var(--ayo-cream);
+
+  /* TIPOGRAFIA */
+  --font-title: var(--font-cormorant-garamond);
+  --font-body: var(--font-bitter);
+  --font-accent: var(--font-special-elite);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  --color-ayo-red: var(--ayo-red);
+  --color-ayo-black: var(--ayo-black);
+  --color-ayo-cream: var(--ayo-cream);
+
   --font-title: var(--font-title);
   --font-sans: var(--font-body);
+  --font-accent: var(--font-accent);
 }
 
 * {
@@ -31,7 +43,7 @@ body {
   background: var(--background);
   color: var(--foreground);
 
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-body), serif;
 }
 
 button,

@@ -29,7 +29,7 @@ export function ArtistFlashesSection({
   ).length;
 
   return (
-    <section className="mt-24">
+    <section className="mt-16 sm:mt-24">
       {/* =========================================
           CABEÇALHO
       ========================================== */}
@@ -48,8 +48,9 @@ export function ArtistFlashesSection({
           cursor-pointer
           items-end
           justify-between
-          gap-8
+          gap-4
           border-b
+          sm:gap-8
           border-white/10
           pb-5
           text-left
@@ -58,12 +59,11 @@ export function ArtistFlashesSection({
         <div>
           <p
             className="
-              font-sans
+              font-accent
               text-xs
-              font-semibold
               uppercase
               tracking-[0.12em]
-              text-[#ff4156]
+              text-ayo-red
             "
           >
             FLASHES DO ARTISTA
@@ -73,8 +73,9 @@ export function ArtistFlashesSection({
             className="
               font-title
               mt-3
-              text-5xl
-              leading-none
+              text-4xl
+              leading-[0.95]
+              sm:text-5xl
               text-white
             "
           >
@@ -103,8 +104,10 @@ export function ArtistFlashesSection({
           <span
             className="
               flex
-              h-10
-              w-10
+              h-9
+              w-9
+              sm:h-10
+              sm:w-10
               items-center
               justify-center
               rounded-full
@@ -170,9 +173,11 @@ export function ArtistFlashesSection({
 
               <div
                 className="
-                  mt-8
+                  mt-6
                   grid
-                  gap-5
+                  gap-4
+                  sm:mt-8
+                  sm:gap-5
                   sm:grid-cols-2
                   lg:grid-cols-3
                   xl:grid-cols-4
@@ -262,7 +267,7 @@ export function ArtistFlashesSection({
                             className="
                               rounded-full
                               border
-                              border-[#ff4156]/50
+                              border-ayo-red/50
                               bg-black/80
                               px-5
                               py-2
@@ -271,7 +276,7 @@ export function ArtistFlashesSection({
                               font-bold
                               uppercase
                               tracking-[0.12em]
-                              text-[#ff4156]
+                              text-ayo-red
                             "
                           >
                             RESERVADO
@@ -313,7 +318,7 @@ export function ArtistFlashesSection({
                               font-semibold
                               uppercase
                               tracking-[0.08em]
-                              text-[#77c043]
+                              text-ayo-red
                             "
                           >
                             VER DETALHES •
@@ -326,7 +331,7 @@ export function ArtistFlashesSection({
                               font-sans
                               text-sm
                               font-semibold
-                              text-[#77c043]
+                              text-ayo-cream
                             "
                           >
                             {flash.price.toLocaleString(
@@ -350,7 +355,7 @@ export function ArtistFlashesSection({
                               font-semibold
                               uppercase
                               tracking-[0.08em]
-                              text-[#ff4156]
+                              text-ayo-red
                             "
                           >
                             VER DETALHES
@@ -364,7 +369,7 @@ export function ArtistFlashesSection({
                               font-semibold
                               uppercase
                               tracking-[0.08em]
-                              text-[#ff4156]
+                              text-ayo-red
                             "
                           >
                             RESERVADO

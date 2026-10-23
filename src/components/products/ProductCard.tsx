@@ -92,8 +92,8 @@ export function ProductCard({
                 className="
                   rounded-full
                   border
-                  border-[#ff4156]/40
-                  bg-[#ff4156]/10
+                  border-ayo-red/40
+                  bg-ayo-red/10
                   px-4
                   py-2
                   font-sans
@@ -101,7 +101,7 @@ export function ProductCard({
                   font-semibold
                   uppercase
                   tracking-[0.1em]
-                  text-[#ff4156]
+                  text-ayo-red
                 "
               >
                 INDISPONÍVEL
@@ -118,15 +118,18 @@ export function ProductCard({
             flex-1
             flex-col
             bg-black/60
-            px-5
-            py-5
+            px-4
+            py-4
+            sm:px-5
+            sm:py-5
           "
         >
           <h2
             className="
               font-title
-              text-2xl
+              text-xl
               text-white
+              sm:text-2xl
             "
           >
             {product.name}
@@ -153,7 +156,7 @@ export function ProductCard({
               font-sans
               text-sm
               font-semibold
-              text-[#77c043]
+              text-ayo-cream
             "
           >
             {product.price !== null

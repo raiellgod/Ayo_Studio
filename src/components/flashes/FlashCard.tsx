@@ -32,8 +32,10 @@ export function FlashCard({
         ease: "easeOut",
       }}
       className="
-        w-[220px]
+        w-[78vw]
+        max-w-[220px]
         shrink-0
+        sm:w-[220px]
       "
     >
       <Link
@@ -69,7 +71,8 @@ export function FlashCard({
               sizes="220px"
               className={`
                 object-contain
-                p-6
+                p-4
+                sm:p-6
                 transition-all
                 duration-300
                 group-hover:scale-105
@@ -112,7 +115,7 @@ export function FlashCard({
                 className="
                   rounded-full
                   border
-                  border-[#ff4156]/50
+                  border-ayo-red/50
                   bg-black/80
                   px-5
                   py-2
@@ -121,7 +124,7 @@ export function FlashCard({
                   font-bold
                   uppercase
                   tracking-[0.12em]
-                  text-[#ff4156]
+                  text-ayo-red
                 "
               >
                 RESERVADO
@@ -139,15 +142,18 @@ export function FlashCard({
             border-t
             border-white/5
             bg-black/60
-            px-5
-            py-5
+            px-4
+            py-4
+            sm:px-5
+            sm:py-5
           "
         >
           <h3
             className="
               font-title
-              text-xl
+              text-lg
               text-white
+              sm:text-xl
             "
           >
             {name}
@@ -172,7 +178,7 @@ export function FlashCard({
                 text-sm
                 font-semibold
                 tracking-[0.04em]
-                text-[#77c043]
+                text-ayo-cream
               "
             >
               {price.toLocaleString(
@@ -192,7 +198,7 @@ export function FlashCard({
                 font-semibold
                 uppercase
                 tracking-[0.08em]
-                text-[#ff4156]
+                text-ayo-red
               "
             >
               RESERVADO

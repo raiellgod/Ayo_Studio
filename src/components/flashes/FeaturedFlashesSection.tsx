@@ -27,7 +27,7 @@ export function FeaturedFlashesSection() {
   return (
     <section
       id="flashes"
-      className="relative min-h-screen overflow-hidden bg-[#0c0909] px-8 py-24 lg:px-12"
+      className="relative min-h-screen overflow-hidden bg-[#0c0909] px-5 py-16 sm:px-8 sm:py-24 lg:px-12"
     >
       {/* GLOW */}
 
@@ -73,7 +73,7 @@ export function FeaturedFlashesSection() {
               delay: 0.1,
               ease: "easeOut",
             }}
-            className="font-sans text-sm font-semibold tracking-[0.12em] text-[#ff4156] uppercase"
+            className="font-accent text-ayo-red text-xs tracking-[0.12em] uppercase sm:text-sm"
           >
             ARTE PRONTA PARA GANHAR PELE
           </motion.p>
@@ -96,7 +96,7 @@ export function FeaturedFlashesSection() {
               delay: 0.2,
               ease: "easeOut",
             }}
-            className="font-title mt-5 text-6xl leading-none text-white"
+            className="font-title mt-4 text-5xl leading-[0.95] text-white sm:mt-5 sm:text-6xl"
           >
             FLASHES EM DESTAQUE
           </motion.h2>
@@ -119,7 +119,7 @@ export function FeaturedFlashesSection() {
               delay: 0.3,
               ease: "easeOut",
             }}
-            className="mt-6 max-w-3xl font-sans text-base leading-relaxed text-white/60"
+            className="mt-5 max-w-3xl font-sans text-sm leading-relaxed text-white/60 sm:mt-6 sm:text-base"
           >
             Escolha uma arte autoral e reserve antes que outra pessoa escolha o mesmo desenho.
           </motion.p>
@@ -145,7 +145,7 @@ export function FeaturedFlashesSection() {
             delay: 0.4,
             ease: "easeOut",
           }}
-          className="mt-10"
+          className="mt-8 sm:mt-10"
         >
           <FlashCarousel flashes={featuredFlashes} />
         </motion.div>
@@ -168,7 +168,7 @@ export function FeaturedFlashesSection() {
             delay: 0.5,
             ease: "easeOut",
           }}
-          className="mt-16 h-0.5 w-20 origin-left bg-[#ff4156]"
+          className="bg-ayo-red mt-10 h-0.5 w-20 origin-left sm:mt-16"
         />
       </motion.div>
     </section>

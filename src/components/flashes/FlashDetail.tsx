@@ -19,12 +19,8 @@ export function FlashDetail({
   );
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#090000_20%,#260000_48%,#120000_68%,#00100c_88%,#001d16_100%)] px-6 py-10 text-white lg:px-12">
+    <main className="min-h-screen overflow-hidden bg-[linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#160607_45%,#070000_75%,#220000_100%)] px-5 py-8 text-white sm:px-6 sm:py-10 lg:px-12">
       <div className="mx-auto w-full max-w-7xl">
-        {/* =========================================
-            VOLTAR
-        ========================================== */}
-
         <Link
           href="/#flashes"
           className="inline-flex items-center gap-2 font-sans text-sm text-white/60 transition hover:text-white"
@@ -32,15 +28,7 @@ export function FlashDetail({
           ← VOLTAR PARA OS FLASHES
         </Link>
 
-        {/* =========================================
-            CONTEÚDO
-        ========================================== */}
-
-        <div className="mt-12 grid items-center gap-12 lg:grid-cols-[1fr_1fr]">
-          {/* =========================================
-              IMAGEM
-          ========================================== */}
-
+        <div className="mt-8 grid items-center gap-8 sm:mt-12 sm:gap-12 lg:grid-cols-[1fr_1fr]">
           <motion.div
             initial={{
               opacity: 0,
@@ -66,8 +54,9 @@ export function FlashDetail({
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className={`
                   object-contain
-                  p-10
+                  p-6
                   transition
+                  sm:p-10
                   ${
                     flash.available
                       ? "opacity-100"
@@ -83,16 +72,12 @@ export function FlashDetail({
 
             {!flash.available && (
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20">
-                <span className="rounded-full border border-[#ff4156]/50 bg-black/80 px-6 py-3 font-sans text-sm font-bold uppercase tracking-[0.12em] text-[#ff4156]">
+                <span className="border-ayo-red/50 text-ayo-red rounded-full border bg-black/80 px-6 py-3 font-sans text-sm font-bold tracking-[0.12em] uppercase">
                   RESERVADO
                 </span>
               </div>
             )}
           </motion.div>
-
-          {/* =========================================
-              INFORMAÇÕES
-          ========================================== */}
 
           <motion.div
             initial={{
@@ -109,11 +94,11 @@ export function FlashDetail({
               ease: "easeOut",
             }}
           >
-            <p className="font-sans text-sm font-semibold tracking-[0.12em] text-[#ff4156] uppercase">
+            <p className="font-accent text-ayo-red text-xs tracking-[0.12em] uppercase sm:text-sm">
               FLASH AUTORAL
             </p>
 
-            <h1 className="font-title mt-4 text-6xl leading-none text-white">
+            <h1 className="font-title mt-4 text-5xl leading-[0.95] text-white sm:text-6xl">
               {flash.name}
             </h1>
 
@@ -121,46 +106,28 @@ export function FlashDetail({
               por {flash.artistName}
             </p>
 
-            {/* =========================================
-                STATUS
-            ========================================== */}
-
             {!flash.available && (
               <div className="mt-6">
-                <span className="inline-flex rounded-full border border-[#ff4156]/40 bg-[#ff4156]/10 px-4 py-2 font-sans text-xs font-bold uppercase tracking-[0.1em] text-[#ff4156]">
+                <span className="border-ayo-red/40 bg-ayo-red/10 text-ayo-red inline-flex rounded-full border px-4 py-2 font-sans text-xs font-bold tracking-[0.1em] uppercase">
                   RESERVADO
                 </span>
               </div>
             )}
 
-            {/* =========================================
-                CATEGORIAS
-            ========================================== */}
-
             <div className="mt-6 flex flex-wrap gap-2">
-              {flash.categories.map(
-                (category) => (
-                  <span
-                    key={category}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs text-white/60"
-                  >
-                    {category}
-                  </span>
-                ),
-              )}
+              {flash.categories.map((category) => (
+                <span
+                  key={category}
+                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs text-white/60"
+                >
+                  {category}
+                </span>
+              ))}
             </div>
 
-            {/* =========================================
-                DESCRIÇÃO
-            ========================================== */}
-
-            <p className="mt-8 max-w-xl font-sans text-base leading-relaxed text-white/65">
+            <p className="mt-6 max-w-xl font-sans text-sm leading-relaxed text-white/65 sm:mt-8 sm:text-base">
               {flash.description}
             </p>
-
-            {/* =========================================
-                PREÇO
-            ========================================== */}
 
             <div className="mt-8">
               <p className="font-sans text-xs tracking-[0.1em] text-white/40 uppercase">
@@ -175,7 +142,7 @@ export function FlashDetail({
                   font-semibold
                   ${
                     flash.available
-                      ? "text-white"
+                      ? "text-ayo-cream"
                       : "text-white/35"
                   }
                 `}
@@ -190,22 +157,18 @@ export function FlashDetail({
               </p>
             </div>
 
-            {/* =========================================
-                AÇÕES
-            ========================================== */}
-
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4">
               {flash.available ? (
                 <Link
                   href={`/reservar/flash/${flash.slug}`}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ff4156] px-8 font-sans text-sm font-bold text-black transition hover:-translate-y-0.5 hover:bg-[#ff5b6d]"
+                  className="bg-ayo-red text-ayo-cream hover:bg-ayo-red/85 inline-flex min-h-12 w-full items-center justify-center rounded-full px-8 font-sans text-sm font-bold transition hover:-translate-y-0.5 sm:w-auto"
                 >
                   SOLICITAR RESERVA
                 </Link>
               ) : (
                 <span
                   aria-disabled="true"
-                  className="inline-flex min-h-12 cursor-not-allowed items-center justify-center rounded-full border border-[#ff4156]/25 bg-[#ff4156]/10 px-8 font-sans text-sm font-bold text-[#ff4156]/70"
+                  className="border-ayo-red/25 bg-ayo-red/10 text-ayo-red/70 inline-flex min-h-12 w-full cursor-not-allowed items-center justify-center rounded-full border px-8 font-sans text-sm font-bold sm:w-auto"
                 >
                   RESERVADO
                 </span>
@@ -217,15 +180,11 @@ export function FlashDetail({
                     ? `/artistas/${artist.slug}`
                     : "/#artistas"
                 }
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-8 font-sans text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 px-8 font-sans text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white sm:w-auto"
               >
                 VER ARTISTA
               </Link>
             </div>
-
-            {/* =========================================
-                AVISO
-            ========================================== */}
 
             <p className="mt-5 max-w-lg font-sans text-xs leading-relaxed text-white/35">
               {flash.available
