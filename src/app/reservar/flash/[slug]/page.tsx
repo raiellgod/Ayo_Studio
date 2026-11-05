@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ReservationForm } from "@/components/reservations/ReservationForm";
-import { mockFlashes } from "@/data/mockFlashes";
+import { getFlashBySlug } from "@/lib/api/flashes";
 
 type ReservationFlashPageProps = {
   params: Promise<{
@@ -15,16 +15,14 @@ export default async function ReservationFlashPage({
 }: ReservationFlashPageProps) {
   const { slug } = await params;
 
-  const flash = mockFlashes.find(
-    (item) => item.slug === slug,
-  );
+  const flash = await getFlashBySlug(slug);
 
   if (!flash) {
     notFound();
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)] px-5 py-8 sm:px-6 sm:py-10 text-white lg:px-12">
+    <main className="min-h-screen bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)] px-5 py-8 text-white sm:px-6 sm:py-10 lg:px-12">
       <div className="mx-auto w-full max-w-3xl">
         <Link
           href={`/flashes/${flash.slug}`}

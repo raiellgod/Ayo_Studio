@@ -1,12 +1,11 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 import { ProductCard } from "@/components/products/ProductCard";
-import { mockProducts } from "@/data/mockProducts";
+import { getProducts } from "@/lib/api/products";
 
-export default function StorePage() {
+export default async function StorePage() {
+  const products = await getProducts();
+
   return (
     <main
       className="
@@ -15,9 +14,9 @@ export default function StorePage() {
         bg-[linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#160607_45%,#070000_75%,#220000_100%)]
         px-5
         py-8
+        text-white
         sm:px-6
         sm:py-10
-        text-white
         lg:px-12
       "
     >
@@ -28,8 +27,6 @@ export default function StorePage() {
           max-w-7xl
         "
       >
-        {/* VOLTAR */}
-
         <Link
           href="/#loja"
           className="
@@ -46,27 +43,7 @@ export default function StorePage() {
           ← VOLTAR PARA O AYŌ
         </Link>
 
-        {/* CABEÇALHO */}
-
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.7,
-            ease: "easeOut",
-          }}
-          className="
-            mt-10
-            max-w-4xl
-            sm:mt-10 sm:mt-16
-          "
-        >
+        <div className="mt-10 max-w-4xl sm:mt-16">
           <p
             className="
               font-sans
@@ -86,9 +63,9 @@ export default function StorePage() {
               font-title
               text-5xl
               leading-[0.95]
+              text-white
               sm:mt-5
               sm:text-6xl
-              text-white
             "
           >
             LOJA DO AYŌ
@@ -100,75 +77,46 @@ export default function StorePage() {
               max-w-3xl
               font-sans
               text-sm
-              sm:mt-6
-              sm:text-base
               leading-relaxed
               text-white/60
+              sm:mt-6
+              sm:text-base
             "
           >
             Peças, prints e produtos autorais criados pelos artistas
             do AYŌ Studio. Escolha sua peça favorita e envie seu
             interesse antes que ela saia do catálogo.
           </p>
-        </motion.div>
+        </div>
 
-        {/* GRID */}
-
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 35,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.15,
-            ease: "easeOut",
-          }}
+        <div
           className="
             mt-10
             grid
             grid-cols-1
             gap-6
             sm:mt-14
-            sm:gap-7
             sm:grid-cols-2
+            sm:gap-7
             lg:grid-cols-3
           "
         >
-          {mockProducts.map(
-            (product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
-            ),
-          )}
-        </motion.div>
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
+        </div>
 
-        {/* LINHA */}
-
-        <motion.div
-          initial={{
-            scaleX: 0,
-          }}
-          animate={{
-            scaleX: 1,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.3,
-            ease: "easeOut",
-          }}
+        <div
           className="
-            mt-10 sm:mt-16
+            mt-10
             h-0.5
             w-20
             origin-left
             bg-ayo-red
+            sm:mt-16
           "
         />
       </div>

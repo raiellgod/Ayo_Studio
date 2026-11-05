@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ReservationForm } from "@/components/reservations/ReservationForm";
-import { mockProducts } from "@/data/mockProducts";
+import { getProductBySlug } from "@/lib/api/products";
 
 type ReservationProductPageProps = {
   params: Promise<{
@@ -15,9 +15,7 @@ export default async function ReservationProductPage({
 }: ReservationProductPageProps) {
   const { slug } = await params;
 
-  const product = mockProducts.find(
-    (item) => item.slug === slug,
-  );
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -39,7 +37,7 @@ export default async function ReservationProductPage({
               itemType="produto"
               itemName={product.name}
               itemSlug={product.slug}
-              artistName="AYŌ Studio"
+              artistName={product.authorName ?? "AYŌ Studio"}
               price={product.price}
               itemImage={product.image}
             />

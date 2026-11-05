@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { ArtworkDetail } from "@/components/artworks/ArtworkDetail";
-import { mockArtworks } from "@/data/mockArtworks";
+import { getArtworkBySlug } from "@/lib/api/artworks";
+import { getProfessionalBySlug } from "@/lib/api/professionals";
 
 type ArtworkPageProps = {
   params: Promise<{
@@ -14,13 +15,20 @@ export default async function ArtworkPage({
 }: ArtworkPageProps) {
   const { slug } = await params;
 
-  const artwork = mockArtworks.find(
-    (item) => item.slug === slug,
-  );
+  const artwork = await getArtworkBySlug(slug);
 
   if (!artwork) {
     notFound();
   }
 
-  return <ArtworkDetail artwork={artwork} />;
+  const artist = await getProfessionalBySlug(
+    artwork.artistSlug,
+  );
+
+  return (
+    <ArtworkDetail
+      artwork={artwork}
+      artist={artist}
+    />
+  );
 }

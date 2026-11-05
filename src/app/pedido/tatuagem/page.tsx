@@ -1,8 +1,14 @@
 import Link from "next/link";
 
-import { mockArtists } from "@/data/mockArtists";
+import { getProfessionals } from "@/lib/api/professionals";
 
-export default function TattooOrderArtistPage() {
+export default async function TattooOrderArtistPage() {
+  const professionals = await getProfessionals();
+
+  const tattooArtists = professionals.filter((artist) =>
+    artist.services.includes("tattoo"),
+  );
+
   return (
     <main className="min-h-screen bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)] px-5 py-8 text-white sm:px-6 sm:py-10 lg:px-12">
       <div className="mx-auto w-full max-w-5xl">
@@ -27,16 +33,17 @@ export default function TattooOrderArtistPage() {
           </p>
         </header>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {mockArtists
-            .filter((artist) => artist.services.includes("tattoo"))
-            .map((artist) => (
+        {tattooArtists.length > 0 ? (
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            {tattooArtists.map((artist) => (
               <Link
                 key={artist.id}
                 href={`/artistas/${artist.slug}/ideia`}
                 className="hover:border-ayo-red/40 rounded-3xl border border-white/10 bg-black/25 p-5 transition hover:bg-black/35 sm:p-6"
               >
-                <h2 className="font-title text-ayo-cream text-3xl leading-none">{artist.name}</h2>
+                <h2 className="font-title text-ayo-cream text-3xl leading-none">
+                  {artist.name}
+                </h2>
 
                 {artist.specialties && (
                   <p className="text-ayo-red mt-3 font-sans text-xs font-semibold tracking-[0.08em] uppercase">
@@ -49,7 +56,14 @@ export default function TattooOrderArtistPage() {
                 </span>
               </Link>
             ))}
-        </div>
+          </div>
+        ) : (
+          <div className="mt-10 rounded-3xl border border-white/10 bg-black/25 p-6">
+            <p className="font-sans text-sm leading-relaxed text-white/55">
+              Nenhum profissional está disponível para pedidos de tatuagem no momento.
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );

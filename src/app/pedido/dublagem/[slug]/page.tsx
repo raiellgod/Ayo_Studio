@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { VoiceRequestForm } from "@/components/reservations/VoiceRequestForm";
-import { mockArtists } from "@/data/mockArtists";
+import { getProfessionalBySlug } from "@/lib/api/professionals";
 
 type VoiceOrderPageProps = {
   params: Promise<{
@@ -15,13 +15,9 @@ export default async function VoiceOrderPage({
 }: VoiceOrderPageProps) {
   const { slug } = await params;
 
-  const artist = mockArtists.find(
-    (item) =>
-      item.slug === slug &&
-      item.services.includes("voice"),
-  );
+  const artist = await getProfessionalBySlug(slug);
 
-  if (!artist) {
+  if (!artist || !artist.services.includes("voice")) {
     notFound();
   }
 

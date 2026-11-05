@@ -1,12 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import type { MouseEvent } from "react";
 
 type ArtistCardProps = {
@@ -15,25 +10,13 @@ type ArtistCardProps = {
   onClick: () => void;
 };
 
-export function ArtistCard({
-  name,
-  image,
-  onClick,
-}: ArtistCardProps) {
+export function ArtistCard({ name, image, onClick }: ArtistCardProps) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useTransform(
-    mouseY,
-    [-0.5, 0.5],
-    [8, -8],
-  );
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [8, -8]);
 
-  const rotateY = useTransform(
-    mouseX,
-    [-0.5, 0.5],
-    [-8, 8],
-  );
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-8, 8]);
 
   const smoothRotateX = useSpring(rotateX, {
     stiffness: 180,
@@ -45,20 +28,15 @@ export function ArtistCard({
     damping: 20,
   });
 
-  function handleMouseMove(
-    event: MouseEvent<HTMLButtonElement>,
-  ) {
-    const rect =
-      event.currentTarget.getBoundingClientRect();
+  function handleMouseMove(event: MouseEvent<HTMLButtonElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
 
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const normalizedX =
-      x / rect.width - 0.5;
+    const normalizedX = x / rect.width - 0.5;
 
-    const normalizedY =
-      y / rect.height - 0.5;
+    const normalizedY = y / rect.height - 0.5;
 
     mouseX.set(normalizedX);
     mouseY.set(normalizedY);
@@ -75,18 +53,7 @@ export function ArtistCard({
       onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="
-        group
-        relative
-        block
-        w-full
-        max-w-[280px]
-        cursor-pointer
-        rounded-3xl
-        bg-transparent
-        text-left
-        [perspective:1000px]
-      "
+      className="group relative block w-full max-w-[280px] cursor-pointer rounded-3xl bg-transparent text-left [perspective:1000px]"
     >
       <motion.div
         style={{
@@ -100,27 +67,13 @@ export function ArtistCard({
         transition={{
           duration: 0.2,
         }}
-        className="
-          overflow-hidden
-          rounded-3xl
-          border
-          border-white/10
-          bg-[#090909]
-        "
+        className="overflow-hidden rounded-3xl border border-white/10 bg-[#090909]"
       >
-        <div
-          className="
-            relative
-            aspect-4/5
-            overflow-hidden
-            bg-[linear-gradient(145deg,#191919_0%,#090909_100%)]
-          "
-        >
+        <div className="relative aspect-4/5 overflow-hidden bg-[linear-gradient(145deg,#191919_0%,#090909_100%)]">
           {image ? (
             <motion.div
               style={{
-                transform:
-                  "translateZ(35px) translateX(32px) translateY(-36px) scale(2)",
+                transform: "translateZ(35px)",
               }}
               className="absolute inset-0"
             >
@@ -128,69 +81,23 @@ export function ArtistCard({
                 src={image}
                 alt={name}
                 fill
-                sizes="(max-width: 768px) 100vw, 25vw"
-                className="
-                  object-contain
-                  object-center
-                  p-6
-                  transition-transform
-                  duration-300
-                  group-hover:scale-[1.03]
-                "
+                sizes="(max-width: 768px) 100vw, 280px"
+                className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.03]"
               />
             </motion.div>
           ) : (
-            <div
-              className="
-                flex
-                h-full
-                items-center
-                justify-center
-                font-sans
-                text-sm
-                text-ayo-cream/20
-              "
-            >
+            <div className="text-ayo-cream/20 flex h-full items-center justify-center font-sans text-sm">
               imagem
             </div>
           )}
 
-          <div
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              bg-gradient-to-t
-              from-black/40
-              via-transparent
-              to-transparent
-            "
-          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         </div>
 
-        <div
-          className="
-            border-t
-            border-white/5
-            bg-black/60
-            px-5
-            py-5
-          "
-        >
-          <h3 className="font-title text-2xl text-ayo-cream">
-            {name}
-          </h3>
+        <div className="border-t border-white/5 bg-black/60 px-5 py-5">
+          <h3 className="font-title text-ayo-cream text-2xl">{name}</h3>
 
-          <p
-            className="
-              mt-2
-              font-accent
-              text-xs
-              tracking-[0.08em]
-              text-ayo-red
-              uppercase
-            "
-          >
+          <p className="font-accent text-ayo-red mt-2 text-xs tracking-[0.08em] uppercase">
             CLIQUE PARA CONHECER
           </p>
         </div>

@@ -1,10 +1,12 @@
 import Link from "next/link";
 
-import { mockArtists } from "@/data/mockArtists";
+import { getProfessionals } from "@/lib/api/professionals";
 
-export default function VoiceOrderArtistPage() {
-  const voiceArtists = mockArtists.filter(
-    (artist) => artist.services.includes("voice"),
+export default async function VoiceOrderArtistPage() {
+  const professionals = await getProfessionals();
+
+  const voiceArtists = professionals.filter((artist) =>
+    artist.services.includes("voice"),
   );
 
   return (
@@ -18,11 +20,11 @@ export default function VoiceOrderArtistPage() {
         </Link>
 
         <header className="mt-10 max-w-3xl">
-          <p className="font-accent text-xs tracking-[0.14em] text-ayo-red uppercase sm:text-sm">
+          <p className="font-accent text-ayo-red text-xs tracking-[0.14em] uppercase sm:text-sm">
             DUBLAGEM PERSONALIZADA
           </p>
 
-          <h1 className="font-title mt-4 text-5xl leading-[0.9] text-ayo-cream sm:text-6xl">
+          <h1 className="font-title text-ayo-cream mt-4 text-5xl leading-[0.9] sm:text-6xl">
             ESCOLHA O DUBLADOR
           </h1>
 
@@ -37,19 +39,19 @@ export default function VoiceOrderArtistPage() {
               <Link
                 key={artist.id}
                 href={`/pedido/dublagem/${artist.slug}`}
-                className="rounded-3xl border border-white/10 bg-black/25 p-5 transition hover:border-ayo-red/40 hover:bg-black/35 sm:p-6"
+                className="hover:border-ayo-red/40 rounded-3xl border border-white/10 bg-black/25 p-5 transition hover:bg-black/35 sm:p-6"
               >
-                <h2 className="font-title text-3xl leading-none text-ayo-cream">
+                <h2 className="font-title text-ayo-cream text-3xl leading-none">
                   {artist.name}
                 </h2>
 
                 {artist.specialties && (
-                  <p className="mt-3 font-sans text-xs font-semibold tracking-[0.08em] text-ayo-red uppercase">
+                  <p className="text-ayo-red mt-3 font-sans text-xs font-semibold tracking-[0.08em] uppercase">
                     {artist.specialties}
                   </p>
                 )}
 
-                <span className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-ayo-red px-6 font-sans text-xs font-bold text-ayo-cream">
+                <span className="bg-ayo-red text-ayo-cream mt-6 inline-flex min-h-11 items-center justify-center rounded-full px-6 font-sans text-xs font-bold">
                   PEDIR DUBLAGEM
                 </span>
               </Link>

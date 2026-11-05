@@ -6,7 +6,7 @@ import {
 } from "framer-motion";
 import { useState } from "react";
 
-import type { Artwork } from "@/data/mockArtworks";
+import type { Artwork } from "@/lib/api/artworks";
 import { ArtworkCard } from "@/components/artworks/ArtworkCard";
 
 type ArtistArtworksSectionProps = {

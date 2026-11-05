@@ -5,41 +5,58 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import { ProductCard } from "@/components/products/ProductCard";
-import { mockProducts } from "@/data/mockProducts";
+import {
+  getProducts,
+  type Product,
+} from "@/lib/api/products";
 
 export function FeaturedProductsSection() {
-    const [featuredProducts, setFeaturedProducts] = useState(
-  mockProducts
-    .filter((product) => product.available)
-    .slice(0, 3),
-);
+  const [featuredProducts, setFeaturedProducts] =
+    useState<Product[]>([]);
 
-useEffect(() => {
-  const timeout = window.setTimeout(() => {
-    const availableProducts = mockProducts.filter(
-      (product) => product.available,
-    );
+  useEffect(() => {
+    let cancelled = false;
 
-    const shuffled = [...availableProducts];
+    async function loadProducts() {
+      try {
+        const products = await getProducts();
 
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const randomIndex = Math.floor(
-        Math.random() * (i + 1),
-      );
+        if (cancelled) {
+          return;
+        }
 
-      [shuffled[i], shuffled[randomIndex]] = [
-        shuffled[randomIndex],
-        shuffled[i],
-      ];
+        const availableProducts = products.filter(
+          (product) => product.available,
+        );
+
+        const shuffled = [...availableProducts];
+
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const randomIndex = Math.floor(
+            Math.random() * (i + 1),
+          );
+
+          [shuffled[i], shuffled[randomIndex]] = [
+            shuffled[randomIndex],
+            shuffled[i],
+          ];
+        }
+
+        setFeaturedProducts(shuffled.slice(0, 3));
+      } catch (error) {
+        console.error(
+          "Erro ao carregar produtos em destaque:",
+          error,
+        );
+      }
     }
 
-    setFeaturedProducts(shuffled.slice(0, 3));
-  }, 0);
+    void loadProducts();
 
-  return () => {
-    window.clearTimeout(timeout);
-  };
-}, []);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section
@@ -147,9 +164,9 @@ useEffect(() => {
               font-title
               text-5xl
               leading-[0.95]
+              text-white
               sm:mt-5
               sm:text-6xl
-              text-white
             "
           >
             LOJA DO AYŌ
@@ -178,15 +195,15 @@ useEffect(() => {
               max-w-3xl
               font-sans
               text-sm
-              sm:mt-6
-              sm:text-base
               leading-relaxed
               text-white/60
+              sm:mt-6
+              sm:text-base
             "
           >
-            Peças, prints e produtos autorais criados pelos artistas
-            do AYŌ Studio. Escolha sua peça favorita e reserve antes
-            que ela saia do catálogo.
+            Peças, prints e produtos autorais criados pelos
+            artistas do AYŌ Studio. Escolha sua peça favorita
+            e reserve antes que ela saia do catálogo.
           </motion.p>
         </div>
 
@@ -216,8 +233,8 @@ useEffect(() => {
             grid-cols-1
             gap-6
             sm:mt-12
-            sm:gap-8
             sm:grid-cols-2
+            sm:gap-8
             lg:grid-cols-3
           "
         >
@@ -267,7 +284,6 @@ useEffect(() => {
               rounded-full
               bg-ayo-red
               px-8
-              sm:w-auto
               font-sans
               text-sm
               font-bold
@@ -276,6 +292,7 @@ useEffect(() => {
               duration-200
               hover:-translate-y-0.5
               hover:bg-ayo-red/85
+              sm:w-auto
             "
           >
             VER A LOJA
@@ -303,10 +320,10 @@ useEffect(() => {
           className="
             mt-10
             h-0.5
-            sm:mt-16
             w-20
             origin-left
             bg-ayo-red
+            sm:mt-16
           "
         />
       </motion.div>

@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: ayo-studio-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ayo
+      POSTGRES_PASSWORD: ayo_dev_password
+      POSTGRES_DB: ayo_studio
+    ports:
+      - "5433:5432"
+    volumes:
+      - ayo_studio_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  ayo_studio_postgres_data:

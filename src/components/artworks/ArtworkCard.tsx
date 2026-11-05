@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import type { Artwork } from "@/data/mockArtworks";
+import type { Artwork } from "@/lib/api/artworks";
 
 type ArtworkCardProps = {
   artwork: Artwork;

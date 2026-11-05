@@ -5,22 +5,42 @@ import { useEffect, useState } from "react";
 
 import { FlashCarousel, type FeaturedFlash } from "./FlashCarousel";
 
-import { mockFlashes } from "@/data/mockFlashes";
-
+import { getFlashes } from "@/lib/api/flashes";
 import { selectFeaturedFlashes } from "@/lib/flashes/selectFeaturedFlashes";
 
 export function FeaturedFlashesSection() {
-  const [featuredFlashes, setFeaturedFlashes] = useState<FeaturedFlash[]>([]);
+  const [featuredFlashes, setFeaturedFlashes] =
+    useState<FeaturedFlash[]>([]);
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      const selected = selectFeaturedFlashes(mockFlashes, 10);
+    let cancelled = false;
 
-      setFeaturedFlashes(selected);
-    }, 0);
+    async function loadFeaturedFlashes() {
+      try {
+        const flashes = await getFlashes();
+
+        if (cancelled) {
+          return;
+        }
+
+        const selected = selectFeaturedFlashes(
+          flashes,
+          10,
+        );
+
+        setFeaturedFlashes(selected);
+      } catch (error) {
+        console.error(
+          "Erro ao carregar flashes em destaque:",
+          error,
+        );
+      }
+    }
+
+    void loadFeaturedFlashes();
 
     return () => {
-      window.clearTimeout(timeout);
+      cancelled = true;
     };
   }, []);
 

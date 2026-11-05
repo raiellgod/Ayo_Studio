@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { Artist } from "@/data/mockArtists";
+import type { Artist } from "@/types/artist";
 
 type ArtistProfileProps = {
   artist: Artist;
@@ -14,18 +14,16 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
           IMAGEM
       ========================================== */}
 
-      <div className="flex min-h-[300px] items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#090909_100%)] sm:min-h-[360px]">
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#090909_100%)]">
         {artist.profileImage ? (
-          <div className="relative h-[360px] w-full sm:h-[460px]">
-            <Image
-              src={artist.profileImage}
-              alt={artist.name}
-              fill
-              unoptimized
-              sizes="320px"
-              className="object-contain object-bottom p-4"
-            />
-          </div>
+          <Image
+            src={artist.profileImage}
+            alt={artist.name}
+            fill
+            unoptimized
+            sizes="(max-width: 1024px) 100vw, 320px"
+            className="object-cover object-top"
+          />
         ) : (
           <span className="font-sans text-sm text-white/25">foto do artista</span>
         )}

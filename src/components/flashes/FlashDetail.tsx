@@ -4,20 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import { mockArtists } from "@/data/mockArtists";
+import type { Artist } from "@/types/artist";
 import type { SelectableFlash } from "@/lib/flashes/selectFeaturedFlashes";
 
 type FlashDetailProps = {
   flash: SelectableFlash;
+  artist?: Artist | null;
 };
 
 export function FlashDetail({
   flash,
+  artist,
 }: FlashDetailProps) {
-  const artist = mockArtists.find(
-    (item) => item.id === flash.artistId,
-  );
-
   return (
     <main className="min-h-screen overflow-hidden bg-[linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#160607_45%,#070000_75%,#220000_100%)] px-5 py-8 text-white sm:px-6 sm:py-10 lg:px-12">
       <div className="mx-auto w-full max-w-7xl">
@@ -103,7 +101,7 @@ export function FlashDetail({
             </h1>
 
             <p className="mt-4 font-sans text-sm text-white/50">
-              por {flash.artistName}
+              por {artist?.name ?? flash.artistName}
             </p>
 
             {!flash.available && (
@@ -147,13 +145,10 @@ export function FlashDetail({
                   }
                 `}
               >
-                {flash.price.toLocaleString(
-                  "pt-BR",
-                  {
-                    style: "currency",
-                    currency: "BRL",
-                  },
-                )}
+                {flash.price.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
               </p>
             </div>
 

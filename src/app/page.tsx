@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 import { ArtistModal } from "@/components/artists/ArtistModal";
 import { ArtistCard } from "@/components/artists/ArtistCard";
 
-import { mockArtists } from "@/data/mockArtists";
+import type { Artist } from "@/types/artist";
+
+import { getProfessionals } from "@/lib/api/professionals";
 
 import { FeaturedFlashesSection } from "@/components/flashes/FeaturedFlashesSection";
 
@@ -22,8 +24,26 @@ import { Footer } from "@/components/home/Footer";
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
 
+  const [artists, setArtists] = useState<Artist[]>([]);
+
   const [selectedArtistId, setSelectedArtistId] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function loadProfessionals() {
+      try {
+        const data = await getProfessionals();
+
+        setArtists(data);
+      } catch (error) {
+        console.error("Erro ao carregar profissionais:", error);
+      }
+    }
+
+    void loadProfessionals();
+  }, []);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showOpeningText, setShowOpeningText] = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -35,21 +55,25 @@ export default function Home() {
   // ANIMAÇÃO DA ABERTURA
   // =========================================================
 
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setShowOpeningText(latest < 0.32);
+  });
+
   const openingBackground = useTransform(
     scrollYProgress,
     [0, 0.42, 0.78, 1],
     ["#000000", "#FAF4EF", "#820000", "#820000"],
   );
 
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.22, 0.42, 0.58], [1, 0.7, 0.15, 0]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.14, 0.26, 0.32], [1, 1, 0.15, 0]);
 
-  const subtitleOpacity = useTransform(scrollYProgress, [0, 0.3, 0.52], [1, 1, 0]);
+  const subtitleOpacity = useTransform(scrollYProgress, [0, 0.14, 0.26, 0.32], [1, 1, 0.15, 0]);
 
   const titleScaleDesktop = useTransform(scrollYProgress, [0, 0.58, 0.86], [1, 1.55, 2.8]);
 
   const titleYDesktop = useTransform(scrollYProgress, [0, 0.58, 0.86], [0, -16, -72]);
 
-  const roosterOpacity = useTransform(scrollYProgress, [0.18, 0.34, 0.96], [0, 1, 1]);
+  const roosterOpacity = useTransform(scrollYProgress, [0.18, 0.34, 1], [0, 1, 1]);
 
   const roosterScaleDesktop = useTransform(scrollYProgress, [0.18, 0.55, 1], [0.5, 1.3, 1.5]);
 
@@ -63,7 +87,7 @@ export default function Home() {
 
   const roosterYMobile = useTransform(scrollYProgress, [0.18, 0.55, 1], [70, 12, 0]);
 
-  const selectedArtist = mockArtists.find((artist) => artist.id === selectedArtistId) ?? null;
+  const selectedArtist = artists.find((artist) => artist.id === selectedArtistId) ?? null;
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -103,27 +127,29 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <div className="relative z-10 flex w-full max-w-5xl flex-col items-center text-center">
-              <motion.h1
-                style={{
-                  opacity: titleOpacity,
-                  scale: titleScaleDesktop,
-                  y: titleYDesktop,
-                }}
-                className="font-title origin-center text-[clamp(5rem,10vw,9rem)] leading-[0.82] whitespace-nowrap text-[#FAF4EF]"
-              >
-                AYÔ
-              </motion.h1>
+            {showOpeningText && (
+              <div className="relative z-10 flex w-full max-w-5xl flex-col items-center text-center">
+                <motion.h1
+                  style={{
+                    opacity: titleOpacity,
+                    scale: titleScaleDesktop,
+                    y: titleYDesktop,
+                  }}
+                  className="font-title origin-center text-[clamp(5rem,10vw,9rem)] leading-[0.82] whitespace-nowrap text-[#FAF4EF]"
+                >
+                  AYÔ
+                </motion.h1>
 
-              <motion.p
-                style={{
-                  opacity: subtitleOpacity,
-                }}
-                className="mt-6 font-sans text-sm font-semibold tracking-[0.32em] text-[#FAF4EF]/65 uppercase"
-              >
-                STUDIO DE ARTE
-              </motion.p>
-            </div>
+                <motion.p
+                  style={{
+                    opacity: subtitleOpacity,
+                  }}
+                  className="mt-6 font-sans text-sm font-semibold tracking-[0.32em] text-[#FAF4EF]/65 uppercase"
+                >
+                  STUDIO DE ARTE
+                </motion.p>
+              </div>
+            )}
           </div>
 
           {/* =================================================
@@ -151,27 +177,29 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <div className="relative z-10 flex w-full flex-col items-center text-center">
-              <motion.h1
-                style={{
-                  opacity: titleOpacity,
-                  scale: titleScaleMobile,
-                  y: titleYMobile,
-                }}
-                className="font-title origin-center text-[clamp(4.3rem,22vw,6.5rem)] leading-[0.82] whitespace-nowrap text-[#FAF4EF]"
-              >
-                AYÔ
-              </motion.h1>
+            {showOpeningText && (
+              <div className="relative z-10 flex w-full flex-col items-center text-center">
+                <motion.h1
+                  style={{
+                    opacity: titleOpacity,
+                    scale: titleScaleMobile,
+                    y: titleYMobile,
+                  }}
+                  className="font-title origin-center text-[clamp(4.3rem,22vw,6.5rem)] leading-[0.82] whitespace-nowrap text-[#FAF4EF]"
+                >
+                  AYÔ
+                </motion.h1>
 
-              <motion.p
-                style={{
-                  opacity: subtitleOpacity,
-                }}
-                className="mt-5 max-w-[90vw] font-sans text-[11px] font-semibold tracking-[0.24em] text-[#FAF4EF]/65 uppercase"
-              >
-                STUDIO DE ARTE
-              </motion.p>
-            </div>
+                <motion.p
+                  style={{
+                    opacity: subtitleOpacity,
+                  }}
+                  className="mt-5 max-w-[90vw] font-sans text-[11px] font-semibold tracking-[0.24em] text-[#FAF4EF]/65 uppercase"
+                >
+                  STUDIO DE ARTE
+                </motion.p>
+              </div>
+            )}
           </div>
         </motion.div>
       </section>
@@ -557,7 +585,7 @@ export default function Home() {
           {/* GRID */}
 
           <div className="mt-10 grid grid-cols-1 justify-items-center gap-6 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {mockArtists.map((artist, index) => (
+            {artists.map((artist, index) => (
               <motion.div
                 key={artist.id}
                 initial={{
@@ -580,7 +608,7 @@ export default function Home() {
               >
                 <ArtistCard
                   name={artist.name}
-                  image={artist.image}
+                  image={artist.image ?? ""}
                   onClick={() => setSelectedArtistId(artist.id)}
                 />
               </motion.div>

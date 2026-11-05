@@ -1,4 +1,4 @@
-import type { Artwork } from "@/data/mockArtworks";
+import type { Artwork } from "@/lib/api/artworks";
 
 import { ArtworkCard } from "./ArtworkCard";
 

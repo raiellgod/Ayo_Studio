@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ReservationForm } from "@/components/reservations/ReservationForm";
-import { mockArtworks } from "@/data/mockArtworks";
+import { getArtworkBySlug } from "@/lib/api/artworks";
 
 type ReservationArtworkPageProps = {
   params: Promise<{
@@ -15,16 +15,14 @@ export default async function ReservationArtworkPage({
 }: ReservationArtworkPageProps) {
   const { slug } = await params;
 
-  const artwork = mockArtworks.find(
-    (item) => item.slug === slug,
-  );
+  const artwork = await getArtworkBySlug(slug);
 
   if (!artwork) {
     notFound();
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)] px-5 py-8 sm:px-6 sm:py-10 text-white lg:px-12">
+    <main className="min-h-screen bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)] px-5 py-8 text-white sm:px-6 sm:py-10 lg:px-12">
       <div className="mx-auto w-full max-w-3xl">
         <Link
           href={`/artes/${artwork.slug}`}

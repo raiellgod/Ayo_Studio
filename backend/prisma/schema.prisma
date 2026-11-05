@@ -1,0 +1,115 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ArtistServiceType {
+  TATTOO
+  ART
+  VOICE
+}
+
+model Professional {
+  id          Int     @id @default(autoincrement())
+  slug        String  @unique
+  name        String
+  role        String
+  specialties String?
+  description String?
+
+  image        String?
+  fullImage    String?
+  profileImage String?
+
+  isActive Boolean @default(true)
+
+  services ProfessionalService[]
+  flashes  Flash[]
+  artworks Artwork[]
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProfessionalService {
+  id      Int               @id @default(autoincrement())
+  service ArtistServiceType
+
+  professionalId Int
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([professionalId, service])
+}
+
+model Flash {
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+  name String
+
+  description String?
+
+  image String?
+
+  price Decimal @db.Decimal(10, 2)
+
+  categories String[]
+
+  available Boolean @default(true)
+  isActive  Boolean @default(true)
+
+  artistId Int
+  artist   Professional @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([artistId])
+  @@index([available])
+  @@index([isActive])
+}
+
+model Artwork {
+  id        Int     @id @default(autoincrement())
+  slug      String  @unique
+  name      String
+  image     String
+  type      String
+  price     Int?
+  available Boolean @default(true)
+  isActive  Boolean @default(true)
+
+  artistId Int
+  artist   Professional @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([artistId])
+}
+
+model Product {
+  id        Int     @id @default(autoincrement())
+  slug      String  @unique
+  name      String
+  type      String
+  image     String
+  price     Float?
+  available Boolean @default(true)
+  isActive  Boolean @default(true)
+
+  authorId Int?
+  author   Professional? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([authorId])
+}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { mockArtists } from "@/data/mockArtists";
+import { getProfessionalBySlug } from "@/lib/api/professionals";
 
 type ArtistOrderPageProps = {
   params: Promise<{
@@ -40,9 +40,7 @@ export default async function ArtistOrderPage({
 }: ArtistOrderPageProps) {
   const { slug } = await params;
 
-  const artist = mockArtists.find(
-    (item) => item.slug === slug,
-  );
+  const artist = await getProfessionalBySlug(slug);
 
   if (!artist) {
     notFound();
@@ -56,178 +54,58 @@ export default async function ArtistOrderPage({
     .filter((item) => item.config);
 
   return (
-    <main
-      className="
-        min-h-screen
-        bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)]
-        px-5
-        py-8
-        text-white
-        sm:px-6
-        sm:py-10
-        lg:px-12
-      "
-    >
+    <main className="min-h-screen bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)] px-5 py-8 text-white sm:px-6 sm:py-10 lg:px-12">
       <div className="mx-auto w-full max-w-4xl">
         <Link
           href={`/artistas/${artist.slug}`}
-          className="
-            inline-flex
-            items-center
-            gap-2
-            font-sans
-            text-sm
-            text-white/60
-            transition
-            hover:text-white
-          "
+          className="inline-flex items-center gap-2 font-sans text-sm text-white/60 transition hover:text-white"
         >
           ← VOLTAR PARA O ARTISTA
         </Link>
 
         <header className="mt-10 max-w-3xl sm:mt-14">
-          <p
-            className="
-              font-accent
-              text-xs
-              tracking-[0.14em]
-              text-ayo-red
-              uppercase
-              sm:text-sm
-            "
-          >
+          <p className="font-accent text-ayo-red text-xs tracking-[0.14em] uppercase sm:text-sm">
             PEDIDO PARA {artist.name.toUpperCase()}
           </p>
 
-          <h1
-            className="
-              font-title
-              mt-4
-              text-5xl
-              leading-[0.9]
-              text-ayo-cream
-              sm:text-6xl
-            "
-          >
+          <h1 className="font-title text-ayo-cream mt-4 text-5xl leading-[0.9] sm:text-6xl">
             O QUE VOCÊ QUER CRIAR?
           </h1>
 
-          <p
-            className="
-              mt-5
-              max-w-2xl
-              font-sans
-              text-sm
-              leading-relaxed
-              text-white/55
-              sm:text-base
-            "
-          >
+          <p className="mt-5 max-w-2xl font-sans text-sm leading-relaxed text-white/55 sm:text-base">
             Escolha um dos serviços disponíveis para este profissional.
           </p>
         </header>
 
         {availableServices.length > 0 ? (
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {availableServices.map(
-              ({ service, config }) => (
-                <Link
-                  key={service}
-                  href={config.href(artist.slug)}
-                  className="
-                    group
-                    rounded-3xl
-                    border
-                    border-white/10
-                    bg-black/25
-                    p-6
-                    transition
-                    hover:border-ayo-red/40
-                    hover:bg-black/35
-                    sm:p-7
-                  "
-                >
-                  <p
-                    className="
-                      font-accent
-                      text-xs
-                      tracking-[0.12em]
-                      text-ayo-red
-                      uppercase
-                    "
-                  >
-                    {config.eyebrow}
-                  </p>
+            {availableServices.map(({ service, config }) => (
+              <Link
+                key={service}
+                href={config.href(artist.slug)}
+                className="group rounded-3xl border border-white/10 bg-black/25 p-6 transition hover:border-ayo-red/40 hover:bg-black/35 sm:p-7"
+              >
+                <p className="font-accent text-ayo-red text-xs tracking-[0.12em] uppercase">
+                  {config.eyebrow}
+                </p>
 
-                  <h2
-                    className="
-                      font-title
-                      mt-3
-                      text-4xl
-                      leading-none
-                      text-ayo-cream
-                    "
-                  >
-                    {config.title}
-                  </h2>
+                <h2 className="font-title text-ayo-cream mt-3 text-4xl leading-none">
+                  {config.title}
+                </h2>
 
-                  <p
-                    className="
-                      mt-5
-                      font-sans
-                      text-sm
-                      leading-relaxed
-                      text-white/50
-                    "
-                  >
-                    {config.description}
-                  </p>
+                <p className="mt-5 font-sans text-sm leading-relaxed text-white/50">
+                  {config.description}
+                </p>
 
-                  <span
-                    className="
-                      mt-6
-                      inline-flex
-                      min-h-11
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-ayo-red
-                      px-6
-                      font-sans
-                      text-xs
-                      font-bold
-                      text-ayo-cream
-                      transition
-                      group-hover:-translate-y-0.5
-                      group-hover:bg-ayo-red/85
-                    "
-                  >
-                    COMEÇAR PEDIDO
-                  </span>
-                </Link>
-              ),
-            )}
+                <span className="bg-ayo-red text-ayo-cream group-hover:bg-ayo-red/85 mt-6 inline-flex min-h-11 items-center justify-center rounded-full px-6 font-sans text-xs font-bold transition group-hover:-translate-y-0.5">
+                  COMEÇAR PEDIDO
+                </span>
+              </Link>
+            ))}
           </div>
         ) : (
-          <div
-            className="
-              mt-10
-              rounded-3xl
-              border
-              border-white/10
-              bg-black/25
-              p-6
-              sm:p-8
-            "
-          >
-            <p
-              className="
-                font-sans
-                text-sm
-                leading-relaxed
-                text-white/55
-              "
-            >
+          <div className="mt-10 rounded-3xl border border-white/10 bg-black/25 p-6 sm:p-8">
+            <p className="font-sans text-sm leading-relaxed text-white/55">
               Este profissional não possui pedidos personalizados disponíveis no momento.
             </p>
           </div>

@@ -3,11 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-import { useState } from "react";
-
-import type { Artist } from "@/data/mockArtists";
-import { mockFlashes } from "@/data/mockFlashes";
+import type { Artist } from "@/types/artist";
+import { getFlashes, type Flash } from "@/lib/api/flashes";
 
 type ArtistModalProps = {
   isOpen: boolean;
@@ -16,27 +15,53 @@ type ArtistModalProps = {
 };
 
 export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
-  const [previewFlashes, setPreviewFlashes] = useState<typeof mockFlashes>([]);
+  const [previewFlashes, setPreviewFlashes] = useState<Flash[]>([]);
 
-  function selectPreviewFlashes() {
-    if (!artist) {
+  useEffect(() => {
+    if (!isOpen || !artist) {
       return;
     }
 
-    const availableFlashes = mockFlashes.filter(
-      (flash) => flash.artistId === artist.id && flash.available,
-    );
+    let cancelled = false;
 
-    const shuffled = [...availableFlashes];
+    async function loadFlashes() {
+      if (!artist) {
+        return;
+      }
 
-    for (let index = shuffled.length - 1; index > 0; index--) {
-      const randomIndex = Math.floor(Math.random() * (index + 1));
+      try {
+        const flashes = await getFlashes(artist.id);
 
-      [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        if (cancelled) {
+          return;
+        }
+
+        const availableFlashes = flashes.filter((flash) => flash.available);
+
+        const shuffled = [...availableFlashes];
+
+        for (let index = shuffled.length - 1; index > 0; index--) {
+          const randomIndex = Math.floor(Math.random() * (index + 1));
+
+          [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        }
+
+        setPreviewFlashes(shuffled.slice(0, 3));
+      } catch (error) {
+        console.error("Erro ao carregar flashes do artista:", error);
+
+        if (!cancelled) {
+          setPreviewFlashes([]);
+        }
+      }
     }
 
-    setPreviewFlashes(shuffled.slice(0, 3));
-  }
+    void loadFlashes();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, artist]);
 
   return (
     <AnimatePresence>
@@ -54,8 +79,10 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
           transition={{
             duration: 0.2,
           }}
-          onAnimationStart={selectPreviewFlashes}
-          onClick={onClose}
+          onClick={() => {
+            setPreviewFlashes([]);
+            onClose();
+          }}
           className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 px-4 py-6 backdrop-blur-sm sm:items-center sm:px-6 sm:py-10"
         >
           <motion.div
@@ -87,7 +114,10 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
 
             <button
               type="button"
-              onClick={onClose}
+              onClick={() => {
+                setPreviewFlashes([]);
+                onClose();
+              }}
               aria-label="Fechar modal"
               className="absolute top-4 right-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-black/50 font-sans text-xl text-white transition hover:bg-white/10"
             >
@@ -114,13 +144,15 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
                 }}
                 className="absolute inset-0"
               >
-                <Image
-                  src={artist.fullImage}
-                  alt={artist.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                  className="object-contain object-bottom p-4"
-                />
+                {artist.fullImage && (
+                  <Image
+                    src={artist.fullImage}
+                    alt={artist.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    className="object-cover object-top"
+                  />
+                )}
               </motion.div>
             </div>
 
@@ -156,7 +188,10 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
                       <Link
                         key={flash.id}
                         href={`/flashes/${flash.slug}`}
-                        onClick={onClose}
+                        onClick={() => {
+                          setPreviewFlashes([]);
+                          onClose();
+                        }}
                         className="group overflow-hidden rounded-2xl border border-white/10 bg-[#111111] transition hover:-translate-y-1 hover:border-white/20"
                       >
                         <div className="relative aspect-square">
@@ -192,7 +227,10 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
                   href={`/artistas/${artist.slug}/pedido`}
-                  onClick={onClose}
+                  onClick={() => {
+                    setPreviewFlashes([]);
+                    onClose();
+                  }}
                   className="bg-ayo-red text-ayo-cream hover:bg-ayo-red/85 mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full px-7 font-sans text-sm font-bold transition hover:-translate-y-0.5 sm:w-fit"
                 >
                   FAZER UM PEDIDO
@@ -200,7 +238,10 @@ export function ArtistModal({ isOpen, onClose, artist }: ArtistModalProps) {
 
                 <Link
                   href={`/artistas/${artist.slug}`}
-                  onClick={onClose}
+                  onClick={() => {
+                    setPreviewFlashes([]);
+                    onClose();
+                  }}
                   className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 px-7 font-sans text-sm font-semibold text-white/70 transition hover:border-white/30 hover:text-white sm:w-fit"
                 >
                   VER PERFIL

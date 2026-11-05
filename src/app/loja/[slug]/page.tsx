@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { ProductDetail } from "@/components/products/ProductDetail";
-import { mockProducts } from "@/data/mockProducts";
+import { getProductBySlug } from "@/lib/api/products";
 
 type ProductPageProps = {
   params: Promise<{
@@ -9,10 +9,12 @@ type ProductPageProps = {
   }>;
 };
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+}: ProductPageProps) {
   const { slug } = await params;
 
-  const product = mockProducts.find((item) => item.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();

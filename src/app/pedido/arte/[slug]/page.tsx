@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CustomArtForm } from "@/components/reservations/CustomArtForm";
-import { mockArtists } from "@/data/mockArtists";
+import { getProfessionalBySlug } from "@/lib/api/professionals";
 
 type ArtOrderPageProps = {
   params: Promise<{
@@ -15,11 +15,9 @@ export default async function ArtOrderPage({
 }: ArtOrderPageProps) {
   const { slug } = await params;
 
-  const artist = mockArtists.find(
-    (item) => item.slug === slug,
-  );
+  const artist = await getProfessionalBySlug(slug);
 
-  if (!artist) {
+  if (!artist || !artist.services.includes("art")) {
     notFound();
   }
 

@@ -5,7 +5,7 @@ import {
   useState,
 } from "react";
 
-import type { Artwork } from "@/data/mockArtworks";
+import type { Artwork } from "@/lib/api/artworks";
 
 import { ArtworkEditorialGroup } from "./ArtworkEditorialGroup";
 

@@ -6,15 +6,22 @@ A V1 não possui checkout nem pagamento online.
 
 ## Stack
 
+### Frontend
 - Next.js 16
 - React 19
 - TypeScript
 - Tailwind CSS 4
 - Framer Motion
-- Cormorant Garamond
-- Special Elite
-- Bitter
 - pnpm
+
+### Backend
+- Node.js
+- Fastify
+- TypeScript
+- PostgreSQL
+- Prisma
+
+### Integrações
 - Formspree
 - WhatsApp via link externo
 
@@ -23,14 +30,49 @@ A V1 não possui checkout nem pagamento online.
 - Vermelho Ayô `#820000`
 - Preto Traço `#000000`
 - Creme Arte `#FAF4EF`
+- Cormorant Garamond
+- Special Elite
+- Bitter
 
-Assets oficiais ficam em:
+## Arquitetura
 
 ```text
-public/brand/
+Next.js
+  ↓ HTTP
+Fastify
+  ↓ Prisma
+PostgreSQL
 ```
 
-## Rodando localmente
+## Estado atual da persistência
+
+Migrados para PostgreSQL/API:
+
+- profissionais;
+- serviços;
+- flashes;
+- artes;
+- produtos.
+
+Ainda em mock:
+
+- vídeos.
+
+Próximos depois de vídeos:
+
+- reservas;
+- pedidos personalizados.
+
+## API pública atual
+
+```text
+/professionals
+/flashes
+/artworks
+/products
+```
+
+## Rodando o frontend
 
 ```bash
 pnpm install
@@ -40,20 +82,48 @@ pnpm dev
 Validação:
 
 ```bash
-pnpm run lint
-pnpm run build
+pnpm tsc --noEmit
+pnpm lint
+pnpm build
 ```
 
-## Variáveis de ambiente
+## Backend
+
+```bash
+cd backend
+pnpm install
+pnpm typecheck
+```
+
+Prisma:
+
+```bash
+pnpm exec prisma format
+pnpm exec prisma validate
+pnpm exec prisma generate
+pnpm exec prisma db seed
+pnpm exec prisma studio
+```
+
+## Variáveis
+
+Frontend:
 
 ```env
 NEXT_PUBLIC_FORMSPREE_ENDPOINT="..."
 NEXT_PUBLIC_WHATSAPP_NUMBER="..."
+NEXT_PUBLIC_API_URL="http://localhost:3333"
 ```
 
-Use `.env.local` e não versione os valores.
+Backend:
 
-## Rotas principais
+```env
+DATABASE_URL="..."
+```
+
+Não versionar valores reais.
+
+## Rotas públicas principais
 
 ```text
 /
@@ -75,125 +145,33 @@ Use `.env.local` e não versione os valores.
 /pedido/dublagem/[slug]
 ```
 
-## Profissionais
+## Produtos
 
-O frontend diferencia:
+Produtos podem ter autoria opcional. Isso permite itens institucionais do AYŌ e itens de autores específicos.
 
-```ts
-role
-```
+## Mídia
 
-de:
+Imagens/vídeos não devem ser armazenados como binário no PostgreSQL.
 
-```ts
-services
-```
+Atualmente os registros podem apontar para arquivos locais em `public/`. Futuramente o plano é usar provider externo e persistir URL/key/public ID.
 
-Serviços atuais:
+## Reservas e pedidos
 
-```ts
-"tattoo" | "art" | "voice"
-```
+Ainda usam Formspree como canal de submissão.
 
-Um profissional pode oferecer múltiplos serviços.
+Formspree não é o banco de domínio e não confirma reserva automaticamente.
 
-O perfil/modal mantém um único CTA:
+## Próximo objetivo
 
-```text
-FAZER UM PEDIDO
-```
+Migrar vídeos:
 
-## Reserva/interesse
-
-Itens existentes:
-
-- flash;
-- arte;
-- produto.
-
-Fluxo:
-
-```text
-item
-↓
-detalhe
-↓
-reserva/interesse
-↓
-Formspree
-↓
-sucesso
-↓
-WhatsApp opcional
-```
-
-A solicitação não confirma automaticamente a reserva.
-
-## Pedidos personalizados
-
-Tipos atuais:
-
-- tatuagem;
-- arte;
-- dublagem/voz.
-
-Entrada global:
-
-```text
-/pedido
-```
-
-Também é possível iniciar pelo profissional:
-
-```text
-/artistas/[slug]/pedido
-```
-
-A página exibe somente os serviços disponíveis daquele profissional.
-
-## Dados
-
-O frontend ainda usa mocks em:
-
-```text
-src/data/
-```
-
-`available` e `services` ainda são fontes temporárias até a persistência real.
-
-## Backend planejado
-
-- Node.js
-- Fastify
-- TypeScript
-- PostgreSQL
-- Prisma
-
-Próximo objetivo: iniciar backend/banco e substituir mocks progressivamente sem quebrar o frontend.
-
-## Admin
-
-Ainda não implementado.
-
-Será privado, protegido e criado somente sobre persistência real.
-
-## Deploy
-
-O frontend já teve deploy funcional na Vercel.
-
-As alterações mais recentes devem passar por lint/build e novo deploy antes de serem consideradas versão publicada atual.
+1. Prisma model;
+2. migration;
+3. seed;
+4. API;
+5. helper frontend;
+6. remover `mockVideos.ts`.
 
 ## Documentação
 
-Detalhes em `docs/`:
-
-- Project Overview
-- Design System
-- Architecture
-- Boot
-- Database Setup
-- Dev State
-- Feature Capsules
-- Figma References
-- Business Rules
-- Roadmap
+Detalhes em `docs/`.

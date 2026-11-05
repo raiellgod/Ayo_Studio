@@ -4,20 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import type { Artwork } from "@/data/mockArtworks";
-import { mockArtists } from "@/data/mockArtists";
+import type { Artwork } from "@/lib/api/artworks";
+import type { Artist } from "@/types/artist";
 
 type ArtworkDetailProps = {
   artwork: Artwork;
+  artist?: Artist | null;
 };
 
 export function ArtworkDetail({
   artwork,
+  artist,
 }: ArtworkDetailProps) {
-  const artist = mockArtists.find(
-    (item) => item.id === artwork.artistId,
-  );
-
   return (
     <main className="min-h-screen overflow-hidden bg-[linear-gradient(rgba(0,0,0,0.20),rgba(0,0,0,0.35)),linear-gradient(135deg,#000000_0%,#090000_45%,#220000_100%)] px-6 py-10 text-white lg:px-12">
       <div className="mx-auto w-full max-w-7xl">
@@ -54,7 +52,7 @@ export function ArtworkDetail({
               duration: 0.7,
               ease: "easeOut",
             }}
-            className="relative min-h-[360px] sm:min-h-[520px] lg:min-h-[620px] overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#080808_100%)]"
+            className="relative min-h-[360px] overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#080808_100%)] sm:min-h-[520px] lg:min-h-[620px]"
           >
             {artwork.image ? (
               <Image
@@ -75,7 +73,7 @@ export function ArtworkDetail({
                 `}
               />
             ) : (
-              <div className="flex h-full min-h-[360px] sm:min-h-[520px] lg:min-h-[620px] items-center justify-center font-sans text-white/20">
+              <div className="flex h-full min-h-[360px] items-center justify-center font-sans text-white/20 sm:min-h-[520px] lg:min-h-[620px]">
                 imagem da obra
               </div>
             )}
@@ -108,7 +106,7 @@ export function ArtworkDetail({
               ease: "easeOut",
             }}
           >
-            <p className="font-sans text-sm font-semibold tracking-[0.12em] text-ayo-red uppercase">
+            <p className="font-sans text-sm font-semibold uppercase tracking-[0.12em] text-ayo-red">
               ARTE AUTORAL
             </p>
 
@@ -117,7 +115,7 @@ export function ArtworkDetail({
             </h1>
 
             <p className="mt-4 font-sans text-sm text-white/50">
-              por {artwork.artistName}
+              por {artist?.name ?? artwork.artistName}
             </p>
 
             {/* =========================================
@@ -137,7 +135,7 @@ export function ArtworkDetail({
             ========================================== */}
 
             <div className="mt-6">
-              <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs font-semibold tracking-[0.08em] text-ayo-red uppercase">
+              <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs font-semibold uppercase tracking-[0.08em] text-ayo-red">
                 {artwork.type}
               </span>
             </div>
@@ -148,11 +146,9 @@ export function ArtworkDetail({
 
             <p className="mt-8 max-w-lg font-sans text-base leading-relaxed text-white/65">
               Trabalho autoral criado por{" "}
-              {artwork.artistName}. Esta
-              página poderá receber
-              posteriormente descrição,
-              técnica, dimensões e outras
-              informações da obra.
+              {artist?.name ?? artwork.artistName}. Esta página poderá receber
+              posteriormente descrição, técnica, dimensões e outras informações
+              da obra.
             </p>
 
             {/* =========================================
@@ -161,7 +157,7 @@ export function ArtworkDetail({
 
             {artwork.price !== null && (
               <div className="mt-8">
-                <p className="font-sans text-xs tracking-[0.1em] text-white/40 uppercase">
+                <p className="font-sans text-xs uppercase tracking-[0.1em] text-white/40">
                   VALOR
                 </p>
 
@@ -178,13 +174,10 @@ export function ArtworkDetail({
                     }
                   `}
                 >
-                  {artwork.price.toLocaleString(
-                    "pt-BR",
-                    {
-                      style: "currency",
-                      currency: "BRL",
-                    },
-                  )}
+                  {artwork.price.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
                 </p>
               </div>
             )}

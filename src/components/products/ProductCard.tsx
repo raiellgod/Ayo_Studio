@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import type { Product } from "@/data/mockProducts";
+import type { Product } from "@/lib/api/products";
 
 type ProductCardProps = {
   product: Product;
