@@ -276,6 +276,8 @@ export type ProfessionalWhereInput = {
   flashes?: Prisma.FlashListRelationFilter
   artworks?: Prisma.ArtworkListRelationFilter
   products?: Prisma.ProductListRelationFilter
+  videos?: Prisma.VideoListRelationFilter
+  studioRequests?: Prisma.StudioRequestListRelationFilter
 }
 
 export type ProfessionalOrderByWithRelationInput = {
@@ -295,6 +297,8 @@ export type ProfessionalOrderByWithRelationInput = {
   flashes?: Prisma.FlashOrderByRelationAggregateInput
   artworks?: Prisma.ArtworkOrderByRelationAggregateInput
   products?: Prisma.ProductOrderByRelationAggregateInput
+  videos?: Prisma.VideoOrderByRelationAggregateInput
+  studioRequests?: Prisma.StudioRequestOrderByRelationAggregateInput
 }
 
 export type ProfessionalWhereUniqueInput = Prisma.AtLeast<{
@@ -317,6 +321,8 @@ export type ProfessionalWhereUniqueInput = Prisma.AtLeast<{
   flashes?: Prisma.FlashListRelationFilter
   artworks?: Prisma.ArtworkListRelationFilter
   products?: Prisma.ProductListRelationFilter
+  videos?: Prisma.VideoListRelationFilter
+  studioRequests?: Prisma.StudioRequestListRelationFilter
 }, "id" | "slug">
 
 export type ProfessionalOrderByWithAggregationInput = {
@@ -373,6 +379,8 @@ export type ProfessionalCreateInput = {
   flashes?: Prisma.FlashCreateNestedManyWithoutArtistInput
   artworks?: Prisma.ArtworkCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalUncheckedCreateInput = {
@@ -392,6 +400,8 @@ export type ProfessionalUncheckedCreateInput = {
   flashes?: Prisma.FlashUncheckedCreateNestedManyWithoutArtistInput
   artworks?: Prisma.ArtworkUncheckedCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalUpdateInput = {
@@ -410,6 +420,8 @@ export type ProfessionalUpdateInput = {
   flashes?: Prisma.FlashUpdateManyWithoutArtistNestedInput
   artworks?: Prisma.ArtworkUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalUncheckedUpdateInput = {
@@ -429,6 +441,8 @@ export type ProfessionalUncheckedUpdateInput = {
   flashes?: Prisma.FlashUncheckedUpdateManyWithoutArtistNestedInput
   artworks?: Prisma.ArtworkUncheckedUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalCreateManyInput = {
@@ -620,6 +634,36 @@ export type ProfessionalUpdateOneWithoutProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessionalUpdateToOneWithWhereWithoutProductsInput, Prisma.ProfessionalUpdateWithoutProductsInput>, Prisma.ProfessionalUncheckedUpdateWithoutProductsInput>
 }
 
+export type ProfessionalCreateNestedOneWithoutVideosInput = {
+  create?: Prisma.XOR<Prisma.ProfessionalCreateWithoutVideosInput, Prisma.ProfessionalUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.ProfessionalCreateOrConnectWithoutVideosInput
+  connect?: Prisma.ProfessionalWhereUniqueInput
+}
+
+export type ProfessionalUpdateOneRequiredWithoutVideosNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessionalCreateWithoutVideosInput, Prisma.ProfessionalUncheckedCreateWithoutVideosInput>
+  connectOrCreate?: Prisma.ProfessionalCreateOrConnectWithoutVideosInput
+  upsert?: Prisma.ProfessionalUpsertWithoutVideosInput
+  connect?: Prisma.ProfessionalWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessionalUpdateToOneWithWhereWithoutVideosInput, Prisma.ProfessionalUpdateWithoutVideosInput>, Prisma.ProfessionalUncheckedUpdateWithoutVideosInput>
+}
+
+export type ProfessionalCreateNestedOneWithoutStudioRequestsInput = {
+  create?: Prisma.XOR<Prisma.ProfessionalCreateWithoutStudioRequestsInput, Prisma.ProfessionalUncheckedCreateWithoutStudioRequestsInput>
+  connectOrCreate?: Prisma.ProfessionalCreateOrConnectWithoutStudioRequestsInput
+  connect?: Prisma.ProfessionalWhereUniqueInput
+}
+
+export type ProfessionalUpdateOneWithoutStudioRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessionalCreateWithoutStudioRequestsInput, Prisma.ProfessionalUncheckedCreateWithoutStudioRequestsInput>
+  connectOrCreate?: Prisma.ProfessionalCreateOrConnectWithoutStudioRequestsInput
+  upsert?: Prisma.ProfessionalUpsertWithoutStudioRequestsInput
+  disconnect?: Prisma.ProfessionalWhereInput | boolean
+  delete?: Prisma.ProfessionalWhereInput | boolean
+  connect?: Prisma.ProfessionalWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessionalUpdateToOneWithWhereWithoutStudioRequestsInput, Prisma.ProfessionalUpdateWithoutStudioRequestsInput>, Prisma.ProfessionalUncheckedUpdateWithoutStudioRequestsInput>
+}
+
 export type ProfessionalCreateWithoutServicesInput = {
   slug: string
   name: string
@@ -635,6 +679,8 @@ export type ProfessionalCreateWithoutServicesInput = {
   flashes?: Prisma.FlashCreateNestedManyWithoutArtistInput
   artworks?: Prisma.ArtworkCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalUncheckedCreateWithoutServicesInput = {
@@ -653,6 +699,8 @@ export type ProfessionalUncheckedCreateWithoutServicesInput = {
   flashes?: Prisma.FlashUncheckedCreateNestedManyWithoutArtistInput
   artworks?: Prisma.ArtworkUncheckedCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalCreateOrConnectWithoutServicesInput = {
@@ -686,6 +734,8 @@ export type ProfessionalUpdateWithoutServicesInput = {
   flashes?: Prisma.FlashUpdateManyWithoutArtistNestedInput
   artworks?: Prisma.ArtworkUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalUncheckedUpdateWithoutServicesInput = {
@@ -704,6 +754,8 @@ export type ProfessionalUncheckedUpdateWithoutServicesInput = {
   flashes?: Prisma.FlashUncheckedUpdateManyWithoutArtistNestedInput
   artworks?: Prisma.ArtworkUncheckedUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalCreateWithoutFlashesInput = {
@@ -721,6 +773,8 @@ export type ProfessionalCreateWithoutFlashesInput = {
   services?: Prisma.ProfessionalServiceCreateNestedManyWithoutProfessionalInput
   artworks?: Prisma.ArtworkCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalUncheckedCreateWithoutFlashesInput = {
@@ -739,6 +793,8 @@ export type ProfessionalUncheckedCreateWithoutFlashesInput = {
   services?: Prisma.ProfessionalServiceUncheckedCreateNestedManyWithoutProfessionalInput
   artworks?: Prisma.ArtworkUncheckedCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalCreateOrConnectWithoutFlashesInput = {
@@ -772,6 +828,8 @@ export type ProfessionalUpdateWithoutFlashesInput = {
   services?: Prisma.ProfessionalServiceUpdateManyWithoutProfessionalNestedInput
   artworks?: Prisma.ArtworkUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalUncheckedUpdateWithoutFlashesInput = {
@@ -790,6 +848,8 @@ export type ProfessionalUncheckedUpdateWithoutFlashesInput = {
   services?: Prisma.ProfessionalServiceUncheckedUpdateManyWithoutProfessionalNestedInput
   artworks?: Prisma.ArtworkUncheckedUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalCreateWithoutArtworksInput = {
@@ -807,6 +867,8 @@ export type ProfessionalCreateWithoutArtworksInput = {
   services?: Prisma.ProfessionalServiceCreateNestedManyWithoutProfessionalInput
   flashes?: Prisma.FlashCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalUncheckedCreateWithoutArtworksInput = {
@@ -825,6 +887,8 @@ export type ProfessionalUncheckedCreateWithoutArtworksInput = {
   services?: Prisma.ProfessionalServiceUncheckedCreateNestedManyWithoutProfessionalInput
   flashes?: Prisma.FlashUncheckedCreateNestedManyWithoutArtistInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalCreateOrConnectWithoutArtworksInput = {
@@ -858,6 +922,8 @@ export type ProfessionalUpdateWithoutArtworksInput = {
   services?: Prisma.ProfessionalServiceUpdateManyWithoutProfessionalNestedInput
   flashes?: Prisma.FlashUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalUncheckedUpdateWithoutArtworksInput = {
@@ -876,6 +942,8 @@ export type ProfessionalUncheckedUpdateWithoutArtworksInput = {
   services?: Prisma.ProfessionalServiceUncheckedUpdateManyWithoutProfessionalNestedInput
   flashes?: Prisma.FlashUncheckedUpdateManyWithoutArtistNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalCreateWithoutProductsInput = {
@@ -893,6 +961,8 @@ export type ProfessionalCreateWithoutProductsInput = {
   services?: Prisma.ProfessionalServiceCreateNestedManyWithoutProfessionalInput
   flashes?: Prisma.FlashCreateNestedManyWithoutArtistInput
   artworks?: Prisma.ArtworkCreateNestedManyWithoutArtistInput
+  videos?: Prisma.VideoCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalUncheckedCreateWithoutProductsInput = {
@@ -911,6 +981,8 @@ export type ProfessionalUncheckedCreateWithoutProductsInput = {
   services?: Prisma.ProfessionalServiceUncheckedCreateNestedManyWithoutProfessionalInput
   flashes?: Prisma.FlashUncheckedCreateNestedManyWithoutArtistInput
   artworks?: Prisma.ArtworkUncheckedCreateNestedManyWithoutArtistInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutArtistInput
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalCreateOrConnectWithoutProductsInput = {
@@ -944,6 +1016,8 @@ export type ProfessionalUpdateWithoutProductsInput = {
   services?: Prisma.ProfessionalServiceUpdateManyWithoutProfessionalNestedInput
   flashes?: Prisma.FlashUpdateManyWithoutArtistNestedInput
   artworks?: Prisma.ArtworkUpdateManyWithoutArtistNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalUncheckedUpdateWithoutProductsInput = {
@@ -962,6 +1036,196 @@ export type ProfessionalUncheckedUpdateWithoutProductsInput = {
   services?: Prisma.ProfessionalServiceUncheckedUpdateManyWithoutProfessionalNestedInput
   flashes?: Prisma.FlashUncheckedUpdateManyWithoutArtistNestedInput
   artworks?: Prisma.ArtworkUncheckedUpdateManyWithoutArtistNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutArtistNestedInput
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutProfessionalNestedInput
+}
+
+export type ProfessionalCreateWithoutVideosInput = {
+  slug: string
+  name: string
+  role: string
+  specialties?: string | null
+  description?: string | null
+  image?: string | null
+  fullImage?: string | null
+  profileImage?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  services?: Prisma.ProfessionalServiceCreateNestedManyWithoutProfessionalInput
+  flashes?: Prisma.FlashCreateNestedManyWithoutArtistInput
+  artworks?: Prisma.ArtworkCreateNestedManyWithoutArtistInput
+  products?: Prisma.ProductCreateNestedManyWithoutAuthorInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutProfessionalInput
+}
+
+export type ProfessionalUncheckedCreateWithoutVideosInput = {
+  id?: number
+  slug: string
+  name: string
+  role: string
+  specialties?: string | null
+  description?: string | null
+  image?: string | null
+  fullImage?: string | null
+  profileImage?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  services?: Prisma.ProfessionalServiceUncheckedCreateNestedManyWithoutProfessionalInput
+  flashes?: Prisma.FlashUncheckedCreateNestedManyWithoutArtistInput
+  artworks?: Prisma.ArtworkUncheckedCreateNestedManyWithoutArtistInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutAuthorInput
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutProfessionalInput
+}
+
+export type ProfessionalCreateOrConnectWithoutVideosInput = {
+  where: Prisma.ProfessionalWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessionalCreateWithoutVideosInput, Prisma.ProfessionalUncheckedCreateWithoutVideosInput>
+}
+
+export type ProfessionalUpsertWithoutVideosInput = {
+  update: Prisma.XOR<Prisma.ProfessionalUpdateWithoutVideosInput, Prisma.ProfessionalUncheckedUpdateWithoutVideosInput>
+  create: Prisma.XOR<Prisma.ProfessionalCreateWithoutVideosInput, Prisma.ProfessionalUncheckedCreateWithoutVideosInput>
+  where?: Prisma.ProfessionalWhereInput
+}
+
+export type ProfessionalUpdateToOneWithWhereWithoutVideosInput = {
+  where?: Prisma.ProfessionalWhereInput
+  data: Prisma.XOR<Prisma.ProfessionalUpdateWithoutVideosInput, Prisma.ProfessionalUncheckedUpdateWithoutVideosInput>
+}
+
+export type ProfessionalUpdateWithoutVideosInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  specialties?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.ProfessionalServiceUpdateManyWithoutProfessionalNestedInput
+  flashes?: Prisma.FlashUpdateManyWithoutArtistNestedInput
+  artworks?: Prisma.ArtworkUpdateManyWithoutArtistNestedInput
+  products?: Prisma.ProductUpdateManyWithoutAuthorNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutProfessionalNestedInput
+}
+
+export type ProfessionalUncheckedUpdateWithoutVideosInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  specialties?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.ProfessionalServiceUncheckedUpdateManyWithoutProfessionalNestedInput
+  flashes?: Prisma.FlashUncheckedUpdateManyWithoutArtistNestedInput
+  artworks?: Prisma.ArtworkUncheckedUpdateManyWithoutArtistNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutAuthorNestedInput
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutProfessionalNestedInput
+}
+
+export type ProfessionalCreateWithoutStudioRequestsInput = {
+  slug: string
+  name: string
+  role: string
+  specialties?: string | null
+  description?: string | null
+  image?: string | null
+  fullImage?: string | null
+  profileImage?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  services?: Prisma.ProfessionalServiceCreateNestedManyWithoutProfessionalInput
+  flashes?: Prisma.FlashCreateNestedManyWithoutArtistInput
+  artworks?: Prisma.ArtworkCreateNestedManyWithoutArtistInput
+  products?: Prisma.ProductCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoCreateNestedManyWithoutArtistInput
+}
+
+export type ProfessionalUncheckedCreateWithoutStudioRequestsInput = {
+  id?: number
+  slug: string
+  name: string
+  role: string
+  specialties?: string | null
+  description?: string | null
+  image?: string | null
+  fullImage?: string | null
+  profileImage?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  services?: Prisma.ProfessionalServiceUncheckedCreateNestedManyWithoutProfessionalInput
+  flashes?: Prisma.FlashUncheckedCreateNestedManyWithoutArtistInput
+  artworks?: Prisma.ArtworkUncheckedCreateNestedManyWithoutArtistInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutAuthorInput
+  videos?: Prisma.VideoUncheckedCreateNestedManyWithoutArtistInput
+}
+
+export type ProfessionalCreateOrConnectWithoutStudioRequestsInput = {
+  where: Prisma.ProfessionalWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessionalCreateWithoutStudioRequestsInput, Prisma.ProfessionalUncheckedCreateWithoutStudioRequestsInput>
+}
+
+export type ProfessionalUpsertWithoutStudioRequestsInput = {
+  update: Prisma.XOR<Prisma.ProfessionalUpdateWithoutStudioRequestsInput, Prisma.ProfessionalUncheckedUpdateWithoutStudioRequestsInput>
+  create: Prisma.XOR<Prisma.ProfessionalCreateWithoutStudioRequestsInput, Prisma.ProfessionalUncheckedCreateWithoutStudioRequestsInput>
+  where?: Prisma.ProfessionalWhereInput
+}
+
+export type ProfessionalUpdateToOneWithWhereWithoutStudioRequestsInput = {
+  where?: Prisma.ProfessionalWhereInput
+  data: Prisma.XOR<Prisma.ProfessionalUpdateWithoutStudioRequestsInput, Prisma.ProfessionalUncheckedUpdateWithoutStudioRequestsInput>
+}
+
+export type ProfessionalUpdateWithoutStudioRequestsInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  specialties?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.ProfessionalServiceUpdateManyWithoutProfessionalNestedInput
+  flashes?: Prisma.FlashUpdateManyWithoutArtistNestedInput
+  artworks?: Prisma.ArtworkUpdateManyWithoutArtistNestedInput
+  products?: Prisma.ProductUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUpdateManyWithoutArtistNestedInput
+}
+
+export type ProfessionalUncheckedUpdateWithoutStudioRequestsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  specialties?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.ProfessionalServiceUncheckedUpdateManyWithoutProfessionalNestedInput
+  flashes?: Prisma.FlashUncheckedUpdateManyWithoutArtistNestedInput
+  artworks?: Prisma.ArtworkUncheckedUpdateManyWithoutArtistNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutAuthorNestedInput
+  videos?: Prisma.VideoUncheckedUpdateManyWithoutArtistNestedInput
 }
 
 
@@ -974,6 +1238,8 @@ export type ProfessionalCountOutputType = {
   flashes: number
   artworks: number
   products: number
+  videos: number
+  studioRequests: number
 }
 
 export type ProfessionalCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -981,6 +1247,8 @@ export type ProfessionalCountOutputTypeSelect<ExtArgs extends runtime.Types.Exte
   flashes?: boolean | ProfessionalCountOutputTypeCountFlashesArgs
   artworks?: boolean | ProfessionalCountOutputTypeCountArtworksArgs
   products?: boolean | ProfessionalCountOutputTypeCountProductsArgs
+  videos?: boolean | ProfessionalCountOutputTypeCountVideosArgs
+  studioRequests?: boolean | ProfessionalCountOutputTypeCountStudioRequestsArgs
 }
 
 /**
@@ -1021,6 +1289,20 @@ export type ProfessionalCountOutputTypeCountProductsArgs<ExtArgs extends runtime
   where?: Prisma.ProductWhereInput
 }
 
+/**
+ * ProfessionalCountOutputType without action
+ */
+export type ProfessionalCountOutputTypeCountVideosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VideoWhereInput
+}
+
+/**
+ * ProfessionalCountOutputType without action
+ */
+export type ProfessionalCountOutputTypeCountStudioRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudioRequestWhereInput
+}
+
 
 export type ProfessionalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1039,6 +1321,8 @@ export type ProfessionalSelect<ExtArgs extends runtime.Types.Extensions.Internal
   flashes?: boolean | Prisma.Professional$flashesArgs<ExtArgs>
   artworks?: boolean | Prisma.Professional$artworksArgs<ExtArgs>
   products?: boolean | Prisma.Professional$productsArgs<ExtArgs>
+  videos?: boolean | Prisma.Professional$videosArgs<ExtArgs>
+  studioRequests?: boolean | Prisma.Professional$studioRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.ProfessionalCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["professional"]>
 
@@ -1093,6 +1377,8 @@ export type ProfessionalInclude<ExtArgs extends runtime.Types.Extensions.Interna
   flashes?: boolean | Prisma.Professional$flashesArgs<ExtArgs>
   artworks?: boolean | Prisma.Professional$artworksArgs<ExtArgs>
   products?: boolean | Prisma.Professional$productsArgs<ExtArgs>
+  videos?: boolean | Prisma.Professional$videosArgs<ExtArgs>
+  studioRequests?: boolean | Prisma.Professional$studioRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.ProfessionalCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProfessionalIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1105,6 +1391,8 @@ export type $ProfessionalPayload<ExtArgs extends runtime.Types.Extensions.Intern
     flashes: Prisma.$FlashPayload<ExtArgs>[]
     artworks: Prisma.$ArtworkPayload<ExtArgs>[]
     products: Prisma.$ProductPayload<ExtArgs>[]
+    videos: Prisma.$VideoPayload<ExtArgs>[]
+    studioRequests: Prisma.$StudioRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1517,6 +1805,8 @@ export interface Prisma__ProfessionalClient<T, Null = never, ExtArgs extends run
   flashes<T extends Prisma.Professional$flashesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professional$flashesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FlashPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   artworks<T extends Prisma.Professional$artworksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professional$artworksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArtworkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   products<T extends Prisma.Professional$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professional$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  videos<T extends Prisma.Professional$videosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professional$videosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  studioRequests<T extends Prisma.Professional$studioRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Professional$studioRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudioRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2044,6 +2334,54 @@ export type Professional$productsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.ProductScalarFieldEnum | Prisma.ProductScalarFieldEnum[]
+}
+
+/**
+ * Professional.videos
+ */
+export type Professional$videosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Video
+   */
+  select?: Prisma.VideoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Video
+   */
+  omit?: Prisma.VideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VideoInclude<ExtArgs> | null
+  where?: Prisma.VideoWhereInput
+  orderBy?: Prisma.VideoOrderByWithRelationInput | Prisma.VideoOrderByWithRelationInput[]
+  cursor?: Prisma.VideoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VideoScalarFieldEnum | Prisma.VideoScalarFieldEnum[]
+}
+
+/**
+ * Professional.studioRequests
+ */
+export type Professional$studioRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudioRequest
+   */
+  select?: Prisma.StudioRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudioRequest
+   */
+  omit?: Prisma.StudioRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioRequestInclude<ExtArgs> | null
+  where?: Prisma.StudioRequestWhereInput
+  orderBy?: Prisma.StudioRequestOrderByWithRelationInput | Prisma.StudioRequestOrderByWithRelationInput[]
+  cursor?: Prisma.StudioRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudioRequestScalarFieldEnum | Prisma.StudioRequestScalarFieldEnum[]
 }
 
 /**

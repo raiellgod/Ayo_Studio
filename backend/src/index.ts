@@ -7,6 +7,7 @@ import { flashesRoutes } from "./routes/flashes.js";
 import { professionalsRoutes } from "./routes/professionals.js";
 import { artworkRoutes } from "./routes/artworks.js";
 import { productRoutes } from "./routes/products.js";
+import { videoRoutes } from "./routes/videos.js";
 
 const app = Fastify({
   logger: true,
@@ -20,6 +21,7 @@ await app.register(professionalsRoutes);
 await app.register(flashesRoutes);
 await app.register(artworkRoutes);
 await app.register(productRoutes);
+await app.register(videoRoutes);
 
 app.get("/health", async () => {
   return {

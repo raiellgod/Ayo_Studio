@@ -42,3 +42,13 @@ export type Artwork = Prisma.ArtworkModel
  * 
  */
 export type Product = Prisma.ProductModel
+/**
+ * Model Video
+ * 
+ */
+export type Video = Prisma.VideoModel
+/**
+ * Model StudioRequest
+ * 
+ */
+export type StudioRequest = Prisma.StudioRequestModel

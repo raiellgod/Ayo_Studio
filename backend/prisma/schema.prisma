@@ -14,6 +14,24 @@ enum ArtistServiceType {
   VOICE
 }
 
+enum StudioRequestType {
+  FLASH_RESERVATION
+  ARTWORK_RESERVATION
+  PRODUCT_INTEREST
+  TATTOO_CUSTOM
+  ART_CUSTOM
+  VOICE_CUSTOM
+}
+
+enum StudioRequestStatus {
+  NEW
+  CONTACTED
+  QUOTED
+  APPROVED
+  COMPLETED
+  CANCELLED
+}
+
 model Professional {
   id          Int     @id @default(autoincrement())
   slug        String  @unique
@@ -32,6 +50,9 @@ model Professional {
   flashes  Flash[]
   artworks Artwork[]
   products Product[]
+  videos   Video[]
+
+  studioRequests StudioRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -68,6 +89,8 @@ model Flash {
   artistId Int
   artist   Professional @relation(fields: [artistId], references: [id], onDelete: Cascade)
 
+  studioRequests StudioRequest[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -89,6 +112,8 @@ model Artwork {
   artistId Int
   artist   Professional @relation(fields: [artistId], references: [id], onDelete: Cascade)
 
+  studioRequests StudioRequest[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -108,8 +133,70 @@ model Product {
   authorId Int?
   author   Professional? @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
+  studioRequests StudioRequest[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([authorId])
+}
+
+model Video {
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+  name String
+
+  video       String
+  thumbnail   String?
+  description String?
+
+  isActive Boolean @default(true)
+
+  artistId Int
+  artist   Professional @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([artistId])
+  @@index([isActive])
+}
+
+model StudioRequest {
+  id Int @id @default(autoincrement())
+
+  type   StudioRequestType
+  status StudioRequestStatus @default(NEW)
+
+  name      String
+  whatsapp  String
+  email     String
+  instagram String?
+
+  message String?
+
+  details Json?
+
+  professionalId Int?
+  professional   Professional? @relation(fields: [professionalId], references: [id], onDelete: SetNull)
+
+  flashId Int?
+  flash   Flash? @relation(fields: [flashId], references: [id], onDelete: SetNull)
+
+  artworkId Int?
+  artwork   Artwork? @relation(fields: [artworkId], references: [id], onDelete: SetNull)
+
+  productId Int?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@index([professionalId])
+  @@index([flashId])
+  @@index([artworkId])
+  @@index([productId])
+  @@index([createdAt])
 }

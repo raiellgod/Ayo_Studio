@@ -277,6 +277,7 @@ export type FlashWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Flash"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Flash"> | Date | string
   artist?: Prisma.XOR<Prisma.ProfessionalScalarRelationFilter, Prisma.ProfessionalWhereInput>
+  studioRequests?: Prisma.StudioRequestListRelationFilter
 }
 
 export type FlashOrderByWithRelationInput = {
@@ -293,6 +294,7 @@ export type FlashOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   artist?: Prisma.ProfessionalOrderByWithRelationInput
+  studioRequests?: Prisma.StudioRequestOrderByRelationAggregateInput
 }
 
 export type FlashWhereUniqueInput = Prisma.AtLeast<{
@@ -312,6 +314,7 @@ export type FlashWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Flash"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Flash"> | Date | string
   artist?: Prisma.XOR<Prisma.ProfessionalScalarRelationFilter, Prisma.ProfessionalWhereInput>
+  studioRequests?: Prisma.StudioRequestListRelationFilter
 }, "id" | "slug">
 
 export type FlashOrderByWithAggregationInput = {
@@ -364,6 +367,7 @@ export type FlashCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   artist: Prisma.ProfessionalCreateNestedOneWithoutFlashesInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutFlashInput
 }
 
 export type FlashUncheckedCreateInput = {
@@ -379,6 +383,7 @@ export type FlashUncheckedCreateInput = {
   artistId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutFlashInput
 }
 
 export type FlashUpdateInput = {
@@ -393,6 +398,7 @@ export type FlashUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   artist?: Prisma.ProfessionalUpdateOneRequiredWithoutFlashesNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutFlashNestedInput
 }
 
 export type FlashUncheckedUpdateInput = {
@@ -408,6 +414,7 @@ export type FlashUncheckedUpdateInput = {
   artistId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutFlashNestedInput
 }
 
 export type FlashCreateManyInput = {
@@ -526,6 +533,11 @@ export type FlashSumOrderByAggregateInput = {
   artistId?: Prisma.SortOrder
 }
 
+export type FlashNullableScalarRelationFilter = {
+  is?: Prisma.FlashWhereInput | null
+  isNot?: Prisma.FlashWhereInput | null
+}
+
 export type FlashCreateNestedManyWithoutArtistInput = {
   create?: Prisma.XOR<Prisma.FlashCreateWithoutArtistInput, Prisma.FlashUncheckedCreateWithoutArtistInput> | Prisma.FlashCreateWithoutArtistInput[] | Prisma.FlashUncheckedCreateWithoutArtistInput[]
   connectOrCreate?: Prisma.FlashCreateOrConnectWithoutArtistInput | Prisma.FlashCreateOrConnectWithoutArtistInput[]
@@ -585,6 +597,22 @@ export type FlashUpdatecategoriesInput = {
   push?: string | string[]
 }
 
+export type FlashCreateNestedOneWithoutStudioRequestsInput = {
+  create?: Prisma.XOR<Prisma.FlashCreateWithoutStudioRequestsInput, Prisma.FlashUncheckedCreateWithoutStudioRequestsInput>
+  connectOrCreate?: Prisma.FlashCreateOrConnectWithoutStudioRequestsInput
+  connect?: Prisma.FlashWhereUniqueInput
+}
+
+export type FlashUpdateOneWithoutStudioRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.FlashCreateWithoutStudioRequestsInput, Prisma.FlashUncheckedCreateWithoutStudioRequestsInput>
+  connectOrCreate?: Prisma.FlashCreateOrConnectWithoutStudioRequestsInput
+  upsert?: Prisma.FlashUpsertWithoutStudioRequestsInput
+  disconnect?: Prisma.FlashWhereInput | boolean
+  delete?: Prisma.FlashWhereInput | boolean
+  connect?: Prisma.FlashWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FlashUpdateToOneWithWhereWithoutStudioRequestsInput, Prisma.FlashUpdateWithoutStudioRequestsInput>, Prisma.FlashUncheckedUpdateWithoutStudioRequestsInput>
+}
+
 export type FlashCreateWithoutArtistInput = {
   slug: string
   name: string
@@ -596,6 +624,7 @@ export type FlashCreateWithoutArtistInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutFlashInput
 }
 
 export type FlashUncheckedCreateWithoutArtistInput = {
@@ -610,6 +639,7 @@ export type FlashUncheckedCreateWithoutArtistInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutFlashInput
 }
 
 export type FlashCreateOrConnectWithoutArtistInput = {
@@ -656,6 +686,80 @@ export type FlashScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Flash"> | Date | string
 }
 
+export type FlashCreateWithoutStudioRequestsInput = {
+  slug: string
+  name: string
+  description?: string | null
+  image?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  categories?: Prisma.FlashCreatecategoriesInput | string[]
+  available?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  artist: Prisma.ProfessionalCreateNestedOneWithoutFlashesInput
+}
+
+export type FlashUncheckedCreateWithoutStudioRequestsInput = {
+  id?: number
+  slug: string
+  name: string
+  description?: string | null
+  image?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  categories?: Prisma.FlashCreatecategoriesInput | string[]
+  available?: boolean
+  isActive?: boolean
+  artistId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type FlashCreateOrConnectWithoutStudioRequestsInput = {
+  where: Prisma.FlashWhereUniqueInput
+  create: Prisma.XOR<Prisma.FlashCreateWithoutStudioRequestsInput, Prisma.FlashUncheckedCreateWithoutStudioRequestsInput>
+}
+
+export type FlashUpsertWithoutStudioRequestsInput = {
+  update: Prisma.XOR<Prisma.FlashUpdateWithoutStudioRequestsInput, Prisma.FlashUncheckedUpdateWithoutStudioRequestsInput>
+  create: Prisma.XOR<Prisma.FlashCreateWithoutStudioRequestsInput, Prisma.FlashUncheckedCreateWithoutStudioRequestsInput>
+  where?: Prisma.FlashWhereInput
+}
+
+export type FlashUpdateToOneWithWhereWithoutStudioRequestsInput = {
+  where?: Prisma.FlashWhereInput
+  data: Prisma.XOR<Prisma.FlashUpdateWithoutStudioRequestsInput, Prisma.FlashUncheckedUpdateWithoutStudioRequestsInput>
+}
+
+export type FlashUpdateWithoutStudioRequestsInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  categories?: Prisma.FlashUpdatecategoriesInput | string[]
+  available?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artist?: Prisma.ProfessionalUpdateOneRequiredWithoutFlashesNestedInput
+}
+
+export type FlashUncheckedUpdateWithoutStudioRequestsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  categories?: Prisma.FlashUpdatecategoriesInput | string[]
+  available?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artistId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type FlashCreateManyArtistInput = {
   id?: number
   slug: string
@@ -681,6 +785,7 @@ export type FlashUpdateWithoutArtistInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutFlashNestedInput
 }
 
 export type FlashUncheckedUpdateWithoutArtistInput = {
@@ -695,6 +800,7 @@ export type FlashUncheckedUpdateWithoutArtistInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutFlashNestedInput
 }
 
 export type FlashUncheckedUpdateManyWithoutArtistInput = {
@@ -712,6 +818,35 @@ export type FlashUncheckedUpdateManyWithoutArtistInput = {
 }
 
 
+/**
+ * Count Type FlashCountOutputType
+ */
+
+export type FlashCountOutputType = {
+  studioRequests: number
+}
+
+export type FlashCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  studioRequests?: boolean | FlashCountOutputTypeCountStudioRequestsArgs
+}
+
+/**
+ * FlashCountOutputType without action
+ */
+export type FlashCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FlashCountOutputType
+   */
+  select?: Prisma.FlashCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * FlashCountOutputType without action
+ */
+export type FlashCountOutputTypeCountStudioRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudioRequestWhereInput
+}
+
 
 export type FlashSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -727,6 +862,8 @@ export type FlashSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdAt?: boolean
   updatedAt?: boolean
   artist?: boolean | Prisma.ProfessionalDefaultArgs<ExtArgs>
+  studioRequests?: boolean | Prisma.Flash$studioRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.FlashCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["flash"]>
 
 export type FlashSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -779,6 +916,8 @@ export type FlashSelectScalar = {
 export type FlashOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "description" | "image" | "price" | "categories" | "available" | "isActive" | "artistId" | "createdAt" | "updatedAt", ExtArgs["result"]["flash"]>
 export type FlashInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   artist?: boolean | Prisma.ProfessionalDefaultArgs<ExtArgs>
+  studioRequests?: boolean | Prisma.Flash$studioRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.FlashCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FlashIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   artist?: boolean | Prisma.ProfessionalDefaultArgs<ExtArgs>
@@ -791,6 +930,7 @@ export type $FlashPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Flash"
   objects: {
     artist: Prisma.$ProfessionalPayload<ExtArgs>
+    studioRequests: Prisma.$StudioRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1200,6 +1340,7 @@ readonly fields: FlashFieldRefs;
 export interface Prisma__FlashClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   artist<T extends Prisma.ProfessionalDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfessionalClient<runtime.Types.Result.GetResult<Prisma.$ProfessionalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  studioRequests<T extends Prisma.Flash$studioRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Flash$studioRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudioRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1639,6 +1780,30 @@ export type FlashDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Flashes to delete.
    */
   limit?: number
+}
+
+/**
+ * Flash.studioRequests
+ */
+export type Flash$studioRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudioRequest
+   */
+  select?: Prisma.StudioRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudioRequest
+   */
+  omit?: Prisma.StudioRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioRequestInclude<ExtArgs> | null
+  where?: Prisma.StudioRequestWhereInput
+  orderBy?: Prisma.StudioRequestOrderByWithRelationInput | Prisma.StudioRequestOrderByWithRelationInput[]
+  cursor?: Prisma.StudioRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudioRequestScalarFieldEnum | Prisma.StudioRequestScalarFieldEnum[]
 }
 
 /**

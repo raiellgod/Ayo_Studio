@@ -381,6 +381,31 @@ const products = [
 ];
 
 /* =========================================================
+   VIDEOS
+========================================================= */
+
+const videos = [
+  {
+    slug: "fernando-fabricio-video-01",
+    name: "DUBLAGEM 01",
+    artistSlug: "artista-04",
+    video: "/videos/fernando-fabricio-01.mp4",
+    thumbnail: null,
+    description:
+      "Trecho de trabalho de dublagem e interpretação realizado por Fernando Fabricio.",
+  },
+  {
+    slug: "fernando-fabricio-video-02",
+    name: "DUBLAGEM 02",
+    artistSlug: "artista-04",
+    video: "/videos/fernando-fabricio-02.mp4",
+    thumbnail: null,
+    description:
+      "Trecho de trabalho de dublagem e interpretação realizado por Fernando Fabricio.",
+  },
+];
+
+/* =========================================================
    SEED
 ========================================================= */
 
@@ -584,7 +609,48 @@ async function main() {
 
   console.log("Seed dos produtos concluído.");
 
-  console.log("Seed dos produtos concluído.");
+    /* -------------------------
+     VIDEOS
+  ------------------------- */
+
+  for (const video of videos) {
+    const videoData = {
+      name: video.name,
+      video: video.video,
+      thumbnail: video.thumbnail,
+      description: video.description,
+      isActive: true,
+    };
+
+    await prisma.video.upsert({
+      where: {
+        slug: video.slug,
+      },
+
+      update: {
+        ...videoData,
+
+        artist: {
+          connect: {
+            slug: video.artistSlug,
+          },
+        },
+      },
+
+      create: {
+        slug: video.slug,
+        ...videoData,
+
+        artist: {
+          connect: {
+            slug: video.artistSlug,
+          },
+        },
+      },
+    });
+  }
+
+  console.log("Seed dos vídeos concluído.");
 }
 
 main()

@@ -401,7 +401,9 @@ export const ModelName = {
   ProfessionalService: 'ProfessionalService',
   Flash: 'Flash',
   Artwork: 'Artwork',
-  Product: 'Product'
+  Product: 'Product',
+  Video: 'Video',
+  StudioRequest: 'StudioRequest'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "professional" | "professionalService" | "flash" | "artwork" | "product"
+    modelProps: "professional" | "professionalService" | "flash" | "artwork" | "product" | "video" | "studioRequest"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,6 +793,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Video: {
+      payload: Prisma.$VideoPayload<ExtArgs>
+      fields: Prisma.VideoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VideoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VideoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        findFirst: {
+          args: Prisma.VideoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VideoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        findMany: {
+          args: Prisma.VideoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        create: {
+          args: Prisma.VideoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        createMany: {
+          args: Prisma.VideoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VideoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        delete: {
+          args: Prisma.VideoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        update: {
+          args: Prisma.VideoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        deleteMany: {
+          args: Prisma.VideoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VideoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VideoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>[]
+        }
+        upsert: {
+          args: Prisma.VideoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VideoPayload>
+        }
+        aggregate: {
+          args: Prisma.VideoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVideo>
+        }
+        groupBy: {
+          args: Prisma.VideoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VideoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VideoCountAggregateOutputType> | number
+        }
+      }
+    }
+    StudioRequest: {
+      payload: Prisma.$StudioRequestPayload<ExtArgs>
+      fields: Prisma.StudioRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudioRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudioRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.StudioRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudioRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>
+        }
+        findMany: {
+          args: Prisma.StudioRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>[]
+        }
+        create: {
+          args: Prisma.StudioRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>
+        }
+        createMany: {
+          args: Prisma.StudioRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudioRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.StudioRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>
+        }
+        update: {
+          args: Prisma.StudioRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudioRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudioRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudioRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudioRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.StudioRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudioRequest>
+        }
+        groupBy: {
+          args: Prisma.StudioRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudioRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudioRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudioRequestCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -910,12 +1060,57 @@ export const ProductScalarFieldEnum = {
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
+export const VideoScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  video: 'video',
+  thumbnail: 'thumbnail',
+  description: 'description',
+  isActive: 'isActive',
+  artistId: 'artistId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
+
+
+export const StudioRequestScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  status: 'status',
+  name: 'name',
+  whatsapp: 'whatsapp',
+  email: 'email',
+  instagram: 'instagram',
+  message: 'message',
+  details: 'details',
+  professionalId: 'professionalId',
+  flashId: 'flashId',
+  artworkId: 'artworkId',
+  productId: 'productId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudioRequestScalarFieldEnum = (typeof StudioRequestScalarFieldEnum)[keyof typeof StudioRequestScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -932,6 +1127,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1028,6 +1232,48 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'StudioRequestType'
+ */
+export type EnumStudioRequestTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudioRequestType'>
+    
+
+
+/**
+ * Reference to a field of type 'StudioRequestType[]'
+ */
+export type ListEnumStudioRequestTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudioRequestType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'StudioRequestStatus'
+ */
+export type EnumStudioRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudioRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'StudioRequestStatus[]'
+ */
+export type ListEnumStudioRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudioRequestStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 /**
@@ -1186,6 +1432,8 @@ export type GlobalOmitConfig = {
   flash?: Prisma.FlashOmit
   artwork?: Prisma.ArtworkOmit
   product?: Prisma.ProductOmit
+  video?: Prisma.VideoOmit
+  studioRequest?: Prisma.StudioRequestOmit
 }
 
 /* Types for Logging */

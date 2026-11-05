@@ -16,3 +16,27 @@ export const ArtistServiceType = {
 } as const
 
 export type ArtistServiceType = (typeof ArtistServiceType)[keyof typeof ArtistServiceType]
+
+
+export const StudioRequestType = {
+  FLASH_RESERVATION: 'FLASH_RESERVATION',
+  ARTWORK_RESERVATION: 'ARTWORK_RESERVATION',
+  PRODUCT_INTEREST: 'PRODUCT_INTEREST',
+  TATTOO_CUSTOM: 'TATTOO_CUSTOM',
+  ART_CUSTOM: 'ART_CUSTOM',
+  VOICE_CUSTOM: 'VOICE_CUSTOM'
+} as const
+
+export type StudioRequestType = (typeof StudioRequestType)[keyof typeof StudioRequestType]
+
+
+export const StudioRequestStatus = {
+  NEW: 'NEW',
+  CONTACTED: 'CONTACTED',
+  QUOTED: 'QUOTED',
+  APPROVED: 'APPROVED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type StudioRequestStatus = (typeof StudioRequestStatus)[keyof typeof StudioRequestStatus]

@@ -273,6 +273,7 @@ export type ArtworkWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Artwork"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Artwork"> | Date | string
   artist?: Prisma.XOR<Prisma.ProfessionalScalarRelationFilter, Prisma.ProfessionalWhereInput>
+  studioRequests?: Prisma.StudioRequestListRelationFilter
 }
 
 export type ArtworkOrderByWithRelationInput = {
@@ -288,6 +289,7 @@ export type ArtworkOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   artist?: Prisma.ProfessionalOrderByWithRelationInput
+  studioRequests?: Prisma.StudioRequestOrderByRelationAggregateInput
 }
 
 export type ArtworkWhereUniqueInput = Prisma.AtLeast<{
@@ -306,6 +308,7 @@ export type ArtworkWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Artwork"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Artwork"> | Date | string
   artist?: Prisma.XOR<Prisma.ProfessionalScalarRelationFilter, Prisma.ProfessionalWhereInput>
+  studioRequests?: Prisma.StudioRequestListRelationFilter
 }, "id" | "slug">
 
 export type ArtworkOrderByWithAggregationInput = {
@@ -355,6 +358,7 @@ export type ArtworkCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   artist: Prisma.ProfessionalCreateNestedOneWithoutArtworksInput
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutArtworkInput
 }
 
 export type ArtworkUncheckedCreateInput = {
@@ -369,6 +373,7 @@ export type ArtworkUncheckedCreateInput = {
   artistId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutArtworkInput
 }
 
 export type ArtworkUpdateInput = {
@@ -382,6 +387,7 @@ export type ArtworkUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   artist?: Prisma.ProfessionalUpdateOneRequiredWithoutArtworksNestedInput
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutArtworkNestedInput
 }
 
 export type ArtworkUncheckedUpdateInput = {
@@ -396,6 +402,7 @@ export type ArtworkUncheckedUpdateInput = {
   artistId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutArtworkNestedInput
 }
 
 export type ArtworkCreateManyInput = {
@@ -502,6 +509,11 @@ export type ArtworkSumOrderByAggregateInput = {
   artistId?: Prisma.SortOrder
 }
 
+export type ArtworkNullableScalarRelationFilter = {
+  is?: Prisma.ArtworkWhereInput | null
+  isNot?: Prisma.ArtworkWhereInput | null
+}
+
 export type ArtworkCreateNestedManyWithoutArtistInput = {
   create?: Prisma.XOR<Prisma.ArtworkCreateWithoutArtistInput, Prisma.ArtworkUncheckedCreateWithoutArtistInput> | Prisma.ArtworkCreateWithoutArtistInput[] | Prisma.ArtworkUncheckedCreateWithoutArtistInput[]
   connectOrCreate?: Prisma.ArtworkCreateOrConnectWithoutArtistInput | Prisma.ArtworkCreateOrConnectWithoutArtistInput[]
@@ -552,6 +564,22 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type ArtworkCreateNestedOneWithoutStudioRequestsInput = {
+  create?: Prisma.XOR<Prisma.ArtworkCreateWithoutStudioRequestsInput, Prisma.ArtworkUncheckedCreateWithoutStudioRequestsInput>
+  connectOrCreate?: Prisma.ArtworkCreateOrConnectWithoutStudioRequestsInput
+  connect?: Prisma.ArtworkWhereUniqueInput
+}
+
+export type ArtworkUpdateOneWithoutStudioRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.ArtworkCreateWithoutStudioRequestsInput, Prisma.ArtworkUncheckedCreateWithoutStudioRequestsInput>
+  connectOrCreate?: Prisma.ArtworkCreateOrConnectWithoutStudioRequestsInput
+  upsert?: Prisma.ArtworkUpsertWithoutStudioRequestsInput
+  disconnect?: Prisma.ArtworkWhereInput | boolean
+  delete?: Prisma.ArtworkWhereInput | boolean
+  connect?: Prisma.ArtworkWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ArtworkUpdateToOneWithWhereWithoutStudioRequestsInput, Prisma.ArtworkUpdateWithoutStudioRequestsInput>, Prisma.ArtworkUncheckedUpdateWithoutStudioRequestsInput>
+}
+
 export type ArtworkCreateWithoutArtistInput = {
   slug: string
   name: string
@@ -562,6 +590,7 @@ export type ArtworkCreateWithoutArtistInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  studioRequests?: Prisma.StudioRequestCreateNestedManyWithoutArtworkInput
 }
 
 export type ArtworkUncheckedCreateWithoutArtistInput = {
@@ -575,6 +604,7 @@ export type ArtworkUncheckedCreateWithoutArtistInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedCreateNestedManyWithoutArtworkInput
 }
 
 export type ArtworkCreateOrConnectWithoutArtistInput = {
@@ -620,6 +650,76 @@ export type ArtworkScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Artwork"> | Date | string
 }
 
+export type ArtworkCreateWithoutStudioRequestsInput = {
+  slug: string
+  name: string
+  image: string
+  type: string
+  price?: number | null
+  available?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  artist: Prisma.ProfessionalCreateNestedOneWithoutArtworksInput
+}
+
+export type ArtworkUncheckedCreateWithoutStudioRequestsInput = {
+  id?: number
+  slug: string
+  name: string
+  image: string
+  type: string
+  price?: number | null
+  available?: boolean
+  isActive?: boolean
+  artistId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ArtworkCreateOrConnectWithoutStudioRequestsInput = {
+  where: Prisma.ArtworkWhereUniqueInput
+  create: Prisma.XOR<Prisma.ArtworkCreateWithoutStudioRequestsInput, Prisma.ArtworkUncheckedCreateWithoutStudioRequestsInput>
+}
+
+export type ArtworkUpsertWithoutStudioRequestsInput = {
+  update: Prisma.XOR<Prisma.ArtworkUpdateWithoutStudioRequestsInput, Prisma.ArtworkUncheckedUpdateWithoutStudioRequestsInput>
+  create: Prisma.XOR<Prisma.ArtworkCreateWithoutStudioRequestsInput, Prisma.ArtworkUncheckedCreateWithoutStudioRequestsInput>
+  where?: Prisma.ArtworkWhereInput
+}
+
+export type ArtworkUpdateToOneWithWhereWithoutStudioRequestsInput = {
+  where?: Prisma.ArtworkWhereInput
+  data: Prisma.XOR<Prisma.ArtworkUpdateWithoutStudioRequestsInput, Prisma.ArtworkUncheckedUpdateWithoutStudioRequestsInput>
+}
+
+export type ArtworkUpdateWithoutStudioRequestsInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  available?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artist?: Prisma.ProfessionalUpdateOneRequiredWithoutArtworksNestedInput
+}
+
+export type ArtworkUncheckedUpdateWithoutStudioRequestsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  available?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artistId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ArtworkCreateManyArtistInput = {
   id?: number
   slug: string
@@ -643,6 +743,7 @@ export type ArtworkUpdateWithoutArtistInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studioRequests?: Prisma.StudioRequestUpdateManyWithoutArtworkNestedInput
 }
 
 export type ArtworkUncheckedUpdateWithoutArtistInput = {
@@ -656,6 +757,7 @@ export type ArtworkUncheckedUpdateWithoutArtistInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studioRequests?: Prisma.StudioRequestUncheckedUpdateManyWithoutArtworkNestedInput
 }
 
 export type ArtworkUncheckedUpdateManyWithoutArtistInput = {
@@ -672,6 +774,35 @@ export type ArtworkUncheckedUpdateManyWithoutArtistInput = {
 }
 
 
+/**
+ * Count Type ArtworkCountOutputType
+ */
+
+export type ArtworkCountOutputType = {
+  studioRequests: number
+}
+
+export type ArtworkCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  studioRequests?: boolean | ArtworkCountOutputTypeCountStudioRequestsArgs
+}
+
+/**
+ * ArtworkCountOutputType without action
+ */
+export type ArtworkCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ArtworkCountOutputType
+   */
+  select?: Prisma.ArtworkCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ArtworkCountOutputType without action
+ */
+export type ArtworkCountOutputTypeCountStudioRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudioRequestWhereInput
+}
+
 
 export type ArtworkSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -686,6 +817,8 @@ export type ArtworkSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   artist?: boolean | Prisma.ProfessionalDefaultArgs<ExtArgs>
+  studioRequests?: boolean | Prisma.Artwork$studioRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.ArtworkCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["artwork"]>
 
 export type ArtworkSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -735,6 +868,8 @@ export type ArtworkSelectScalar = {
 export type ArtworkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "image" | "type" | "price" | "available" | "isActive" | "artistId" | "createdAt" | "updatedAt", ExtArgs["result"]["artwork"]>
 export type ArtworkInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   artist?: boolean | Prisma.ProfessionalDefaultArgs<ExtArgs>
+  studioRequests?: boolean | Prisma.Artwork$studioRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.ArtworkCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ArtworkIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   artist?: boolean | Prisma.ProfessionalDefaultArgs<ExtArgs>
@@ -747,6 +882,7 @@ export type $ArtworkPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Artwork"
   objects: {
     artist: Prisma.$ProfessionalPayload<ExtArgs>
+    studioRequests: Prisma.$StudioRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1155,6 +1291,7 @@ readonly fields: ArtworkFieldRefs;
 export interface Prisma__ArtworkClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   artist<T extends Prisma.ProfessionalDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfessionalClient<runtime.Types.Result.GetResult<Prisma.$ProfessionalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  studioRequests<T extends Prisma.Artwork$studioRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Artwork$studioRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudioRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1593,6 +1730,30 @@ export type ArtworkDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Artworks to delete.
    */
   limit?: number
+}
+
+/**
+ * Artwork.studioRequests
+ */
+export type Artwork$studioRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudioRequest
+   */
+  select?: Prisma.StudioRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudioRequest
+   */
+  omit?: Prisma.StudioRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioRequestInclude<ExtArgs> | null
+  where?: Prisma.StudioRequestWhereInput
+  orderBy?: Prisma.StudioRequestOrderByWithRelationInput | Prisma.StudioRequestOrderByWithRelationInput[]
+  cursor?: Prisma.StudioRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudioRequestScalarFieldEnum | Prisma.StudioRequestScalarFieldEnum[]
 }
 
 /**
