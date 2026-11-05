@@ -7,7 +7,7 @@ import { ArtistArtworksSection } from "@/components/artists/ArtistArtworksSectio
 import { ArtistVideosSection } from "@/components/artists/ArtistVideosSection";
 
 import { getArtworks } from "@/lib/api/artworks";
-import { mockVideos } from "@/data/mockVideos";
+import { getVideos } from "@/lib/api/videos";
 
 import { getFlashes } from "@/lib/api/flashes";
 import { getProfessionalBySlug } from "@/lib/api/professionals";
@@ -33,9 +33,7 @@ export default async function ArtistPage({
 
   const artworks = await getArtworks(artist.id);
 
-  const videos = mockVideos.filter(
-    (video) => video.artistId === artist.id,
-  );
+  const videos = await getVideos(artist.id);
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">

@@ -6,10 +6,10 @@ import {
 } from "framer-motion";
 import { useState } from "react";
 
-import type { VideoItem } from "@/data/mockVideos";
+import type { Video } from "@/lib/api/videos";
 
 type ArtistVideosSectionProps = {
-  videos: VideoItem[];
+  videos: Video[];
 };
 
 export function ArtistVideosSection({
@@ -183,7 +183,7 @@ export function ArtistVideosSection({
                       <video
                         controls
                         preload="metadata"
-                        poster={video.thumbnail}
+                        poster={video.thumbnail ?? undefined}
                         className="
                           aspect-video
                           w-full
