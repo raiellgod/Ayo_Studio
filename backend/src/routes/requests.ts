@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 
 import type { Prisma } from "../generated/prisma/client.js";
 import { prisma } from "../lib/prisma.js";
+import { requireAdminApiKey } from "../lib/require-admin-api-key.js";
 
 type StudioRequestType =
   | "FLASH_RESERVATION"
@@ -28,10 +29,14 @@ const requestStatuses: StudioRequestStatus[] = [
   "CANCELLED",
 ];
 
-function isRequestStatus(value: unknown): value is StudioRequestStatus {
+function isRequestStatus(
+  value: unknown,
+): value is StudioRequestStatus {
   return (
     typeof value === "string" &&
-    requestStatuses.includes(value as StudioRequestStatus)
+    requestStatuses.includes(
+      value as StudioRequestStatus,
+    )
   );
 }
 
@@ -61,19 +66,31 @@ const requestTypes: StudioRequestType[] = [
   "VOICE_CUSTOM",
 ];
 
-function isRequestType(value: unknown): value is StudioRequestType {
+function isRequestType(
+  value: unknown,
+): value is StudioRequestType {
   return (
     typeof value === "string" &&
-    requestTypes.includes(value as StudioRequestType)
+    requestTypes.includes(
+      value as StudioRequestType,
+    )
   );
 }
 
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
+function isNonEmptyString(
+  value: unknown,
+): value is string {
+  return (
+    typeof value === "string" &&
+    value.trim().length > 0
+  );
 }
 
 function normalizeOptionalString(
-  value: string | null | undefined,
+  value:
+    | string
+    | null
+    | undefined,
 ): string | null {
   if (!value) {
     return null;
@@ -81,435 +98,503 @@ function normalizeOptionalString(
 
   const normalized = value.trim();
 
-  return normalized.length > 0 ? normalized : null;
+  return normalized.length > 0
+    ? normalized
+    : null;
 }
 
-export async function requestsRoutes(app: FastifyInstance) {
+const requestRelations = {
+  professional: {
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+    },
+  },
+
+  flash: {
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      image: true,
+    },
+  },
+
+  artwork: {
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      image: true,
+    },
+  },
+
+  product: {
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      image: true,
+    },
+  },
+} satisfies Prisma.StudioRequestInclude;
+
+export async function requestsRoutes(
+  app: FastifyInstance,
+) {
   /*
    * =========================================================
+   * PUBLIC
    * POST /requests
-   * Cria uma nova solicitação
+   * Cria uma nova solicitação enviada pelo site.
    * =========================================================
    */
   app.post<{
     Body: CreateStudioRequestBody;
-  }>("/requests", async (request, reply) => {
-    const body = request.body;
+  }>(
+    "/requests",
+    async (request, reply) => {
+      const body = request.body;
 
-    if (!body || !isRequestType(body.type)) {
-      return reply.status(400).send({
-        message: "Tipo de solicitação inválido.",
-      });
-    }
-
-    if (!isNonEmptyString(body.name)) {
-      return reply.status(400).send({
-        message: "Nome é obrigatório.",
-      });
-    }
-
-    if (!isNonEmptyString(body.whatsapp)) {
-      return reply.status(400).send({
-        message: "WhatsApp é obrigatório.",
-      });
-    }
-
-    if (!isNonEmptyString(body.email)) {
-      return reply.status(400).send({
-        message: "E-mail é obrigatório.",
-      });
-    }
-
-    const professionalId = body.professionalId ?? null;
-    const flashId = body.flashId ?? null;
-    const artworkId = body.artworkId ?? null;
-    const productId = body.productId ?? null;
-
-    /*
-     * =======================================================
-     * PROFISSIONAL
-     * =======================================================
-     */
-    if (professionalId !== null) {
-      const professional = await prisma.professional.findUnique({
-        where: {
-          id: professionalId,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      if (!professional) {
+      if (
+        !body ||
+        !isRequestType(body.type)
+      ) {
         return reply.status(400).send({
-          message: "Profissional informado não foi encontrado.",
+          message:
+            "Tipo de solicitação inválido.",
         });
       }
-    }
 
-    /*
-     * =======================================================
-     * FLASH
-     * =======================================================
-     */
-    if (flashId !== null) {
-      const flash = await prisma.flash.findUnique({
-        where: {
-          id: flashId,
-        },
-        select: {
-          id: true,
-          available: true,
-        },
-      });
-
-      if (!flash) {
+      if (
+        !isNonEmptyString(body.name)
+      ) {
         return reply.status(400).send({
-          message: "Flash informado não foi encontrado.",
+          message:
+            "Nome é obrigatório.",
         });
       }
 
-      if (!flash.available) {
-        return reply.status(409).send({
-          message: "Este flash não está disponível para novas solicitações.",
-        });
-      }
-    }
-
-    /*
-     * =======================================================
-     * ARTE
-     * =======================================================
-     */
-    if (artworkId !== null) {
-      const artwork = await prisma.artwork.findUnique({
-        where: {
-          id: artworkId,
-        },
-        select: {
-          id: true,
-          available: true,
-        },
-      });
-
-      if (!artwork) {
+      if (
+        !isNonEmptyString(
+          body.whatsapp,
+        )
+      ) {
         return reply.status(400).send({
-          message: "Arte informada não foi encontrada.",
+          message:
+            "WhatsApp é obrigatório.",
         });
       }
 
-      if (!artwork.available) {
-        return reply.status(409).send({
-          message: "Esta arte não está disponível para novas solicitações.",
-        });
-      }
-    }
-
-    /*
-     * =======================================================
-     * PRODUTO
-     * =======================================================
-     */
-    if (productId !== null) {
-      const product = await prisma.product.findUnique({
-        where: {
-          id: productId,
-        },
-        select: {
-          id: true,
-          available: true,
-        },
-      });
-
-      if (!product) {
+      if (
+        !isNonEmptyString(body.email)
+      ) {
         return reply.status(400).send({
-          message: "Produto informado não foi encontrado.",
+          message:
+            "E-mail é obrigatório.",
         });
       }
 
-      if (!product.available) {
-        return reply.status(409).send({
-          message: "Este produto não está disponível para novas solicitações.",
-        });
+      const professionalId =
+        body.professionalId ?? null;
+
+      const flashId =
+        body.flashId ?? null;
+
+      const artworkId =
+        body.artworkId ?? null;
+
+      const productId =
+        body.productId ?? null;
+
+      if (professionalId !== null) {
+        const professional =
+          await prisma.professional.findUnique({
+            where: {
+              id: professionalId,
+            },
+            select: {
+              id: true,
+              isActive: true,
+            },
+          });
+
+        if (
+          !professional ||
+          !professional.isActive
+        ) {
+          return reply
+            .status(400)
+            .send({
+              message:
+                "Profissional informado não foi encontrado ou está inativo.",
+            });
+        }
       }
-    }
 
-    /*
-     * =======================================================
-     * VALIDAÇÕES POR TIPO
-     * =======================================================
-     */
-    if (body.type === "FLASH_RESERVATION" && flashId === null) {
-      return reply.status(400).send({
-        message: "Uma solicitação de flash precisa informar flashId.",
-      });
-    }
+      if (flashId !== null) {
+        const flash =
+          await prisma.flash.findUnique({
+            where: {
+              id: flashId,
+            },
+            select: {
+              id: true,
+              available: true,
+              isActive: true,
+            },
+          });
 
-    if (body.type === "ARTWORK_RESERVATION" && artworkId === null) {
-      return reply.status(400).send({
-        message: "Uma solicitação de arte precisa informar artworkId.",
-      });
-    }
+        if (
+          !flash ||
+          !flash.isActive
+        ) {
+          return reply
+            .status(400)
+            .send({
+              message:
+                "Flash informado não foi encontrado.",
+            });
+        }
 
-    if (body.type === "PRODUCT_INTEREST" && productId === null) {
-      return reply.status(400).send({
-        message: "Uma solicitação de produto precisa informar productId.",
-      });
-    }
+        if (!flash.available) {
+          return reply
+            .status(409)
+            .send({
+              message:
+                "Este flash não está disponível para novas solicitações.",
+            });
+        }
+      }
 
-    if (
-      (body.type === "TATTOO_CUSTOM" ||
-        body.type === "ART_CUSTOM" ||
-        body.type === "VOICE_CUSTOM") &&
-      professionalId === null
-    ) {
-      return reply.status(400).send({
-        message:
-          "Uma solicitação personalizada precisa informar professionalId.",
-      });
-    }
+      if (artworkId !== null) {
+        const artwork =
+          await prisma.artwork.findUnique({
+            where: {
+              id: artworkId,
+            },
+            select: {
+              id: true,
+              available: true,
+              isActive: true,
+            },
+          });
 
-    /*
-     * =======================================================
-     * CRIAÇÃO
-     * =======================================================
-     */
-    const studioRequest = await prisma.studioRequest.create({
-      data: {
-        type: body.type,
+        if (
+          !artwork ||
+          !artwork.isActive
+        ) {
+          return reply
+            .status(400)
+            .send({
+              message:
+                "Arte informada não foi encontrada.",
+            });
+        }
 
-        name: body.name.trim(),
-        whatsapp: body.whatsapp.trim(),
-        email: body.email.trim(),
+        if (!artwork.available) {
+          return reply
+            .status(409)
+            .send({
+              message:
+                "Esta arte não está disponível para novas solicitações.",
+            });
+        }
+      }
 
-        instagram: normalizeOptionalString(body.instagram),
-        message: normalizeOptionalString(body.message),
+      if (productId !== null) {
+        const product =
+          await prisma.product.findUnique({
+            where: {
+              id: productId,
+            },
+            select: {
+              id: true,
+              available: true,
+              isActive: true,
+            },
+          });
 
-        details: body.details ?? undefined,
+        if (
+          !product ||
+          !product.isActive
+        ) {
+          return reply
+            .status(400)
+            .send({
+              message:
+                "Produto informado não foi encontrado.",
+            });
+        }
 
-        professionalId,
-        flashId,
-        artworkId,
-        productId,
-      },
-    });
+        if (!product.available) {
+          return reply
+            .status(409)
+            .send({
+              message:
+                "Este produto não está disponível para novas solicitações.",
+            });
+        }
+      }
 
-    return reply.status(201).send(studioRequest);
-  });
+      if (
+        body.type ===
+          "FLASH_RESERVATION" &&
+        flashId === null
+      ) {
+        return reply
+          .status(400)
+          .send({
+            message:
+              "Uma solicitação de flash precisa informar flashId.",
+          });
+      }
+
+      if (
+        body.type ===
+          "ARTWORK_RESERVATION" &&
+        artworkId === null
+      ) {
+        return reply
+          .status(400)
+          .send({
+            message:
+              "Uma solicitação de arte precisa informar artworkId.",
+          });
+      }
+
+      if (
+        body.type ===
+          "PRODUCT_INTEREST" &&
+        productId === null
+      ) {
+        return reply
+          .status(400)
+          .send({
+            message:
+              "Uma solicitação de produto precisa informar productId.",
+          });
+      }
+
+      if (
+        (
+          body.type ===
+            "TATTOO_CUSTOM" ||
+          body.type ===
+            "ART_CUSTOM" ||
+          body.type ===
+            "VOICE_CUSTOM"
+        ) &&
+        professionalId === null
+      ) {
+        return reply
+          .status(400)
+          .send({
+            message:
+              "Uma solicitação personalizada precisa informar professionalId.",
+          });
+      }
+
+      const studioRequest =
+        await prisma.studioRequest.create({
+          data: {
+            type: body.type,
+
+            name: body.name.trim(),
+            whatsapp:
+              body.whatsapp.trim(),
+            email:
+              body.email
+                .trim()
+                .toLowerCase(),
+
+            instagram:
+              normalizeOptionalString(
+                body.instagram,
+              ),
+
+            message:
+              normalizeOptionalString(
+                body.message,
+              ),
+
+            details:
+              body.details ??
+              undefined,
+
+            professionalId,
+            flashId,
+            artworkId,
+            productId,
+          },
+        });
+
+      return reply
+        .status(201)
+        .send(studioRequest);
+    },
+  );
 
   /*
    * =========================================================
+   * ADMIN
    * GET /requests
-   * Lista todas as solicitações
    * =========================================================
    */
-  app.get("/requests", async () => {
-    const studioRequests = await prisma.studioRequest.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-
-      include: {
-        professional: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-          },
+  app.get(
+    "/requests",
+    {
+      preHandler:
+        requireAdminApiKey,
+    },
+    async () => {
+      return prisma.studioRequest.findMany({
+        orderBy: {
+          createdAt: "desc",
         },
 
-        flash: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-            image: true,
-          },
-        },
-
-        artwork: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-            image: true,
-          },
-        },
-
-        product: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-            image: true,
-          },
-        },
-      },
-    });
-
-    return studioRequests;
-  });
+        include:
+          requestRelations,
+      });
+    },
+  );
 
   /*
    * =========================================================
+   * ADMIN
    * GET /requests/:id
-   * Retorna uma solicitação específica
    * =========================================================
    */
   app.get<{
     Params: {
       id: string;
     };
-  }>("/requests/:id", async (request, reply) => {
-    const id = Number(request.params.id);
+  }>(
+    "/requests/:id",
+    {
+      preHandler:
+        requireAdminApiKey,
+    },
+    async (request, reply) => {
+      const id =
+        Number(request.params.id);
 
-    if (!Number.isInteger(id) || id <= 0) {
-      return reply.status(400).send({
-        message: "ID de solicitação inválido.",
-      });
-    }
+      if (
+        !Number.isInteger(id) ||
+        id <= 0
+      ) {
+        return reply
+          .status(400)
+          .send({
+            message:
+              "ID de solicitação inválido.",
+          });
+      }
 
-    const studioRequest = await prisma.studioRequest.findUnique({
-      where: {
-        id,
-      },
-
-      include: {
-        professional: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
+      const studioRequest =
+        await prisma.studioRequest.findUnique({
+          where: {
+            id,
           },
-        },
 
-        flash: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-            image: true,
-          },
-        },
+          include:
+            requestRelations,
+        });
 
-        artwork: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-            image: true,
-          },
-        },
+      if (!studioRequest) {
+        return reply
+          .status(404)
+          .send({
+            message:
+              "Solicitação não encontrada.",
+          });
+      }
 
-        product: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-            image: true,
-          },
-        },
-      },
-    });
-
-    if (!studioRequest) {
-      return reply.status(404).send({
-        message: "Solicitação não encontrada.",
-      });
-    }
-
-    return studioRequest;
-  });
+      return studioRequest;
+    },
+  );
 
   /*
- * =========================================================
- * PATCH /requests/:id/status
- * Atualiza o status de uma solicitação
- * =========================================================
- */
-app.patch<{
-  Params: {
-    id: string;
-  };
-  Body: {
-    status: StudioRequestStatus;
-  };
-}>("/requests/:id/status", async (request, reply) => {
-  const id = Number(request.params.id);
-  const { status } = request.body;
-
-  if (!Number.isInteger(id) || id <= 0) {
-    return reply.status(400).send({
-      message: "ID de solicitação inválido.",
-    });
-  }
-
-  if (!isRequestStatus(status)) {
-    return reply.status(400).send({
-      message: "Status de solicitação inválido.",
-    });
-  }
-
-  const existingRequest = await prisma.studioRequest.findUnique({
-    where: {
-      id,
+   * =========================================================
+   * ADMIN
+   * PATCH /requests/:id/status
+   * =========================================================
+   */
+  app.patch<{
+    Params: {
+      id: string;
+    };
+    Body: {
+      status: StudioRequestStatus;
+    };
+  }>(
+    "/requests/:id/status",
+    {
+      preHandler:
+        requireAdminApiKey,
     },
-    select: {
-      id: true,
-    },
-  });
+    async (request, reply) => {
+      const id =
+        Number(request.params.id);
 
-  if (!existingRequest) {
-    return reply.status(404).send({
-      message: "Solicitação não encontrada.",
-    });
-  }
+      const { status } =
+        request.body;
 
-  const studioRequest = await prisma.studioRequest.update({
-    where: {
-      id,
-    },
-    data: {
-      status,
-    },
-    include: {
-      professional: {
-        select: {
-          id: true,
-          slug: true,
-          name: true,
+      if (
+        !Number.isInteger(id) ||
+        id <= 0
+      ) {
+        return reply
+          .status(400)
+          .send({
+            message:
+              "ID de solicitação inválido.",
+          });
+      }
+
+      if (
+        !isRequestStatus(status)
+      ) {
+        return reply
+          .status(400)
+          .send({
+            message:
+              "Status de solicitação inválido.",
+          });
+      }
+
+      const existingRequest =
+        await prisma.studioRequest.findUnique({
+          where: {
+            id,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+      if (!existingRequest) {
+        return reply
+          .status(404)
+          .send({
+            message:
+              "Solicitação não encontrada.",
+          });
+      }
+
+      return prisma.studioRequest.update({
+        where: {
+          id,
         },
-      },
 
-      flash: {
-        select: {
-          id: true,
-          slug: true,
-          name: true,
-          image: true,
+        data: {
+          status,
         },
-      },
 
-      artwork: {
-        select: {
-          id: true,
-          slug: true,
-          name: true,
-          image: true,
-        },
-      },
-
-      product: {
-        select: {
-          id: true,
-          slug: true,
-          name: true,
-          image: true,
-        },
-      },
+        include:
+          requestRelations,
+      });
     },
-  });
-
-  return studioRequest;
-});
+  );
 }

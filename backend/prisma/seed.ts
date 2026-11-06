@@ -385,7 +385,7 @@ const videos = [
     name: "DUBLAGEM 02",
     artistSlug: "artista-04",
     video:
-      "https://res.cloudinary.com/qpioqfhr/video/upload/v1793992690/ayo-studio/videos/fernando-fabricio/fernando-fabricio-02.mp4",
+      "https://res.cloudinary.com/qpioqfhr/video/upload/v1793992690/ayo-studio/videos/fernando-fabricio/fernando-fabricio-02.mp4", 
     thumbnail: null,
     description: "Trecho de trabalho de dublagem e interpretação realizado por Fernando Fabricio.",
   },

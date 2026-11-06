@@ -12,6 +12,7 @@ A V1 não possui checkout nem pagamento online.
 - TypeScript
 - Tailwind CSS 4
 - Framer Motion
+- Auth.js
 - pnpm
 
 ### Backend
@@ -22,87 +23,75 @@ A V1 não possui checkout nem pagamento online.
 - Prisma
 
 ### Integrações
+- Cloudinary
 - Formspree
 - WhatsApp via link externo
 
-## Identidade
+## Estado atual
 
-- Vermelho Ayô `#820000`
-- Preto Traço `#000000`
-- Creme Arte `#FAF4EF`
-- Cormorant Garamond
-- Special Elite
-- Bitter
+Persistidos:
+
+- profissionais e serviços;
+- flashes;
+- artes;
+- produtos;
+- vídeos;
+- solicitações;
+- usuários administrativos.
+
+Admin implementado:
+
+- solicitações;
+- profissionais;
+- flashes;
+- artes;
+- produtos;
+- vídeos;
+- usuários;
+- roles OWNER / ADMIN / EDITOR.
 
 ## Arquitetura
 
 ```text
 Next.js
-  ↓ HTTP
+  ↓
 Fastify
-  ↓ Prisma
+  ↓
+Prisma
+  ↓
 PostgreSQL
+
+Mídia → Cloudinary
 ```
 
-## Estado atual da persistência
+## Rodando localmente
 
-Migrados para PostgreSQL/API:
-
-- profissionais;
-- serviços;
-- flashes;
-- artes;
-- produtos.
-
-Ainda em mock:
-
-- vídeos.
-
-Próximos depois de vídeos:
-
-- reservas;
-- pedidos personalizados.
-
-## API pública atual
-
-```text
-/professionals
-/flashes
-/artworks
-/products
-```
-
-## Rodando o frontend
+Frontend:
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Validação:
-
-```bash
-pnpm tsc --noEmit
-pnpm lint
-pnpm build
-```
-
-## Backend
+Backend:
 
 ```bash
 cd backend
 pnpm install
-pnpm typecheck
+pnpm dev
 ```
 
-Prisma:
+## Validação
 
 ```bash
-pnpm exec prisma format
-pnpm exec prisma validate
-pnpm exec prisma generate
-pnpm exec prisma db seed
-pnpm exec prisma studio
+cd backend
+pnpm typecheck
+pnpm tsc --noEmit
+cd ..
+
+pnpm tsc --noEmit
+pnpm lint
+pnpm build
 ```
 
 ## Variáveis
@@ -110,68 +99,51 @@ pnpm exec prisma studio
 Frontend:
 
 ```env
+AUTH_SECRET="..."
+ADMIN_API_KEY="..."
+ADMIN_UPLOAD_KEY="..."
+BACKEND_API_URL="http://localhost:3333"
+NEXT_PUBLIC_API_URL="http://localhost:3333"
 NEXT_PUBLIC_FORMSPREE_ENDPOINT="..."
 NEXT_PUBLIC_WHATSAPP_NUMBER="..."
-NEXT_PUBLIC_API_URL="http://localhost:3333"
 ```
 
 Backend:
 
 ```env
 DATABASE_URL="..."
+ADMIN_API_KEY="..."
+ADMIN_UPLOAD_KEY="..."
+CLOUDINARY_CLOUD_NAME="..."
+CLOUDINARY_API_KEY="..."
+CLOUDINARY_API_SECRET="..."
+CORS_ORIGINS="http://localhost:3000"
+PORT="3333"
 ```
 
 Não versionar valores reais.
 
-## Rotas públicas principais
+## Admin
 
 ```text
-/
-/artistas/[slug]
-/artistas/[slug]/pedido
-/artistas/[slug]/ideia
-/flashes/[slug]
-/artes/[slug]
-/loja
-/loja/[slug]
-/reservar/flash/[slug]
-/reservar/arte/[slug]
-/reservar/produto/[slug]
-/pedido
-/pedido/tatuagem
-/pedido/arte
-/pedido/arte/[slug]
-/pedido/dublagem
-/pedido/dublagem/[slug]
+/admin/login
+/admin/solicitacoes
+/admin/profissionais
+/admin/flashes
+/admin/artes
+/admin/produtos
+/admin/videos
+/admin/usuarios
 ```
 
-## Produtos
+## Produção
 
-Produtos podem ter autoria opcional. Isso permite itens institucionais do AYŌ e itens de autores específicos.
+Próximos passos:
 
-## Mídia
-
-Imagens/vídeos não devem ser armazenados como binário no PostgreSQL.
-
-Atualmente os registros podem apontar para arquivos locais em `public/`. Futuramente o plano é usar provider externo e persistir URL/key/public ID.
-
-## Reservas e pedidos
-
-Ainda usam Formspree como canal de submissão.
-
-Formspree não é o banco de domínio e não confirma reserva automaticamente.
-
-## Próximo objetivo
-
-Migrar vídeos:
-
-1. Prisma model;
-2. migration;
-3. seed;
-4. API;
-5. helper frontend;
-6. remover `mockVideos.ts`.
-
-## Documentação
-
-Detalhes em `docs/`.
+1. build final;
+2. PostgreSQL de produção;
+3. hospedagem do backend;
+4. variáveis;
+5. `prisma migrate deploy`;
+6. redeploy do frontend;
+7. smoke tests.

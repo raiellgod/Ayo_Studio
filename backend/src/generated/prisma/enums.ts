@@ -40,3 +40,12 @@ export const StudioRequestStatus = {
 } as const
 
 export type StudioRequestStatus = (typeof StudioRequestStatus)[keyof typeof StudioRequestStatus]
+
+
+export const AdminRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  EDITOR: 'EDITOR'
+} as const
+
+export type AdminRole = (typeof AdminRole)[keyof typeof AdminRole]

@@ -57,7 +57,8 @@ export const ModelName = {
   Artwork: 'Artwork',
   Product: 'Product',
   Video: 'Video',
-  StudioRequest: 'StudioRequest'
+  StudioRequest: 'StudioRequest',
+  AdminUser: 'AdminUser'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -191,6 +192,20 @@ export const StudioRequestScalarFieldEnum = {
 } as const
 
 export type StudioRequestScalarFieldEnum = (typeof StudioRequestScalarFieldEnum)[keyof typeof StudioRequestScalarFieldEnum]
+
+
+export const AdminUserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  role: 'role',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminUserScalarFieldEnum = (typeof AdminUserScalarFieldEnum)[keyof typeof AdminUserScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -76,3 +76,8 @@ export type Video = Prisma.VideoModel
  * 
  */
 export type StudioRequest = Prisma.StudioRequestModel
+/**
+ * Model AdminUser
+ * 
+ */
+export type AdminUser = Prisma.AdminUserModel

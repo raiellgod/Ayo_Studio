@@ -3,6 +3,7 @@ import "dotenv/config";
 import cors from "@fastify/cors";
 import Fastify from "fastify";
 
+import { adminUsersRoutes } from "./routes/admin-users.js";
 import { flashesRoutes } from "./routes/flashes.js";
 import { professionalsRoutes } from "./routes/professionals.js";
 import { artworkRoutes } from "./routes/artworks.js";
@@ -14,8 +15,16 @@ const app = Fastify({
   logger: true,
 });
 
+const allowedOrigins = (
+  process.env.CORS_ORIGINS ??
+  "http://localhost:3000"
+)
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 await app.register(cors, {
-  origin: ["http://localhost:3000"],
+  origin: allowedOrigins,
 });
 
 await app.register(professionalsRoutes);
@@ -24,6 +33,7 @@ await app.register(artworkRoutes);
 await app.register(productRoutes);
 await app.register(videoRoutes);
 await app.register(requestsRoutes);
+await app.register(adminUsersRoutes);
 
 app.get("/health", async () => {
   return {

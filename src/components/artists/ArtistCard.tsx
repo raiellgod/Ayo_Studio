@@ -95,9 +95,9 @@ export function ArtistCard({ name, image, onClick }: ArtistCardProps) {
         </div>
 
         <div className="border-t border-white/5 bg-black/60 px-5 py-5">
-          <h3 className="font-title text-ayo-cream text-2xl">{name}</h3>
+          <h3 className="font-title text-xl leading-tight whitespace-nowrap">{name}</h3>
 
-          <p className="font-accent text-ayo-red mt-2 text-xs tracking-[0.08em] uppercase">
+          <p className="font-accent text-ayo-red mt-1.5 text-xs tracking-[0.08em] uppercase">
             CLIQUE PARA CONHECER
           </p>
         </div>
