@@ -375,19 +375,19 @@ const videos = [
     slug: "fernando-fabricio-video-01",
     name: "DUBLAGEM 01",
     artistSlug: "artista-04",
-    video: "/videos/fernando-fabricio-01.mp4",
+    video:
+      "https://res.cloudinary.com/qpioqfhr/video/upload/v1793986357/ayo-studio/videos/fernando-fabricio/fernando-fabricio-01.mp4",
     thumbnail: null,
-    description:
-      "Trecho de trabalho de dublagem e interpretação realizado por Fernando Fabricio.",
+    description: "Trecho de trabalho de dublagem e interpretação realizado por Fernando Fabricio.",
   },
   {
     slug: "fernando-fabricio-video-02",
     name: "DUBLAGEM 02",
     artistSlug: "artista-04",
-    video: "/videos/fernando-fabricio-02.mp4",
+    video:
+      "https://res.cloudinary.com/qpioqfhr/video/upload/v1793992690/ayo-studio/videos/fernando-fabricio/fernando-fabricio-02.mp4",
     thumbnail: null,
-    description:
-      "Trecho de trabalho de dublagem e interpretação realizado por Fernando Fabricio.",
+    description: "Trecho de trabalho de dublagem e interpretação realizado por Fernando Fabricio.",
   },
 ];
 
@@ -581,7 +581,7 @@ async function main() {
 
   console.log("Seed dos produtos concluído.");
 
-    /* -------------------------
+  /* -------------------------
      VIDEOS
   ------------------------- */
 
