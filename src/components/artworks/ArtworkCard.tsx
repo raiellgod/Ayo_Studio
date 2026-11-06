@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ProtectedArtworkImage } from "@/components/media/ProtectedArtworkImage";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -39,15 +39,14 @@ export function ArtworkCard({ artwork, featured = false }: ArtworkCardProps) {
           } `}
         >
           {artwork.image ? (
-            <Image
+            <ProtectedArtworkImage
               src={artwork.image}
               alt={artwork.name}
-              fill
               unoptimized
               sizes={
                 featured ? "(max-width: 1024px) 100vw, 35vw" : "(max-width: 1024px) 50vw, 20vw"
               }
-              className={`object-cover transition-all duration-300 group-hover:scale-[1.03] ${
+              imageClassName={`object-cover transition-all duration-300 group-hover:scale-[1.03] ${
                 isAvailable ? "opacity-100" : "opacity-40 grayscale-[30%]"
               } `}
             />
@@ -59,7 +58,7 @@ export function ArtworkCard({ artwork, featured = false }: ArtworkCardProps) {
 
           {!isAvailable && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20">
-              <span className="rounded-full border border-ayo-red/50 bg-black/80 px-5 py-2 font-sans text-xs font-bold tracking-[0.12em] text-ayo-red uppercase">
+              <span className="border-ayo-red/50 text-ayo-red rounded-full border bg-black/80 px-5 py-2 font-sans text-xs font-bold tracking-[0.12em] uppercase">
                 RESERVADO
               </span>
             </div>
@@ -97,7 +96,7 @@ export function ArtworkCard({ artwork, featured = false }: ArtworkCardProps) {
                 : "\u00A0"}
             </p>
           ) : (
-            <p className="mt-1 min-h-[20px] font-sans text-xs font-semibold tracking-[0.08em] text-ayo-red uppercase">
+            <p className="text-ayo-red mt-1 min-h-[20px] font-sans text-xs font-semibold tracking-[0.08em] uppercase">
               RESERVADO
             </p>
           )}

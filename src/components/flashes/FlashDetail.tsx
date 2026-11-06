@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import { ProtectedArtworkImage } from "@/components/media/ProtectedArtworkImage";
 import type { Artist } from "@/types/artist";
 import type { SelectableFlash } from "@/lib/flashes/selectFeaturedFlashes";
 
@@ -43,14 +43,13 @@ export function FlashDetail({
             className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#090909_100%)]"
           >
             {flash.image ? (
-              <Image
+              <ProtectedArtworkImage
                 src={flash.image}
                 alt={flash.name}
-                fill
                 priority
                 unoptimized
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className={`
+                imageClassName={`
                   object-contain
                   p-6
                   transition

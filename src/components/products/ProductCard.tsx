@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ProtectedArtworkImage } from "@/components/media/ProtectedArtworkImage";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -10,9 +10,7 @@ type ProductCardProps = {
   product: Product;
 };
 
-export function ProductCard({
-  product,
-}: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   return (
     <motion.div
       whileHover={{
@@ -26,84 +24,32 @@ export function ProductCard({
     >
       <Link
         href={`/loja/${product.slug}`}
-        className="
-          group
-          flex
-          h-full
-          flex-col
-          overflow-hidden
-          rounded-3xl
-          border
-          border-white/10
-          bg-[#090909]
-        "
+        className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#090909]"
       >
         {/* IMAGEM */}
 
-        <div
-          className="
-            relative
-            aspect-square
-            overflow-hidden
-            bg-[linear-gradient(145deg,#171717_0%,#090909_100%)]
-          "
-        >
+        <div className="relative aspect-square overflow-hidden bg-[linear-gradient(145deg,#171717_0%,#090909_100%)]">
           {product.image ? (
-            <Image
+            <ProtectedArtworkImage
               src={product.image}
               alt={product.name}
-              fill
               sizes="(max-width: 768px) 100vw, 33vw"
-              className="
-                object-cover
-                transition-transform
-                duration-300
-                group-hover:scale-[1.03]
-              "
+              imageClassName="
+      object-cover
+      transition-transform
+      duration-300
+      group-hover:scale-[1.03]
+    "
             />
           ) : (
-            <div
-              className="
-                flex
-                h-full
-                items-center
-                justify-center
-                font-sans
-                text-sm
-                text-white/20
-              "
-            >
+            <div className="flex h-full items-center justify-center font-sans text-sm text-white/20">
               produto
             </div>
           )}
 
           {!product.available && (
-            <div
-              className="
-                absolute
-                inset-0
-                flex
-                items-center
-                justify-center
-                bg-black/65
-              "
-            >
-              <span
-                className="
-                  rounded-full
-                  border
-                  border-ayo-red/40
-                  bg-ayo-red/10
-                  px-4
-                  py-2
-                  font-sans
-                  text-xs
-                  font-semibold
-                  uppercase
-                  tracking-[0.1em]
-                  text-ayo-red
-                "
-              >
+            <div className="absolute inset-0 flex items-center justify-center bg-black/65">
+              <span className="border-ayo-red/40 bg-ayo-red/10 text-ayo-red rounded-full border px-4 py-2 font-sans text-xs font-semibold tracking-[0.1em] uppercase">
                 INDISPONÍVEL
               </span>
             </div>
@@ -112,61 +58,19 @@ export function ProductCard({
 
         {/* INFORMAÇÕES */}
 
-        <div
-          className="
-            flex
-            flex-1
-            flex-col
-            bg-black/60
-            px-4
-            py-4
-            sm:px-5
-            sm:py-5
-          "
-        >
-          <h2
-            className="
-              font-title
-              text-xl
-              text-white
-              sm:text-2xl
-            "
-          >
-            {product.name}
-          </h2>
+        <div className="flex flex-1 flex-col bg-black/60 px-4 py-4 sm:px-5 sm:py-5">
+          <h2 className="font-title text-xl text-white sm:text-2xl">{product.name}</h2>
 
-          <p
-            className="
-              mt-2
-              font-sans
-              text-xs
-              font-semibold
-              uppercase
-              tracking-[0.08em]
-              text-white/50
-            "
-          >
+          <p className="mt-2 font-sans text-xs font-semibold tracking-[0.08em] text-white/50 uppercase">
             {product.type}
           </p>
 
-          <p
-            className="
-              mt-3
-              min-h-[20px]
-              font-sans
-              text-sm
-              font-semibold
-              text-ayo-cream
-            "
-          >
+          <p className="text-ayo-cream mt-3 min-h-[20px] font-sans text-sm font-semibold">
             {product.price !== null
-              ? product.price.toLocaleString(
-                  "pt-BR",
-                  {
-                    style: "currency",
-                    currency: "BRL",
-                  },
-                )
+              ? product.price.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })
               : "\u00A0"}
           </p>
         </div>

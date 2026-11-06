@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   AnimatePresence,
@@ -8,6 +7,7 @@ import {
 } from "framer-motion";
 import { useState } from "react";
 
+import { ProtectedArtworkImage } from "@/components/media/ProtectedArtworkImage";
 import type { SelectableFlash } from "@/lib/flashes/selectFeaturedFlashes";
 
 type ArtistFlashesSectionProps = {
@@ -212,17 +212,16 @@ export function ArtistFlashesSection({
                       "
                     >
                       {flash.image ? (
-                        <Image
+                        <ProtectedArtworkImage
                           src={flash.image}
                           alt={flash.name}
-                          fill
                           unoptimized
                           sizes="
                             (max-width: 640px) 100vw,
                             (max-width: 1024px) 50vw,
                             25vw
                           "
-                          className={`
+                          imageClassName={`
                             object-contain
                             p-3
                             transition-all

@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import { ProtectedArtworkImage } from "@/components/media/ProtectedArtworkImage";
 import type { Artwork } from "@/lib/api/artworks";
 import type { Artist } from "@/types/artist";
 
@@ -55,13 +55,12 @@ export function ArtworkDetail({
             className="relative min-h-[360px] overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(145deg,#171717_0%,#080808_100%)] sm:min-h-[520px] lg:min-h-[620px]"
           >
             {artwork.image ? (
-              <Image
+              <ProtectedArtworkImage
                 src={artwork.image}
                 alt={artwork.name}
-                fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 60vw"
-                className={`
+                imageClassName={`
                   object-contain
                   p-8
                   transition
