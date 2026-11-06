@@ -44,5 +44,5 @@ next-env.d.ts
 
 docs/
 
-# Vídeo grande mantido localmente até migração para storage externo
-public/videos/fernando-fabricio-02.mp4
+# Vídeos ficam fora do Git e serão migrados para storage externo
+public/videos/*.mp4
