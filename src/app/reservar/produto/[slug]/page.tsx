@@ -10,9 +10,7 @@ type ReservationProductPageProps = {
   }>;
 };
 
-export default async function ReservationProductPage({
-  params,
-}: ReservationProductPageProps) {
+export default async function ReservationProductPage({ params }: ReservationProductPageProps) {
   const { slug } = await params;
 
   const product = await getProductBySlug(slug);
@@ -35,15 +33,18 @@ export default async function ReservationProductPage({
           {product.available ? (
             <ReservationForm
               itemType="produto"
+              itemId={product.id}
               itemName={product.name}
               itemSlug={product.slug}
               artistName={product.authorName ?? "AYŌ Studio"}
+              artistSlug={product.authorSlug ?? undefined}
+              professionalId={product.authorId ?? undefined}
               price={product.price}
               itemImage={product.image}
             />
           ) : (
-            <div className="rounded-3xl border border-ayo-red/20 bg-[#090909] p-5 sm:p-8 md:p-10">
-              <p className="font-accent text-xs tracking-[0.12em] text-ayo-red uppercase">
+            <div className="border-ayo-red/20 rounded-3xl border bg-[#090909] p-5 sm:p-8 md:p-10">
+              <p className="font-accent text-ayo-red text-xs tracking-[0.12em] uppercase">
                 PRODUTO INDISPONÍVEL
               </p>
 
@@ -52,11 +53,8 @@ export default async function ReservationProductPage({
               </h1>
 
               <p className="mt-5 max-w-xl font-sans text-sm leading-relaxed text-white/55 sm:text-base">
-                O produto{" "}
-                <strong className="text-white">
-                  {product.name}
-                </strong>{" "}
-                não aceita novas solicitações no momento.
+                O produto <strong className="text-white">{product.name}</strong> não aceita novas
+                solicitações no momento.
               </p>
 
               <Link

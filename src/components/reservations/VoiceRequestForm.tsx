@@ -2,12 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { createStudioRequest } from "@/lib/api/requests";
+
 type VoiceRequestFormProps = {
+  artistId: number;
   artistName: string;
   artistSlug: string;
 };
 
 export function VoiceRequestForm({
+  artistId,
   artistName,
   artistSlug,
 }: VoiceRequestFormProps) {
@@ -15,6 +19,7 @@ export function VoiceRequestForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
+  const [requestId, setRequestId] = useState<number | null>(null);
 
   const formStartedAt = useRef<number | null>(null);
 
@@ -27,25 +32,27 @@ export function VoiceRequestForm({
   ) {
     event.preventDefault();
 
-    if (isSubmitting) return;
-
-    const endpoint =
-      process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
-    const studioWhatsapp =
-      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-
-    if (!endpoint || !studioWhatsapp) {
-      setError("O formulário ainda não foi configurado.");
+    if (isSubmitting) {
       return;
     }
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
+    /*
+     * Honeypot anti-spam.
+     *
+     * Para bots, simulamos sucesso sem gravar nada.
+     */
     if (String(formData.get("_gotcha") ?? "").trim()) {
       setSubmitted(true);
       return;
     }
 
+    /*
+     * Evita envio automatizado imediatamente
+     * após o carregamento da página.
+     */
     if (
       formStartedAt.current === null ||
       Date.now() - formStartedAt.current < 2000
@@ -54,92 +61,241 @@ export function VoiceRequestForm({
       return;
     }
 
-    const name = String(formData.get("name") ?? "");
+    const name = String(formData.get("name") ?? "").trim();
     const customerWhatsapp = String(
       formData.get("whatsapp") ?? "",
-    );
-    const email = String(formData.get("email") ?? "");
+    ).trim();
+
+    const email = String(
+      formData.get("email") ?? "",
+    ).trim();
+
     const instagram = String(
       formData.get("instagram") ?? "",
-    );
+    ).trim();
 
     const projectType = String(
       formData.get("projectType") ?? "",
-    );
+    ).trim();
+
     const projectName = String(
       formData.get("projectName") ?? "",
-    );
+    ).trim();
+
     const voiceDescription = String(
       formData.get("voiceDescription") ?? "",
-    );
+    ).trim();
+
     const estimatedLength = String(
       formData.get("estimatedLength") ?? "",
-    );
-    const usage = String(formData.get("usage") ?? "");
+    ).trim();
+
+    const usage = String(
+      formData.get("usage") ?? "",
+    ).trim();
+
     const deadline = String(
       formData.get("deadline") ?? "",
-    );
+    ).trim();
+
     const scriptUrl = String(
       formData.get("scriptUrl") ?? "",
-    );
+    ).trim();
+
     const referenceUrl = String(
       formData.get("referenceUrl") ?? "",
-    );
-    const notes = String(formData.get("notes") ?? "");
+    ).trim();
 
-    const submissionId =
-      typeof crypto !== "undefined" &&
-      "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random()
-            .toString(36)
-            .slice(2)}`;
-
-    const origin = window.location.origin;
-    const artistUrl =
-      `${origin}/artistas/${artistSlug}`;
-
-    formData.set(
-      "tipo",
-      "Pedido de dublagem",
-    );
-    formData.set("artista", artistName);
-    formData.set("artistaSlug", artistSlug);
-    formData.set(
-      "paginaDoArtista",
-      artistUrl,
-    );
-    formData.set(
-      "submissionId",
-      submissionId,
-    );
-    formData.set(
-      "origem",
-      "Site AYŌ Studio",
-    );
-    formData.set(
-      "_subject",
-      `Novo pedido de dublagem para ${artistName}`,
-    );
+    const notes = String(
+      formData.get("notes") ?? "",
+    ).trim();
 
     setIsSubmitting(true);
     setError(null);
 
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
+      /*
+       * ============================================================
+       * 1. BANCO DE DADOS
+       * ============================================================
+       *
+       * Esta é a fonte oficial da solicitação.
+       */
+      const studioRequest = await createStudioRequest({
+        type: "VOICE_CUSTOM",
+
+        name,
+        whatsapp: customerWhatsapp,
+        email,
+
+        instagram: instagram || null,
+        message: notes || null,
+
+        professionalId: artistId,
+
+        details: {
+          projectType,
+          projectName,
+          voiceDescription,
+          estimatedLength,
+          usage,
+          deadline,
+          scriptUrl,
+          referenceUrl,
         },
       });
 
-      if (!response.ok) {
-        throw new Error();
+      setRequestId(studioRequest.id);
+
+      /*
+       * ============================================================
+       * 2. FORMSPREE
+       * ============================================================
+       *
+       * Agora funciona apenas como notificação auxiliar.
+       *
+       * Se o Formspree falhar, o pedido NÃO é perdido porque já
+       * existe no PostgreSQL.
+       */
+      const formspreeEndpoint =
+        process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+
+      if (formspreeEndpoint) {
+        const notificationData = new FormData();
+
+        notificationData.set(
+          "tipo",
+          "Pedido de dublagem",
+        );
+
+        notificationData.set(
+          "pedidoId",
+          String(studioRequest.id),
+        );
+
+        notificationData.set(
+          "artista",
+          artistName,
+        );
+
+        notificationData.set(
+          "artistaSlug",
+          artistSlug,
+        );
+
+        notificationData.set(
+          "name",
+          name,
+        );
+
+        notificationData.set(
+          "whatsapp",
+          customerWhatsapp,
+        );
+
+        notificationData.set(
+          "email",
+          email,
+        );
+
+        notificationData.set(
+          "instagram",
+          instagram,
+        );
+
+        notificationData.set(
+          "projectType",
+          projectType,
+        );
+
+        notificationData.set(
+          "projectName",
+          projectName,
+        );
+
+        notificationData.set(
+          "voiceDescription",
+          voiceDescription,
+        );
+
+        notificationData.set(
+          "estimatedLength",
+          estimatedLength,
+        );
+
+        notificationData.set(
+          "usage",
+          usage,
+        );
+
+        notificationData.set(
+          "deadline",
+          deadline,
+        );
+
+        notificationData.set(
+          "scriptUrl",
+          scriptUrl,
+        );
+
+        notificationData.set(
+          "referenceUrl",
+          referenceUrl,
+        );
+
+        notificationData.set(
+          "notes",
+          notes,
+        );
+
+        notificationData.set(
+          "origem",
+          "Site AYŌ Studio",
+        );
+
+        notificationData.set(
+          "paginaDoArtista",
+          `${window.location.origin}/artistas/${artistSlug}`,
+        );
+
+        notificationData.set(
+          "_subject",
+          `Pedido #${studioRequest.id} de dublagem para ${artistName}`,
+        );
+
+        try {
+          await fetch(formspreeEndpoint, {
+            method: "POST",
+            body: notificationData,
+            headers: {
+              Accept: "application/json",
+            },
+          });
+        } catch {
+          /*
+           * Não interrompe o fluxo.
+           *
+           * O pedido já está salvo no PostgreSQL.
+           */
+        }
       }
 
-      const message = `
+      /*
+       * ============================================================
+       * 3. WHATSAPP
+       * ============================================================
+       *
+       * Continuação opcional após o pedido ter sido registrado.
+       */
+      const studioWhatsapp =
+        process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+
+      if (studioWhatsapp) {
+        const message = `
 Olá! Enviei um pedido de dublagem pelo site do AYŌ Studio.
+
+PEDIDO
+#${studioRequest.id}
 
 DUBLADOR
 ${artistName}
@@ -176,21 +332,28 @@ Nome: ${name}
 WhatsApp: ${customerWhatsapp}
 E-mail: ${email}
 Instagram: ${instagram || "Não informado"}
+        `.trim();
 
-Código:
-${submissionId}
-      `.trim();
-
-      setWhatsappUrl(
-        `https://wa.me/${studioWhatsapp}?text=${encodeURIComponent(
-          message,
-        )}`,
-      );
+        setWhatsappUrl(
+          `https://wa.me/${studioWhatsapp}?text=${encodeURIComponent(
+            message,
+          )}`,
+        );
+      }
 
       setSubmitted(true);
-    } catch {
+
+      form.reset();
+    } catch (error) {
+      console.error(
+        "Erro ao criar pedido de dublagem:",
+        error,
+      );
+
       setError(
-        "Não foi possível enviar seu pedido. Tente novamente.",
+        error instanceof Error
+          ? error.message
+          : "Não foi possível enviar seu pedido. Tente novamente.",
       );
     } finally {
       setIsSubmitting(false);
@@ -199,6 +362,12 @@ ${submissionId}
 
   const inputClass =
     "mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-base text-white outline-none transition placeholder:text-white/25 focus:border-ayo-red";
+
+  /*
+   * ==============================================================
+   * SUCESSO
+   * ==============================================================
+   */
 
   if (submitted) {
     return (
@@ -211,8 +380,17 @@ ${submissionId}
           RECEBEMOS SEU PROJETO
         </h2>
 
+        {requestId && (
+          <div className="mt-5 inline-flex rounded-full border border-ayo-red/30 bg-ayo-red/10 px-4 py-2">
+            <span className="font-sans text-xs font-semibold tracking-[0.08em] text-ayo-red uppercase">
+              PEDIDO #{requestId}
+            </span>
+          </div>
+        )}
+
         <p className="mt-5 max-w-xl font-sans text-sm leading-relaxed text-white/60 sm:text-base">
-          Seu pedido foi enviado ao AYŌ Studio com interesse em trabalhar com{" "}
+          Seu pedido foi registrado no AYŌ Studio com interesse
+          em trabalhar com{" "}
           <strong className="text-white">
             {artistName}
           </strong>
@@ -220,7 +398,9 @@ ${submissionId}
         </p>
 
         <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-white/45">
-          O envio não representa orçamento, aceite do projeto ou contratação automática.
+          O envio não representa orçamento, aceite do projeto ou
+          contratação automática. O Studio entrará em contato
+          para alinhar os próximos passos.
         </p>
 
         {whatsappUrl && (
@@ -237,6 +417,12 @@ ${submissionId}
     );
   }
 
+  /*
+   * ==============================================================
+   * FORMULÁRIO
+   * ==============================================================
+   */
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -246,6 +432,7 @@ ${submissionId}
         <label htmlFor="_gotcha">
           Não preencha
         </label>
+
         <input
           id="_gotcha"
           name="_gotcha"
@@ -264,7 +451,9 @@ ${submissionId}
       </h1>
 
       <p className="mt-3 max-w-2xl font-sans text-sm leading-relaxed text-white/50">
-        Conte sobre o projeto, personagem ou voz que você precisa. O Studio entrará em contato para alinhar disponibilidade, orçamento e entrega.
+        Conte sobre o projeto, personagem ou voz que você precisa.
+        O Studio entrará em contato para alinhar disponibilidade,
+        orçamento e entrega.
       </p>
 
       <div className="mt-6 grid gap-4 sm:gap-5 md:grid-cols-2">
@@ -322,28 +511,60 @@ ${submissionId}
             <option value="" className="bg-[#090909]">
               Selecione
             </option>
-            <option value="Dublagem de personagem" className="bg-[#090909]">
+
+            <option
+              value="Dublagem de personagem"
+              className="bg-[#090909]"
+            >
               Dublagem de personagem
             </option>
-            <option value="Locução" className="bg-[#090909]">
+
+            <option
+              value="Locução"
+              className="bg-[#090909]"
+            >
               Locução
             </option>
-            <option value="Narração" className="bg-[#090909]">
+
+            <option
+              value="Narração"
+              className="bg-[#090909]"
+            >
               Narração
             </option>
-            <option value="Vídeo / conteúdo" className="bg-[#090909]">
+
+            <option
+              value="Vídeo / conteúdo"
+              className="bg-[#090909]"
+            >
               Vídeo / conteúdo
             </option>
-            <option value="Game" className="bg-[#090909]">
+
+            <option
+              value="Game"
+              className="bg-[#090909]"
+            >
               Game
             </option>
-            <option value="Animação" className="bg-[#090909]">
+
+            <option
+              value="Animação"
+              className="bg-[#090909]"
+            >
               Animação
             </option>
-            <option value="Publicidade" className="bg-[#090909]">
+
+            <option
+              value="Publicidade"
+              className="bg-[#090909]"
+            >
               Publicidade
             </option>
-            <option value="Outro" className="bg-[#090909]">
+
+            <option
+              value="Outro"
+              className="bg-[#090909]"
+            >
               Outro
             </option>
           </select>
@@ -383,31 +604,62 @@ ${submissionId}
             <option value="" className="bg-[#090909]">
               Selecione
             </option>
-            <option value="Pessoal" className="bg-[#090909]">
+
+            <option
+              value="Pessoal"
+              className="bg-[#090909]"
+            >
               Pessoal
             </option>
-            <option value="Comercial" className="bg-[#090909]">
+
+            <option
+              value="Comercial"
+              className="bg-[#090909]"
+            >
               Comercial
             </option>
-            <option value="Redes sociais" className="bg-[#090909]">
+
+            <option
+              value="Redes sociais"
+              className="bg-[#090909]"
+            >
               Redes sociais
             </option>
-            <option value="Game" className="bg-[#090909]">
+
+            <option
+              value="Game"
+              className="bg-[#090909]"
+            >
               Game
             </option>
-            <option value="Animação" className="bg-[#090909]">
+
+            <option
+              value="Animação"
+              className="bg-[#090909]"
+            >
               Animação
             </option>
-            <option value="Publicidade" className="bg-[#090909]">
+
+            <option
+              value="Publicidade"
+              className="bg-[#090909]"
+            >
               Publicidade
             </option>
-            <option value="Outro" className="bg-[#090909]">
+
+            <option
+              value="Outro"
+              className="bg-[#090909]"
+            >
               Outro
             </option>
           </select>
         </Field>
 
-        <Field label="Prazo desejado" id="deadline">
+        <Field
+          label="Prazo desejado"
+          id="deadline"
+        >
           <input
             id="deadline"
             name="deadline"
@@ -416,7 +668,10 @@ ${submissionId}
           />
         </Field>
 
-        <Field label="Link do roteiro" id="scriptUrl">
+        <Field
+          label="Link do roteiro"
+          id="scriptUrl"
+        >
           <input
             id="scriptUrl"
             name="scriptUrl"
@@ -426,7 +681,10 @@ ${submissionId}
           />
         </Field>
 
-        <Field label="Link de referência" id="referenceUrl">
+        <Field
+          label="Link de referência"
+          id="referenceUrl"
+        >
           <input
             id="referenceUrl"
             name="referenceUrl"
@@ -444,6 +702,7 @@ ${submissionId}
         >
           Como você imagina a voz? *
         </label>
+
         <textarea
           id="voiceDescription"
           name="voiceDescription"
@@ -461,6 +720,7 @@ ${submissionId}
         >
           Observações
         </label>
+
         <textarea
           id="notes"
           name="notes"
@@ -509,6 +769,7 @@ function Field({
       >
         {label}
       </label>
+
       {children}
     </div>
   );

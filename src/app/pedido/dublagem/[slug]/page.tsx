@@ -10,9 +10,7 @@ type VoiceOrderPageProps = {
   }>;
 };
 
-export default async function VoiceOrderPage({
-  params,
-}: VoiceOrderPageProps) {
+export default async function VoiceOrderPage({ params }: VoiceOrderPageProps) {
   const { slug } = await params;
 
   const artist = await getProfessionalBySlug(slug);
@@ -33,6 +31,7 @@ export default async function VoiceOrderPage({
 
         <div className="mt-10">
           <VoiceRequestForm
+            artistId={artist.id}
             artistName={artist.name}
             artistSlug={artist.slug}
           />

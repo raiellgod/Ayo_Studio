@@ -10,9 +10,7 @@ type ArtistIdeaPageProps = {
   }>;
 };
 
-export default async function ArtistIdeaPage({
-  params,
-}: ArtistIdeaPageProps) {
+export default async function ArtistIdeaPage({ params }: ArtistIdeaPageProps) {
   const { slug } = await params;
 
   const artist = await getProfessionalBySlug(slug);
@@ -32,10 +30,7 @@ export default async function ArtistIdeaPage({
         </Link>
 
         <div className="mt-10">
-          <TattooIdeaForm
-            artistName={artist.name}
-            artistSlug={artist.slug}
-          />
+          <TattooIdeaForm artistId={artist.id} artistName={artist.name} artistSlug={artist.slug} />
         </div>
       </div>
     </main>

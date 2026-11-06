@@ -2,12 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { createStudioRequest } from "@/lib/api/requests";
+
 type TattooIdeaFormProps = {
+  artistId: number;
   artistName: string;
   artistSlug: string;
 };
 
 export function TattooIdeaForm({
+  artistId,
   artistName,
   artistSlug,
 }: TattooIdeaFormProps) {
@@ -15,6 +19,7 @@ export function TattooIdeaForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
+  const [requestId, setRequestId] = useState<number | null>(null);
 
   const formStartedAt = useRef<number | null>(null);
 
@@ -32,11 +37,6 @@ export function TattooIdeaForm({
     }
 
     const form = event.currentTarget;
-    const endpoint =
-      process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
-    const studioWhatsapp =
-      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-
     const formData = new FormData(form);
 
     const honeypot = String(
@@ -65,12 +65,11 @@ export function TattooIdeaForm({
       return;
     }
 
-    if (!endpoint) {
-      setError(
-        "O formulário de contato ainda não foi configurado.",
-      );
-      return;
-    }
+    const endpoint =
+      process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+
+    const studioWhatsapp =
+      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
     if (!studioWhatsapp) {
       setError(
@@ -79,105 +78,251 @@ export function TattooIdeaForm({
       return;
     }
 
-    setIsSubmitting(true);
-    setError(null);
+    const name = String(
+      formData.get("name") ?? "",
+    ).trim();
+
+    const customerWhatsapp = String(
+      formData.get("whatsapp") ?? "",
+    ).trim();
+
+    const email = String(
+      formData.get("email") ?? "",
+    ).trim();
+
+    const instagram = String(
+      formData.get("instagram") ?? "",
+    ).trim();
+
+    const idea = String(
+      formData.get("idea") ?? "",
+    ).trim();
+
+    const bodyArea = String(
+      formData.get("bodyArea") ?? "",
+    ).trim();
+
+    const size = String(
+      formData.get("size") ?? "",
+    ).trim();
+
+    const style = String(
+      formData.get("style") ?? "",
+    ).trim();
+
+    const color = String(
+      formData.get("color") ?? "",
+    ).trim();
+
+    const firstTattoo = String(
+      formData.get("firstTattoo") ?? "",
+    ).trim();
+
+    const referenceUrl = String(
+      formData.get("referenceUrl") ?? "",
+    ).trim();
+
+    const notes = String(
+      formData.get("notes") ?? "",
+    ).trim();
 
     const origin = window.location.origin;
+
     const artistUrl =
       `${origin}/artistas/${artistSlug}`;
 
-    const name = String(
-      formData.get("name") ?? "",
-    );
-    const customerWhatsapp = String(
-      formData.get("whatsapp") ?? "",
-    );
-    const email = String(
-      formData.get("email") ?? "",
-    );
-    const instagram = String(
-      formData.get("instagram") ?? "",
-    );
-    const idea = String(
-      formData.get("idea") ?? "",
-    );
-    const bodyArea = String(
-      formData.get("bodyArea") ?? "",
-    );
-    const size = String(
-      formData.get("size") ?? "",
-    );
-    const style = String(
-      formData.get("style") ?? "",
-    );
-    const color = String(
-      formData.get("color") ?? "",
-    );
-    const firstTattoo = String(
-      formData.get("firstTattoo") ?? "",
-    );
-    const referenceUrl = String(
-      formData.get("referenceUrl") ?? "",
-    );
-    const notes = String(
-      formData.get("notes") ?? "",
-    );
-
-    const submissionId =
-      typeof crypto !== "undefined" &&
-      "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random()
-            .toString(36)
-            .slice(2)}`;
-
-    const submittedAt =
-      new Date().toLocaleString("pt-BR", {
-        dateStyle: "short",
-        timeStyle: "medium",
-      });
-
-    formData.set(
-      "tipo",
-      "Pedido de ideia de tatuagem",
-    );
-    formData.set("artista", artistName);
-    formData.set("artistaSlug", artistSlug);
-    formData.set("paginaDoArtista", artistUrl);
-    formData.set(
-      "submissionId",
-      submissionId,
-    );
-    formData.set(
-      "enviadoEm",
-      submittedAt,
-    );
-    formData.set(
-      "origem",
-      "Site AYŌ Studio",
-    );
-    formData.set(
-      "_subject",
-      `Nova ideia de tatuagem para ${artistName}`,
-    );
+    setIsSubmitting(true);
+    setError(null);
 
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
+      /*
+       * ============================================
+       * 1. REGISTRA O PEDIDO NO BACKEND
+       * ============================================
+       */
+
+      const studioRequest = await createStudioRequest({
+        type: "TATTOO_CUSTOM",
+
+        name,
+        whatsapp: customerWhatsapp,
+        email,
+
+        instagram:
+          instagram || null,
+
+        message:
+          idea || null,
+
+        professionalId: artistId,
+
+        flashId: null,
+        artworkId: null,
+        productId: null,
+
+        details: {
+          artistName,
+          artistSlug,
+
+          idea,
+          bodyArea,
+
+          size,
+          style,
+          color,
+          firstTattoo,
+
+          referenceUrl,
+          notes,
         },
       });
 
-      if (!response.ok) {
-        throw new Error(
-          "Não foi possível enviar a solicitação.",
+      const createdRequestId = studioRequest.id;
+
+      setRequestId(createdRequestId);
+
+      /*
+       * ============================================
+       * 2. ENVIA CÓPIA AO FORMSPREE
+       * ============================================
+       */
+
+      if (endpoint) {
+        const submittedAt =
+          new Date().toLocaleString("pt-BR", {
+            dateStyle: "short",
+            timeStyle: "medium",
+          });
+
+        const formspreeData = new FormData();
+
+        formspreeData.set(
+          "_subject",
+          `Pedido #${createdRequestId} de tatuagem para ${artistName}`,
         );
+
+        formspreeData.set(
+          "pedido",
+          String(createdRequestId),
+        );
+
+        formspreeData.set(
+          "tipo",
+          "Pedido de tatuagem personalizada",
+        );
+
+        formspreeData.set(
+          "artista",
+          artistName,
+        );
+
+        formspreeData.set(
+          "artistaSlug",
+          artistSlug,
+        );
+
+        formspreeData.set(
+          "paginaDoArtista",
+          artistUrl,
+        );
+
+        formspreeData.set(
+          "nome",
+          name,
+        );
+
+        formspreeData.set(
+          "whatsapp",
+          customerWhatsapp,
+        );
+
+        formspreeData.set(
+          "email",
+          email,
+        );
+
+        formspreeData.set(
+          "instagram",
+          instagram,
+        );
+
+        formspreeData.set(
+          "idea",
+          idea,
+        );
+
+        formspreeData.set(
+          "bodyArea",
+          bodyArea,
+        );
+
+        formspreeData.set(
+          "size",
+          size,
+        );
+
+        formspreeData.set(
+          "style",
+          style,
+        );
+
+        formspreeData.set(
+          "color",
+          color,
+        );
+
+        formspreeData.set(
+          "firstTattoo",
+          firstTattoo,
+        );
+
+        formspreeData.set(
+          "referenceUrl",
+          referenceUrl,
+        );
+
+        formspreeData.set(
+          "notes",
+          notes,
+        );
+
+        formspreeData.set(
+          "enviadoEm",
+          submittedAt,
+        );
+
+        formspreeData.set(
+          "origem",
+          "Site AYŌ Studio",
+        );
+
+        try {
+          await fetch(endpoint, {
+            method: "POST",
+            body: formspreeData,
+            headers: {
+              Accept: "application/json",
+            },
+          });
+        } catch (formspreeError) {
+          console.error(
+            "Não foi possível enviar a cópia ao Formspree:",
+            formspreeError,
+          );
+        }
       }
+
+      /*
+       * ============================================
+       * 3. MONTA MENSAGEM DO WHATSAPP
+       * ============================================
+       */
 
       const whatsappMessage = `
 Olá! Enviei uma ideia de tatuagem pelo site do AYŌ Studio.
+
+PEDIDO
+#${createdRequestId}
 
 ARTISTA
 ${artistName}
@@ -214,9 +359,6 @@ Instagram: ${instagram || "Não informado"}
 
 PERFIL DO ARTISTA
 ${artistUrl}
-
-Código da solicitação:
-${submissionId}
       `.trim();
 
       setWhatsappUrl(
@@ -226,20 +368,31 @@ ${submissionId}
       );
 
       setSubmitted(true);
-    } catch {
+    } catch (submitError) {
+      console.error(
+        "Erro ao registrar pedido de tatuagem:",
+        submitError,
+      );
+
       setError(
-        "Não foi possível enviar sua ideia. Tente novamente.",
+        "Não foi possível registrar sua ideia. Tente novamente.",
       );
     } finally {
       setIsSubmitting(false);
     }
   }
 
+  /*
+   * ============================================
+   * SUCESSO
+   * ============================================
+   */
+
   if (submitted) {
     return (
       <div className="rounded-3xl border border-white/10 bg-[#090909] p-5 sm:p-8">
         <p className="font-accent text-xs tracking-[0.12em] text-ayo-red uppercase">
-          IDEIA ENVIADA
+          PEDIDO ENVIADO
         </p>
 
         <h2 className="font-title mt-4 text-3xl leading-[0.95] text-white sm:text-4xl">
@@ -247,13 +400,22 @@ ${submissionId}
         </h2>
 
         <p className="mt-5 max-w-xl font-sans text-sm leading-relaxed text-white/60 sm:text-base">
-          Sua ideia foi enviada ao AYŌ Studio com
-          interesse em desenvolver o projeto com{" "}
+          Sua ideia foi registrada no AYŌ Studio com
+          interesse em desenvolver a tatuagem com{" "}
           <strong className="text-white">
             {artistName}
           </strong>
           .
         </p>
+
+        {requestId && (
+          <p className="mt-3 font-sans text-sm text-white/50">
+            Número do pedido:{" "}
+            <strong className="text-white">
+              #{requestId}
+            </strong>
+          </p>
+        )}
 
         <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-white/45">
           O envio não representa orçamento, aprovação
@@ -277,6 +439,12 @@ ${submissionId}
   const inputClass =
     "mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-base text-white transition outline-none placeholder:text-white/25 focus:border-ayo-red";
 
+  /*
+   * ============================================
+   * FORMULÁRIO
+   * ============================================
+   */
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -289,6 +457,7 @@ ${submissionId}
         <label htmlFor="_gotcha">
           Não preencha este campo
         </label>
+
         <input
           id="_gotcha"
           name="_gotcha"
@@ -316,38 +485,87 @@ ${submissionId}
 
       <div className="mt-6 grid gap-4 sm:gap-5 md:grid-cols-2">
         <div>
-          <label htmlFor="name" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="name"
+            className="font-sans text-sm text-white/70"
+          >
             Nome *
           </label>
-          <input id="name" name="name" type="text" required autoComplete="name" className={inputClass} />
+
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autoComplete="name"
+            className={inputClass}
+          />
         </div>
 
         <div>
-          <label htmlFor="whatsapp" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="whatsapp"
+            className="font-sans text-sm text-white/70"
+          >
             WhatsApp *
           </label>
-          <input id="whatsapp" name="whatsapp" type="tel" required autoComplete="tel" placeholder="(11) 99999-9999" className={inputClass} />
+
+          <input
+            id="whatsapp"
+            name="whatsapp"
+            type="tel"
+            required
+            autoComplete="tel"
+            placeholder="(11) 99999-9999"
+            className={inputClass}
+          />
         </div>
 
         <div>
-          <label htmlFor="email" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="email"
+            className="font-sans text-sm text-white/70"
+          >
             E-mail *
           </label>
-          <input id="email" name="email" type="email" required autoComplete="email" className={inputClass} />
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            className={inputClass}
+          />
         </div>
 
         <div>
-          <label htmlFor="instagram" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="instagram"
+            className="font-sans text-sm text-white/70"
+          >
             Instagram
           </label>
-          <input id="instagram" name="instagram" type="text" placeholder="@usuario" autoComplete="off" className={inputClass} />
+
+          <input
+            id="instagram"
+            name="instagram"
+            type="text"
+            placeholder="@usuario"
+            autoComplete="off"
+            className={inputClass}
+          />
         </div>
       </div>
 
       <div className="mt-5">
-        <label htmlFor="idea" className="font-sans text-sm text-white/70">
+        <label
+          htmlFor="idea"
+          className="font-sans text-sm text-white/70"
+        >
           Qual é a sua ideia? *
         </label>
+
         <textarea
           id="idea"
           name="idea"
@@ -360,67 +578,146 @@ ${submissionId}
 
       <div className="mt-5 grid gap-4 sm:gap-5 md:grid-cols-2">
         <div>
-          <label htmlFor="bodyArea" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="bodyArea"
+            className="font-sans text-sm text-white/70"
+          >
             Local do corpo *
           </label>
-          <input id="bodyArea" name="bodyArea" type="text" required placeholder="Ex.: antebraço, costas..." className={inputClass} />
+
+          <input
+            id="bodyArea"
+            name="bodyArea"
+            type="text"
+            required
+            placeholder="Ex.: antebraço, costas..."
+            className={inputClass}
+          />
         </div>
 
         <div>
-          <label htmlFor="size" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="size"
+            className="font-sans text-sm text-white/70"
+          >
             Tamanho aproximado
           </label>
-          <input id="size" name="size" type="text" placeholder="Ex.: 10 cm, 20 cm..." className={inputClass} />
+
+          <input
+            id="size"
+            name="size"
+            type="text"
+            placeholder="Ex.: 10 cm, 20 cm..."
+            className={inputClass}
+          />
         </div>
 
         <div>
-          <label htmlFor="style" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="style"
+            className="font-sans text-sm text-white/70"
+          >
             Estilo desejado
           </label>
-          <input id="style" name="style" type="text" placeholder="Ex.: blackwork, anime, fine line..." className={inputClass} />
+
+          <input
+            id="style"
+            name="style"
+            type="text"
+            placeholder="Ex.: blackwork, anime, fine line..."
+            className={inputClass}
+          />
         </div>
 
         <div>
-          <label htmlFor="color" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="color"
+            className="font-sans text-sm text-white/70"
+          >
             Cor
           </label>
-          <select id="color" name="color" className={inputClass} defaultValue="">
-            <option value="" className="bg-[#090909]">
+
+          <select
+            id="color"
+            name="color"
+            className={inputClass}
+            defaultValue=""
+          >
+            <option
+              value=""
+              className="bg-[#090909]"
+            >
               Selecione
             </option>
-            <option value="Preto e cinza" className="bg-[#090909]">
+
+            <option
+              value="Preto e cinza"
+              className="bg-[#090909]"
+            >
               Preto e cinza
             </option>
-            <option value="Colorido" className="bg-[#090909]">
+
+            <option
+              value="Colorido"
+              className="bg-[#090909]"
+            >
               Colorido
             </option>
-            <option value="Ainda não sei" className="bg-[#090909]">
+
+            <option
+              value="Ainda não sei"
+              className="bg-[#090909]"
+            >
               Ainda não sei
             </option>
           </select>
         </div>
 
         <div>
-          <label htmlFor="firstTattoo" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="firstTattoo"
+            className="font-sans text-sm text-white/70"
+          >
             É sua primeira tatuagem?
           </label>
-          <select id="firstTattoo" name="firstTattoo" className={inputClass} defaultValue="">
-            <option value="" className="bg-[#090909]">
+
+          <select
+            id="firstTattoo"
+            name="firstTattoo"
+            className={inputClass}
+            defaultValue=""
+          >
+            <option
+              value=""
+              className="bg-[#090909]"
+            >
               Selecione
             </option>
-            <option value="Sim" className="bg-[#090909]">
+
+            <option
+              value="Sim"
+              className="bg-[#090909]"
+            >
               Sim
             </option>
-            <option value="Não" className="bg-[#090909]">
+
+            <option
+              value="Não"
+              className="bg-[#090909]"
+            >
               Não
             </option>
           </select>
         </div>
 
         <div>
-          <label htmlFor="referenceUrl" className="font-sans text-sm text-white/70">
+          <label
+            htmlFor="referenceUrl"
+            className="font-sans text-sm text-white/70"
+          >
             Link de referência
           </label>
+
           <input
             id="referenceUrl"
             name="referenceUrl"
@@ -432,9 +729,13 @@ ${submissionId}
       </div>
 
       <div className="mt-5">
-        <label htmlFor="notes" className="font-sans text-sm text-white/70">
+        <label
+          htmlFor="notes"
+          className="font-sans text-sm text-white/70"
+        >
           Observações
         </label>
+
         <textarea
           id="notes"
           name="notes"

@@ -10,9 +10,7 @@ type ReservationArtworkPageProps = {
   }>;
 };
 
-export default async function ReservationArtworkPage({
-  params,
-}: ReservationArtworkPageProps) {
+export default async function ReservationArtworkPage({ params }: ReservationArtworkPageProps) {
   const { slug } = await params;
 
   const artwork = await getArtworkBySlug(slug);
@@ -35,15 +33,18 @@ export default async function ReservationArtworkPage({
           {artwork.available ? (
             <ReservationForm
               itemType="arte"
+              itemId={artwork.id}
               itemName={artwork.name}
               itemSlug={artwork.slug}
               artistName={artwork.artistName}
+              artistSlug={artwork.artistSlug}
+              professionalId={artwork.artistId}
               price={artwork.price}
               itemImage={artwork.image}
             />
           ) : (
-            <div className="rounded-3xl border border-ayo-red/20 bg-[#090909] p-8 md:p-10">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.12em] text-ayo-red">
+            <div className="border-ayo-red/20 rounded-3xl border bg-[#090909] p-8 md:p-10">
+              <p className="text-ayo-red font-sans text-xs font-semibold tracking-[0.12em] uppercase">
                 ARTE INDISPONÍVEL
               </p>
 
@@ -52,16 +53,12 @@ export default async function ReservationArtworkPage({
               </h1>
 
               <p className="mt-5 max-w-xl font-sans text-sm leading-relaxed text-white/55 sm:text-base">
-                A obra{" "}
-                <strong className="text-white">
-                  {artwork.name}
-                </strong>{" "}
-                não está mais disponível para novas solicitações.
+                A obra <strong className="text-white">{artwork.name}</strong> não está mais
+                disponível para novas solicitações.
               </p>
 
               <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-white/40">
-                Ela continua disponível para visualização como parte
-                do portfólio do artista.
+                Ela continua disponível para visualização como parte do portfólio do artista.
               </p>
 
               <Link

@@ -38,7 +38,7 @@ const professionals = [
   {
     slug: "artista-02",
     name: "Sara Christina",
-    role: "ARTISTA",
+    role: "ARTISTA / TATUADORA",
     specialties: "",
     description: "",
     image: "/artists/artist-02/card.jpg",
@@ -49,13 +49,13 @@ const professionals = [
   {
     slug: "artista-03",
     name: "Gabriell Lopes",
-    role: "ARTISTA",
+    role: "ARTISTA / TATUADOR",
     specialties: "",
     description: "",
     image: "/artists/artist-03/card.jpg",
     fullImage: "/artists/artist-03/full.jpg",
     profileImage: "/artists/artist-03/face.jpg",
-    services: ["ART"] as const,
+    services: ["TATTOO", "ART"] as const,
   },
   {
     slug: "artista-04",
@@ -71,20 +71,6 @@ const professionals = [
 ];
 
 /* =========================================================
-   COMPATIBILIDADE COM OS IDS DO MOCK ANTIGO
-
-   Não usamos diretamente o ID numérico do banco.
-   Ligamos cada antigo artistId ao slug do profissional.
-========================================================= */
-
-const artistSlugByLegacyId: Record<number, string> = {
-  1: "artista-01",
-  2: "artista-02",
-  3: "artista-03",
-  4: "artista-04",
-};
-
-/* =========================================================
    FLASHES
 ========================================================= */
 
@@ -92,7 +78,7 @@ const flashes = [
   {
     slug: "flash-01",
     name: "FLASH 01",
-    artistId: 1,
+    artistSlug: "artista-01",
     image: "/flashes/flash-01.png",
     price: "350.00",
     description:
@@ -103,7 +89,7 @@ const flashes = [
   {
     slug: "flash-02",
     name: "FLASH 02",
-    artistId: 2,
+    artistSlug: "artista-02",
     image: "/flashes/flash-02.png",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -113,7 +99,7 @@ const flashes = [
   {
     slug: "flash-03",
     name: "FLASH 03",
-    artistId: 3,
+    artistSlug: "artista-03",
     image: "/flashes/flash-03.png",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -123,7 +109,7 @@ const flashes = [
   {
     slug: "flash-04",
     name: "FLASH 04",
-    artistId: 4,
+    artistSlug: "artista-01",
     image: "/flashes/flash-04.png",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -133,7 +119,7 @@ const flashes = [
   {
     slug: "flash-05",
     name: "FLASH 05",
-    artistId: 1,
+    artistSlug: "artista-01",
     image: "/flashes/flash-05.jpg",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -143,7 +129,7 @@ const flashes = [
   {
     slug: "flash-06",
     name: "FLASH 06",
-    artistId: 2,
+    artistSlug: "artista-02",
     image: "/flashes/flash-06.jpg",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -153,7 +139,7 @@ const flashes = [
   {
     slug: "flash-07",
     name: "FLASH 07",
-    artistId: 3,
+    artistSlug: "artista-03",
     image: "/flashes/flash-07.jpg",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -163,7 +149,7 @@ const flashes = [
   {
     slug: "flash-08",
     name: "FLASH 08",
-    artistId: 4,
+    artistSlug: "artista-01",
     image: "/flashes/flash-08.jpg",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -173,7 +159,7 @@ const flashes = [
   {
     slug: "flash-09",
     name: "FLASH 09",
-    artistId: 1,
+    artistSlug: "artista-01",
     image: "/flashes/flash-09.jpg",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -183,7 +169,7 @@ const flashes = [
   {
     slug: "flash-10",
     name: "FLASH 10",
-    artistId: 2,
+    artistSlug: "artista-02",
     image: "/flashes/flash-10.png",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -193,7 +179,7 @@ const flashes = [
   {
     slug: "flash-11",
     name: "FLASH 11",
-    artistId: 3,
+    artistSlug: "artista-03",
     image: "/flashes/flash-11.webp",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -203,7 +189,7 @@ const flashes = [
   {
     slug: "flash-12",
     name: "FLASH 12",
-    artistId: 4,
+    artistSlug: "artista-01",
     image: "/flashes/flash-12.jpg",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -213,7 +199,7 @@ const flashes = [
   {
     slug: "flash-13",
     name: "FLASH 13",
-    artistId: 1,
+    artistSlug: "artista-01",
     image: "/flashes/flash-13.jpeg",
     price: "350.00",
     description: "Flash autoral disponível para reserva.",
@@ -230,7 +216,7 @@ const artworks = [
   {
     slug: "noite-vermelha-01",
     name: "NOITE VERMELHA",
-    artistId: 1,
+    artistSlug: "artista-01",
     image: "/artworks/artwork-01.jpg",
     type: "QUADRO",
     price: 450,
@@ -239,7 +225,7 @@ const artworks = [
   {
     slug: "obra-02",
     name: "OBRA 02",
-    artistId: 2,
+    artistSlug: "artista-02",
     image: "/artworks/artwork-02.jpg",
     type: "ILUSTRAÇÃO",
     price: 320,
@@ -248,7 +234,7 @@ const artworks = [
   {
     slug: "obra-03",
     name: "OBRA 03",
-    artistId: 3,
+    artistSlug: "artista-03",
     image: "/artworks/artwork-03.jpg",
     type: "DESENHO",
     price: 280,
@@ -257,7 +243,7 @@ const artworks = [
   {
     slug: "obra-04",
     name: "OBRA 04",
-    artistId: 1,
+    artistSlug: "artista-01",
     image: "/artworks/artwork-04.jpg",
     type: "QUADRO",
     price: 520,
@@ -266,7 +252,7 @@ const artworks = [
   {
     slug: "obra-05",
     name: "OBRA 05",
-    artistId: 4,
+    artistSlug: "artista-01",
     image: "/artworks/artwork-05.jpg",
     type: "ILUSTRAÇÃO",
     price: null,
@@ -275,7 +261,7 @@ const artworks = [
   {
     slug: "obra-06",
     name: "OBRA 06",
-    artistId: 2,
+    artistSlug: "artista-02",
     image: "/artworks/artwork-06.jpg",
     type: "QUADRO",
     price: 390,
@@ -284,7 +270,7 @@ const artworks = [
   {
     slug: "obra-07",
     name: "OBRA 07",
-    artistId: 3,
+    artistSlug: "artista-03",
     image: "/artworks/artwork-07.jpg",
     type: "DESENHO",
     price: 250,
@@ -293,7 +279,7 @@ const artworks = [
   {
     slug: "obra-08",
     name: "OBRA 08",
-    artistId: 1,
+    artistSlug: "artista-01",
     image: "/artworks/artwork-08.jpg",
     type: "ILUSTRAÇÃO",
     price: 310,
@@ -302,7 +288,7 @@ const artworks = [
   {
     slug: "obra-09",
     name: "OBRA 09",
-    artistId: 4,
+    artistSlug: "artista-01",
     image: "/artworks/artwork-09.jpg",
     type: "QUADRO",
     price: 600,
@@ -311,7 +297,7 @@ const artworks = [
   {
     slug: "obra-10",
     name: "OBRA 10",
-    artistId: 2,
+    artistSlug: "artista-02",
     image: "/artworks/artwork-10.jpg",
     type: "DESENHO",
     price: null,
@@ -453,12 +439,6 @@ async function main() {
   ------------------------- */
 
   for (const flash of flashes) {
-    const artistSlug = artistSlugByLegacyId[flash.artistId];
-
-    if (!artistSlug) {
-      throw new Error(`Profissional correspondente ao artistId ${flash.artistId} não encontrado.`);
-    }
-
     const flashData = {
       slug: flash.slug,
       name: flash.name,
@@ -481,7 +461,7 @@ async function main() {
 
         artist: {
           connect: {
-            slug: artistSlug,
+            slug: flash.artistSlug,
           },
         },
       },
@@ -493,7 +473,7 @@ async function main() {
 
         artist: {
           connect: {
-            slug: artistSlug,
+            slug: flash.artistSlug,
           },
         },
       },
@@ -507,14 +487,6 @@ async function main() {
   ------------------------- */
 
   for (const artwork of artworks) {
-    const artistSlug = artistSlugByLegacyId[artwork.artistId];
-
-    if (!artistSlug) {
-      throw new Error(
-        `Profissional correspondente ao artistId ${artwork.artistId} não encontrado.`,
-      );
-    }
-
     const artworkData = {
       slug: artwork.slug,
       name: artwork.name,
@@ -536,7 +508,7 @@ async function main() {
 
         artist: {
           connect: {
-            slug: artistSlug,
+            slug: artwork.artistSlug,
           },
         },
       },
@@ -548,7 +520,7 @@ async function main() {
 
         artist: {
           connect: {
-            slug: artistSlug,
+            slug: artwork.artistSlug,
           },
         },
       },

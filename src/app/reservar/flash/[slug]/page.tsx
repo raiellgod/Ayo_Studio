@@ -10,9 +10,7 @@ type ReservationFlashPageProps = {
   }>;
 };
 
-export default async function ReservationFlashPage({
-  params,
-}: ReservationFlashPageProps) {
+export default async function ReservationFlashPage({ params }: ReservationFlashPageProps) {
   const { slug } = await params;
 
   const flash = await getFlashBySlug(slug);
@@ -35,15 +33,18 @@ export default async function ReservationFlashPage({
           {flash.available ? (
             <ReservationForm
               itemType="flash"
+              itemId={flash.id}
               itemName={flash.name}
               itemSlug={flash.slug}
               artistName={flash.artistName}
+              artistSlug={flash.artistSlug}
+              professionalId={flash.artistId}
               price={flash.price}
               itemImage={flash.image}
             />
           ) : (
-            <div className="rounded-3xl border border-ayo-red/20 bg-[#090909] p-8 md:p-10">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.12em] text-ayo-red">
+            <div className="border-ayo-red/20 rounded-3xl border bg-[#090909] p-8 md:p-10">
+              <p className="text-ayo-red font-sans text-xs font-semibold tracking-[0.12em] uppercase">
                 FLASH INDISPONÍVEL
               </p>
 
@@ -52,16 +53,12 @@ export default async function ReservationFlashPage({
               </h1>
 
               <p className="mt-5 max-w-xl font-sans text-sm leading-relaxed text-white/55 sm:text-base">
-                O flash{" "}
-                <strong className="text-white">
-                  {flash.name}
-                </strong>{" "}
-                não está mais disponível para novas solicitações.
+                O flash <strong className="text-white">{flash.name}</strong> não está mais
+                disponível para novas solicitações.
               </p>
 
               <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-white/40">
-                Você ainda pode visualizar a arte como parte do
-                portfólio do artista.
+                Você ainda pode visualizar a arte como parte do portfólio do artista.
               </p>
 
               <Link

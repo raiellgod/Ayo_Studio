@@ -10,9 +10,7 @@ type ArtOrderPageProps = {
   }>;
 };
 
-export default async function ArtOrderPage({
-  params,
-}: ArtOrderPageProps) {
+export default async function ArtOrderPage({ params }: ArtOrderPageProps) {
   const { slug } = await params;
 
   const artist = await getProfessionalBySlug(slug);
@@ -32,10 +30,7 @@ export default async function ArtOrderPage({
         </Link>
 
         <div className="mt-10">
-          <CustomArtForm
-            artistName={artist.name}
-            artistSlug={artist.slug}
-          />
+          <CustomArtForm artistId={artist.id} artistName={artist.name} artistSlug={artist.slug} />
         </div>
       </div>
     </main>
