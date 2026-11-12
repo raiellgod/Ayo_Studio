@@ -8,12 +8,12 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Professional.ts'
-export type * from './models/ProfessionalService.ts'
-export type * from './models/Flash.ts'
-export type * from './models/Artwork.ts'
-export type * from './models/Product.ts'
-export type * from './models/Video.ts'
-export type * from './models/StudioRequest.ts'
-export type * from './models/AdminUser.ts'
-export type * from './commonInputTypes.ts'
+export type * from './models/Professional.js'
+export type * from './models/ProfessionalService.js'
+export type * from './models/Flash.js'
+export type * from './models/Artwork.js'
+export type * from './models/Product.js'
+export type * from './models/Video.js'
+export type * from './models/StudioRequest.js'
+export type * from './models/AdminUser.js'
+export type * from './commonInputTypes.js'
