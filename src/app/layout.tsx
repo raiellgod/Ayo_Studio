@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import {
-  Bitter,
-  Cormorant_Garamond,
-  Special_Elite,
-} from "next/font/google";
+import { Bitter, Cormorant_Garamond, Special_Elite } from "next/font/google";
+
+import { BackendWakeNotice } from "@/components/system/BackendWakeNotice";
 
 import "./globals.css";
 
@@ -40,7 +38,10 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${cormorantGaramond.variable} ${bitter.variable} ${specialElite.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <BackendWakeNotice />
+      </body>
     </html>
   );
 }

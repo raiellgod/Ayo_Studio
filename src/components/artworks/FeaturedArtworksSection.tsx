@@ -9,6 +9,7 @@ import { ArtworkCarousel } from "./ArtworkCarousel";
 
 export function FeaturedArtworksSection() {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -23,10 +24,11 @@ export function FeaturedArtworksSection() {
 
         setArtworks(data);
       } catch (error) {
-        console.error(
-          "Erro ao carregar artworks em destaque:",
-          error,
-        );
+        console.error("Erro ao carregar artworks em destaque:", error);
+      } finally {
+        if (!cancelled) {
+          setIsLoaded(true);
+        }
       }
     }
 
@@ -86,7 +88,7 @@ export function FeaturedArtworksSection() {
               delay: 0.1,
               ease: "easeOut",
             }}
-            className="font-accent text-ayo-red text-xs uppercase tracking-[0.12em] sm:text-sm"
+            className="font-accent text-ayo-red text-xs tracking-[0.12em] uppercase sm:text-sm"
           >
             ARTE PARA ALÉM DA PELE
           </motion.p>
@@ -134,8 +136,7 @@ export function FeaturedArtworksSection() {
             }}
             className="mt-5 max-w-3xl font-sans text-sm leading-relaxed text-white/60 sm:mt-6 sm:text-base"
           >
-            Conheça trabalhos autorais, ilustrações e peças criadas
-            pelos artistas do Studio.
+            Conheça trabalhos autorais, ilustrações e peças criadas pelos artistas do Studio.
           </motion.p>
         </div>
 
@@ -161,7 +162,20 @@ export function FeaturedArtworksSection() {
           }}
           className="mt-8 sm:mt-10"
         >
-          <ArtworkCarousel artworks={artworks} />
+          {artworks.length > 0 ? (
+            <ArtworkCarousel artworks={artworks} />
+          ) : isLoaded ? (
+            <div className="rounded-3xl border border-white/10 bg-white/[0.025] px-6 py-14 text-center sm:px-10 sm:py-20">
+              <p className="font-accent text-ayo-red text-xs tracking-[0.12em] uppercase">
+                NOVAS OBRAS EM BREVE
+              </p>
+
+              <p className="mx-auto mt-4 max-w-xl font-sans text-sm leading-relaxed text-white/50 sm:text-base">
+                Estamos preparando uma nova seleção de quadros, desenhos e ilustrações autorais para
+                esta seção.
+              </p>
+            </div>
+          ) : null}
         </motion.div>
 
         {/* LINHA */}

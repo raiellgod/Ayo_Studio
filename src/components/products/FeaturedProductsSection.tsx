@@ -12,7 +12,10 @@ import {
 
 export function FeaturedProductsSection() {
   const [featuredProducts, setFeaturedProducts] =
-    useState<Product[]>([]);
+  useState<Product[]>([]);
+
+const [isLoaded, setIsLoaded] =
+  useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -48,7 +51,11 @@ export function FeaturedProductsSection() {
           "Erro ao carregar produtos em destaque:",
           error,
         );
-      }
+      } finally {
+    if (!cancelled) {
+      setIsLoaded(true);
+    }
+  }
     }
 
     void loadProducts();
@@ -57,6 +64,13 @@ export function FeaturedProductsSection() {
       cancelled = true;
     };
   }, []);
+
+  if (
+  !isLoaded ||
+  featuredProducts.length === 0
+) {
+  return null;
+}
 
   return (
     <section

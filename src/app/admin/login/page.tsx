@@ -1,11 +1,8 @@
 "use client";
-
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,19 +17,11 @@ export default function AdminLoginPage() {
       setLoading(true);
       setError(null);
 
-      const result = await signIn("credentials", {
+      await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirectTo: "/admin/solicitacoes",
       });
-
-      if (result?.error) {
-        setError("E-mail ou senha inválidos.");
-        return;
-      }
-
-      router.replace("/admin/solicitacoes");
-      router.refresh();
     } catch (submitError) {
       console.error(submitError);
 
