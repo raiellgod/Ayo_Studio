@@ -2,12 +2,12 @@ import Link from "next/link";
 
 import { getProfessionals } from "@/lib/api/professionals";
 
+export const dynamic = "force-dynamic";
+
 export default async function TattooOrderArtistPage() {
   const professionals = await getProfessionals();
 
-  const tattooArtists = professionals.filter((artist) =>
-    artist.services.includes("tattoo"),
-  );
+  const tattooArtists = professionals.filter((artist) => artist.services.includes("tattoo"));
 
   return (
     <main className="min-h-screen bg-[linear-gradient(135deg,#000000_0%,#120303_55%,#220000_100%)] px-5 py-8 text-white sm:px-6 sm:py-10 lg:px-12">
@@ -41,9 +41,7 @@ export default async function TattooOrderArtistPage() {
                 href={`/artistas/${artist.slug}/ideia`}
                 className="hover:border-ayo-red/40 rounded-3xl border border-white/10 bg-black/25 p-5 transition hover:bg-black/35 sm:p-6"
               >
-                <h2 className="font-title text-ayo-cream text-3xl leading-none">
-                  {artist.name}
-                </h2>
+                <h2 className="font-title text-ayo-cream text-3xl leading-none">{artist.name}</h2>
 
                 {artist.specialties && (
                   <p className="text-ayo-red mt-3 font-sans text-xs font-semibold tracking-[0.08em] uppercase">

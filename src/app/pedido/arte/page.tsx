@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { getProfessionals } from "@/lib/api/professionals";
 
+export const dynamic = "force-dynamic";
+
 export default async function ArtOrderArtistPage() {
   const professionals = await getProfessionals();
 

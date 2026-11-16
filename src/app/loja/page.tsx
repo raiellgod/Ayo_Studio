@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ProductCard } from "@/components/products/ProductCard";
 import { getProducts } from "@/lib/api/products";
 
+export const dynamic = "force-dynamic";
+
 export default async function StorePage() {
   const products = await getProducts();
 
