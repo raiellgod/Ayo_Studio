@@ -24,7 +24,7 @@ const specialElite = Special_Elite({
 });
 
 export const metadata: Metadata = {
-  title: "Ayô Studio de Artes",
+  title: "Ayô Studio",
   description: "Tattoo, arte e design autoral.",
 };
 
