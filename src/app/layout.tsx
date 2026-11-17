@@ -1,31 +1,17 @@
 import type { Metadata } from "next";
-import { Bitter, Cormorant_Garamond, Special_Elite } from "next/font/google";
 
 import { BackendWakeNotice } from "@/components/system/BackendWakeNotice";
 
 import "./globals.css";
 
-const cormorantGaramond = Cormorant_Garamond({
-  variable: "--font-cormorant-garamond",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const bitter = Bitter({
-  variable: "--font-bitter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const specialElite = Special_Elite({
-  variable: "--font-special-elite",
-  subsets: ["latin"],
-  weight: "400",
-});
-
 export const metadata: Metadata = {
   title: "Ayô Studio",
   description: "Tattoo, arte e design autoral.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -34,10 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${cormorantGaramond.variable} ${bitter.variable} ${specialElite.variable}`}
-    >
+    <html lang="pt-BR">
       <body>
         {children}
         <BackendWakeNotice />

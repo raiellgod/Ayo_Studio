@@ -9,10 +9,10 @@
   --background: var(--ayo-black);
   --foreground: var(--ayo-cream);
 
-  /* TIPOGRAFIA */
-  --font-title: var(--font-cormorant-garamond);
-  --font-body: var(--font-bitter);
-  --font-accent: var(--font-special-elite);
+/* TIPOGRAFIA */
+--font-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+--font-body: "Bitter", Georgia, "Times New Roman", serif;
+--font-accent: "Special Elite", "Courier New", monospace;
 }
 
 @theme inline {
